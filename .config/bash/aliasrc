@@ -1,0 +1,16 @@
+alias vim='/home/mthich/.local/share/applications/nvim-linux64/bin/nvim'
+alias nvim='/home/mthich/.local/share/applications/nvim-linux64/bin/nvim'
+
+alias ll='ls -l --color'
+alias la='ls -A --color'
+alias lla='ls -al --color'
+alias ls='ls --color=auto'
+
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+alias tr='tree'
+
+alias gs='git status'
+alias gc='git commit -m'
+alias ga='git add'
