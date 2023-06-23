@@ -60,13 +60,13 @@ cmd all-dirs &{{
 cmd mkdir ${{
   printf "Directory Name: "
   read ans
-  sudo mkdir $ans
+  mkdir $ans
 }}
 
 cmd mkfile ${{
   printf "File Name: "
   read ans
-  $EDITOR $ans
+  touch $ans
 }}
 
 # Dynamically set number of columns
@@ -157,6 +157,7 @@ map gc cd ~/.config
 map gp cd ~/.local/
 map gp cd ~/Projects
 map gn cd /mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes
+map ge cd /mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/SUM_2023/ENGL_C101/
 map gd cd /mnt/chromeos/GoogleDrive/MyDrive
 map gD cd /mnt/chromeos/MyFiles/Downloads
 

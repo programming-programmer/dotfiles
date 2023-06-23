@@ -194,7 +194,7 @@
 #+begin_src emacs-lisp
   (use-package nyan-mode 
     :init (nyan-mode) 
-    :config (setq nyan-wavy-trail t))
+    :config (setq nyan-wavy-trail nil))
 #+end_src
 
 ** Emojis 
@@ -252,6 +252,9 @@
     (doom-modeline-mode)
     (setq doom-modeline-enable-word-count nil
           doom-modeline-buffer-encoding nil
+          doom-modeline-project-detection 'file-name
+          doom-modeline-highlight-modified-buffer-name t
+
           ;; Icons ---
           doom-modeline-modal nil
           doom-modeline-icon nil ; Enable/disable all icons
@@ -259,7 +262,7 @@
           doom-modeline-major-mode-icon nil
           doom-modeline-major-mode-color-icon nil
           doom-modeline-buffer-state-icon nil
-  
+
           doom-modeline-bar-width 3))
 #+end_src
 
