@@ -43,7 +43,21 @@
    * aliasrc has all the aliases
    * profile has environment variables (stuff to add to $PATH and default editor)
      * This has to be linked to the .profile in the home directory in order for it to actually be sourced
-   
+* Lazygit
+ * I'm tired of hving to go thru all unwanted files just to commit something, so
+   I am biting the unsavory bullet
+
+ * Installation:
+   #+begin_src sh
+     LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
+     curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+     tar xf lazygit.tar.gz lazygit
+     sudo install lazygit /usr/local/bin
+
+     # To verify installation
+     lazygit --version
+   #+end_src
+
 * lf
  * Download go file
    * Remove any previous Go installation by deleting the /usr/local/go folder (if it exists), then extract the archive you just downloaded into /usr/local, creating a fresh Go tree in /usr/local/go:
@@ -68,6 +82,37 @@
      #+end_src
 
        
+* Latex
+** Installation: TL;DR Unix(ish)
+#+begin_src sh
+cd /tmp # working directory of your choice
+wget https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz # or curl instead of wget
+zcat < install-tl-unx.tar.gz | tar xf -
+cd install-tl-*
+perl ./install-tl --no-interaction --scheme=small --no-doc-install --no-src-install # as root or with writable destination
+#+end_src
+
+ * Finally, prepend /usr/local/texlive/YYYY/bin/PLATFORM to your PATH,
+#+begin_src sh
+e.g., /usr/local/texlive/2023/bin/x86_64-linux
+#+end_src
+
+ * Changing defaults:
+   * The default paper size is a4. If you want the default to be letter, add --paper=letter to the install-tl command.
+   * By default, everything is installed (7+GB).
+   * To install a smaller scheme, pass --scheme=scheme to install-tl. For example, --scheme=small corresponds to the BasicTeX variant of MacTeX.
+   * To omit installation of the documentation resp. source files, pass --no-doc-install --no-src-install to install-tl.
+   * To change the main installation directories (rarely needed), add --texdir=/install/dir to the install-tl command. To change the location of the per-user directories (where TEXMFHOME and others will be found), specify --texuserdir=/your/dir.
+   * To change anything and everything else, omit the --no-interaction. Then you
+     are dropped into an interactive installation menu.
+** Install edpinfo server (for pdftools)
+#+begin_src sh
+git clone https://github.com/vedang/pdf-tools
+cd /path/to/pdf-tools
+make -s # If you don't have make installed, run ./server/autobuild and it will install make
+#+end_src
+
+ * Achuatly, install via melpa
 * nvim
  * Install packer from the website before because it needs it
  * write and source init.lua first then install packers stuff

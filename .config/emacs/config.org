@@ -90,32 +90,33 @@
 #+begin_src emacs-lisp
   (setq initial-scratch-message
    " 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                               ███████╗███╗   ███╗ █████╗  ██████╗███████╗
+                                                               ██╔════╝████╗ ████║██╔══██╗██╔════╝██╔════╝
+                                                               █████╗  ██╔████╔██║███████║██║     ███████╗
+                                                               ██╔══╝  ██║╚██╔╝██║██╔══██║██║     ╚════██║
+                                                               ███████╗██║ ╚═╝ ██║██║  ██║╚██████╗███████║
+                                                               ╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                                              ███████╗███╗   ███╗ █████╗  ██████╗███████╗
-                                                              ██╔════╝████╗ ████║██╔══██╗██╔════╝██╔════╝
-                                                              █████╗  ██╔████╔██║███████║██║     ███████╗
-                                                              ██╔══╝  ██║╚██╔╝██║██╔══██║██║     ╚════██║
-                                                              ███████╗██║ ╚═╝ ██║██║  ██║╚██████╗███████║
-                                                              ╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝
- 
    "                                           
     )
 #+end_src
@@ -152,7 +153,7 @@
 #+end_src
 ** Fullscreen on startup baby!
 #+begin_src emacs-lisp
-  (add-hook 'emacs-startup-hook 'toggle-frame-fullscreen)
+  (add-hook 'emacs-startup-hook 'toggle-frame-maximized)
 #+end_src
 
 * Custom Shortcuts
@@ -214,7 +215,7 @@
 #+begin_src emacs-lisp
   (use-package evil
     :init
-    (setq evil-want-keybinding t) ;; load Evil keybindings in other modes
+    (setq evil-want-keybinding nil) ;; load Evil keybindings in other modes
     (setq evil-want-fine-undo t)
     (setq evil-want-Y-yank-to-eol t)
     (setq evil-mode-line-format nil)
@@ -233,6 +234,8 @@
     (setq evil-replace-state-cursor  '("#eb998b" hbar))
     (setq evil-motion-state-cursor   '("#ad8beb" box))
 
+    ;; ----- Redo Functionality
+    (evil-set-undo-system 'undo-tree)
     (evil-mode 1))
 
   (use-package evil-surround
@@ -241,12 +244,34 @@
     :config
     (global-evil-surround-mode 1))
 #+end_src
+*** Evil Collection
+ * Sometimes, there are certain modes that plain evil doesn't work on (example:
+   pdf-tools) so this package is used to compensate hehehe 😈
+#+begin_src emacs-lisp
+(use-package evil-collection
+  :after evil
+  :config
+  (evil-collection-init))
+#+end_src 
+*** Undo/Redo Functionality (with undo-tree)
+#+begin_src emacs-lisp
+(use-package undo-tree
+  :ensure t
+  :config
+  (global-undo-tree-mode 1))
+#+end_src
 
 ** Modeline
+*** Hide Modeline
+ * Honestly, this is a blessing. Hide the modeline. This is mapped to a
+   keybinding (evil mode of course 👻)
 #+begin_src emacs-lisp
   (use-package hide-mode-line
     :commands (hide-mode-line-mode))
+#+end_src
 
+*** DOOM Modeline
+#+begin_src emacs-lisp
   (use-package doom-modeline
     :config
     (doom-modeline-mode)
@@ -329,10 +354,11 @@
   "r" '(counsel-recentf :which-key "recent files")
   "TAB" '(switch-to-prev-buffer :which-key "previous buffer")
   "SPC" '(counsel-M-x :which-key "M-x")
-  "C-q" '(save-buffers-kill-terminal :which-key "quit emacs")
+  "C-c" '(save-buffers-kill-terminal :which-key "quit emacs")
   "c" '(org-capture :which-key "org-capture")
   "u" '(universal-argument :which-key "universal-argument")
   "z" '(repeat :which-key "repeat")
+  "D" '(dired-jump :which-key "dired jump")
 #+end_src
 *** Applications
 #+begin_src emacs-lisp
@@ -394,6 +420,8 @@
 "tw" '(writeroom-mode :which-key "writeroom-mode")
 "tR" '(read-only-mode :which-key "read only mode")
 "tm" '(hide-mode-line-mode :which-key "hide modeline mode")
+"tM" '(toggle-frame-maximized :which-key "toggle maximized")
+"tF" '(toggle-frame-fullscreen :which-key "toggle fullscreen")
 #+end_src
 *** Windows
 #+begin_src emacs-lisp
@@ -401,7 +429,7 @@
   "wm" '(jib/toggle-maximize-buffer :which-key "maximize buffer")
   "wN" '(make-frame :which-key "make frame")
   "wd" '(evil-window-delete :which-key "delete window")
-  "wD" '(delete-other-windows :which-key "delete window")
+  "wD" '(delete-other-windows :which-key "delete other windows")
   "w-" '(jib/split-window-vertically-and-switch :which-key "split below")
   "w/" '(jib/split-window-horizontally-and-switch :which-key "split right")
   "w{" '(enlarge-window-horizontally :which-key "expand horizon")
@@ -788,6 +816,31 @@ org-todo-keywords
  )
 #+end_src
 
+* Latex
+** PDF Preview (pdf-tools)
+#+begin_src emacs-lisp
+  (use-package pdf-tools
+    :pin manual
+    :config
+    ;; initialise
+    (pdf-tools-install)
+    ;; open pdfs scaled to fit page
+    (setq-default pdf-view-display-size 'fit-page)
+    ;; automatically annotate highlights
+    (setq pdf-annot-activate-created-annotations t)
+    ;; use normal isearch
+    (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward))
+#+end_src
+** Use pdf-tools w/ autex
+#+begin_src emacs-lisp
+;; Use pdf-tools to open PDF files
+(setq TeX-view-program-selection '((output-pdf "PDF Tools"))
+      TeX-source-correlate-start-server t)
+
+;; Update PDF buffers after successful LaTeX runs
+(add-hook 'TeX-after-compilation-finished-functions
+           #'TeX-revert-document-buffer)
+#+end_src
 * Org-Roam
 #+begin_src emacs-lisp
   (use-package org-roam
