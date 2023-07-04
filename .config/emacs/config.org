@@ -5,11 +5,13 @@
 
 * Preface
  * This is copied from what_it_was.txt
-    * Make sure init.el's path to config.org is installed
+    * Make sure init.el's path to config.org is there
     * use-package making sure is installed doesn't work either so install before
 
     * If there is an error with org, start emacs with "emacs -q" and install org
       9.x. Then reload emacs
+
+    * Install Noto Color Emoji or another emoji font to use emojis in Emacs
 
 * Garbage Collection
  * Make startup faster by reducing the frequency of garbage collection and then use a hook to measure Emacs startup time. The default is 800 kilobytes. Measured in bytes. Garbage collection off during initialization (focus all memory on initialize)
@@ -29,9 +31,10 @@
           gcmh-auto-idle-delay-factor 10
           gcmh-high-cons-threshold (* 16 1024 1024))  ; 16mb
 #+end_src
+
 * Package Management
 ** Package Sources 
- * Where to gather package sources (MELPA and MELPA stable, ORG, and ELPA)
+ * Where to gather package sources (MELPA and MELPA stable, and ELPA)
 #+begin_src emacs-lisp
     (require 'package)
     (setq package-archives '(("melpa" . "https://melpa.org/packages/")
@@ -52,6 +55,11 @@
 #+end_src
 * Startup and Perfomance
 ** Start Server
+ * This does something but if the "original" emacs session closes the server
+   stops. So either workaround this somehow or do something with a script.
+
+ * EmacsWiki is helpful
+
 #+begin_src emacs-lisp
 (server-start)
 #+end_src
@@ -131,6 +139,7 @@
 
 ** No Line Numbers
  * No line numbers for org-mode, programming-mode, text-mode, and conf-mode??
+   But they do get toggled heh
 #+begin_src emacs-lisp
   (dolist (mode '(org-mode-hook
                   prog-mode-hook
@@ -151,32 +160,20 @@
       kept-new-versions 5
       backup-directory-alist (list (cons "." (concat user-emacs-directory "backup/"))))
 #+end_src
-** Fullscreen on startup baby!
+** Maximization on startup baby!
+ * Having Fullscreen on startup is a pain with the ugly bar and it would be a
+   pain in tiling window managers. But it's *also* toggleable
 #+begin_src emacs-lisp
   (add-hook 'emacs-startup-hook 'toggle-frame-maximized)
 #+end_src
-
-* Custom Shortcuts
- * *NOTE:* This does not include the *surface area* of custom shortcuts. There are
-   multiple thorughout this config and it would be impossible (programmingly??)
-   to bring them to one section. So keep that in mind. 
-** Duplicate line: C-c d
+** Remove window decorations
 #+begin_src emacs-lisp
-    (defun duplicate-line()
-      (interactive)
-      (move-beginning-of-line 1)
-      (kill-line)
-      (yank)
-      (open-line 1)
-      (next-line 1)
-      (yank))
-
-  (global-set-key (kbd "C-c d") 'duplicate-line)
+(setq default-frame-alist '((undecorated . t))) 
 #+end_src
-
-** Rebind M-x
+** Transparency??
 #+begin_src emacs-lisp
- (global-set-key "\C-x\C-m" 'execute-extended-command)
+  (set-frame-parameter (selected-frame) 'alpha '(90 . 90))
+  (add-to-list 'default-frame-alist '(alpha . (90 . 90)))
 #+end_src
 
 * Addons
@@ -200,6 +197,7 @@
 
 ** Emojis 
  * Shamelessly stolen from this [[https://ianyepan.github.io/posts/emacs-emojis/][blog]]. Install Noto Color Emoji beforehand though 😔
+  
 #+begin_src emacs-lisp
   (use-package emojify
     :config
@@ -211,7 +209,7 @@
     (bind-key* (kbd "C-c e") #'emojify-insert-emoji)) ; override binding in any mode
 #+end_src
 
-** Evil MoDe
+** Evil Mode
 #+begin_src emacs-lisp
   (use-package evil
     :init
@@ -244,15 +242,6 @@
     :config
     (global-evil-surround-mode 1))
 #+end_src
-*** Evil Collection
- * Sometimes, there are certain modes that plain evil doesn't work on (example:
-   pdf-tools) so this package is used to compensate hehehe 😈
-#+begin_src emacs-lisp
-(use-package evil-collection
-  :after evil
-  :config
-  (evil-collection-init))
-#+end_src 
 *** Undo/Redo Functionality (with undo-tree)
 #+begin_src emacs-lisp
 (use-package undo-tree
@@ -307,33 +296,33 @@
    '(fixed-pitch ((t ( :family "Source Code Pro" :height 100)))))
 #+end_src 
 
-** Theme: Minimal Grey
+** Theme: Doom Spacegrey
 #+begin_src emacs-lisp
     (use-package doom-themes
       :config
       (load-theme 'doom-spacegrey t))
 #+end_src
 
-** Writeroom
+** Writeroom env
+ * I removed the writeroom since it wasn't necessary. I guess I'll keep this one
+   though. SIKE!!
 #+begin_src emacs-lisp
-(use-package visual-fill-column
-  :defer t
-  :config
-  (setq visual-fill-column-center-text t)
-  (if (eq 'jib/computer 'desktop)
-      (setq visual-fill-column-width 100)
-    (setq visual-fill-column-width 80))
-  (setq visual-fill-column-center-text t))
+  (use-package visual-fill-column
+    :defer t
+    :config
+    (setq visual-fill-column-center-text t)
+    (setq visual-fill-column-width 80)
+    (setq visual-fill-column-center-text t))
 
-(use-package writeroom-mode
-  :defer t
-  :config
-  (setq writeroom-maximize-window nil
-        writeroom-mode-line t
-        writeroom-global-effects nil ;; No need to have Writeroom do any of that silly stuff
-        writeroom-extra-line-spacing 3) 
-  (setq writeroom-width visual-fill-column-width)
-  )
+  (use-package writeroom-mode
+    :defer t
+    :config
+    (setq writeroom-maximize-window nil
+          writeroom-mode-line t
+          writeroom-global-effects nil ;; No need to have Writeroom do any of that silly stuff
+          writeroom-extra-line-spacing 3) 
+    (setq writeroom-width visual-fill-column-width)
+    )
 #+end_src
 
 * Keybindings
@@ -365,7 +354,7 @@
 ;; "Applications"
 "a" '(nil :which-key "applications")
 "ao" '(org-agenda :which-key "org-agenda")
-;; "am" '(mu4e :which-key "mu4e")
+;; "am" '(mu4e :which-key "mu4e") ; I wanna get this setup up so bad >.<
 ;; "aC" '(calc :which-key "calc")
 
 "ad" '(dired :which-key "dired")
@@ -412,16 +401,16 @@
 #+end_src
 *** Toggles/Visuals
 #+begin_src emacs-lisp
-;; Toggles
-"t" '(nil :which-key "toggles")
-"tt" '(toggle-truncate-lines :which-key "truncate lines")
-"tv" '(visual-line-mode :which-key "visual line mode")
-"tn" '(display-line-numbers-mode :which-key "display line numbers")
-"tw" '(writeroom-mode :which-key "writeroom-mode")
-"tR" '(read-only-mode :which-key "read only mode")
-"tm" '(hide-mode-line-mode :which-key "hide modeline mode")
-"tM" '(toggle-frame-maximized :which-key "toggle maximized")
-"tF" '(toggle-frame-fullscreen :which-key "toggle fullscreen")
+  ;; Toggles
+  "t" '(nil :which-key "toggles")
+  "tt" '(toggle-truncate-lines :which-key "truncate lines")
+  "tv" '(visual-line-mode :which-key "visual line mode")
+  "tn" '(display-line-numbers-mode :which-key "display line numbers")
+  "tR" '(read-only-mode :which-key "read only mode")
+  "tw" '(writeroom-mode :which-key "writeroom mode")
+  "tm" '(hide-mode-line-mode :which-key "hide modeline mode")
+  "tM" '(toggle-frame-maximized :which-key "toggle maximized")
+  "tF" '(toggle-frame-fullscreen :which-key "toggle fullscreen")
 #+end_src
 *** Windows
 #+begin_src emacs-lisp
@@ -453,12 +442,12 @@
     :keymaps 'override
 
     ;; Emacs ---
-    "C-x C-m" 'counsel-M-x
+    ; "C-x C-m" 'counsel-M-x
 
     ;; Utility ---
-    "C-c c" 'org-capture
-    "C-c a" 'org-agenda
-    "C-s" 'swiper
+    ; "C-c c" 'org-capture
+    ; "C-c a" 'org-agenda
+    ; "C-s" 'swiper
     )
 #+end_src
 ** Insert Mode Keymaps
@@ -474,13 +463,43 @@
     "C-n" 'evil-next-visual-line
     "C-p" 'evil-previous-visual-line
     "C-y" 'yank
+  
+    ;; Emacs ---
+    "C-x C-m" 'counsel-M-x
+
+    ;; Utility ---
+    "C-c c" 'org-capture
+    "C-c a" 'org-agenda
+    "C-s" 'swiper
     )
 #+end_src
+** Duplicate line: C-c d
+#+begin_src emacs-lisp
+    (defun duplicate-line()
+      (interactive)
+      (move-beginning-of-line 1)
+      (kill-line)
+      (yank)
+      (open-line 1)
+      (next-line 1)
+      (yank))
+
+  (global-set-key (kbd "C-c d") 'duplicate-line)
+#+end_src
+
+** Rebind M-x
+#+begin_src emacs-lisp
+ (global-set-key "\C-x\C-m" 'execute-extended-command)
+#+end_src
+
 * Ivy
  * Ivy is an excellent completion framework for Emacs. It provides a minimal yet powerful selection menu that appears when you open files, switch buffers, and for many other tasks in Emacs. 
 #+begin_src emacs-lisp
   (use-package ivy
     :diminish ivy-mode
+    :config
+    (setq ivy-extra-directories nil) ;; Hides . and .. directories
+    (setq ivy-initial-inputs-alist nil) ;; Removes the ^ in ivy searches
     :bind (("C-s" . swiper)
            :map ivy-minibuffer-map
            ("TAB" . ivy-alt-done)
@@ -721,31 +740,19 @@ org-todo-keywords
     (setq org-capture-templates '(
 #+end_src
 
-*** Template
+*** Task Template
 #+begin_src emacs-lisp
    ("t" "Todo" entry (file+headline "/mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/20230527140013-refile.org" "Tasks")
-    "* TODO %?\n ")
+    "* TODO  %?\n ")
 #+end_src
 
-*** Meeting Template
+*** Reminder Template
 #+begin_src emacs-lisp
-   ("m" "Scheduled Meeting" entry (file+headline "/mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/20230527140013-refile.org" "Meetings")
+   ("n" "Reminders" entry (file+headline "/mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/20230527140013-refile.org" "Notes")
   "* %?\n ")
 #+end_src
 
-*** Reminders Template
-#+begin_src emacs-lisp
-   ("r" "Reminders" entry (file+headline "/mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/20230527140013-refile.org" "Reminders")
-  "* %?\n ")
-#+end_src
-
-*** Idea Template
-#+begin_src emacs-lisp
-   ("i" "Anything Ideas" entry (file+headline "/mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/20230527140013-refile.org" "Ideas")
-  "* %?\n ")
-#+end_src
-
-*** End of Org Capture Template
+*** End of Org Capture Templates
 #+begin_src emacs-lisp
    ))
 #+end_src
@@ -816,22 +823,107 @@ org-todo-keywords
  )
 #+end_src
 
+* Calendar
+#+begin_src emacs-lisp
+  (use-package calfw
+    :disabled
+    :commands cfw:open-org-calendar
+    :config
+    (setq cfw:fchar-junction ?╋
+          cfw:fchar-vertical-line ?┃
+          cfw:fchar-horizontal-line ?━
+          cfw:fchar-left-junction ?┣
+          cfw:fchar-right-junction ?┫
+          cfw:fchar-top-junction ?┯
+          cfw:fchar-top-left-corner ?┏
+          cfw:fchar-top-right-corner ?┓)
+
+    (use-package calfw-org
+      :config
+      (setq cfw:org-agenda-schedule-args '(:timestamp))))
+#+end_src
+
 * Latex
+** Latex
+#+begin_src emacs-lisp
+  (use-package latex ;; This is a weird one. Package is auctex but needs to be managed like this.
+    :ensure nil
+    :defer t
+    :init
+    (setq TeX-parse-self t ; parse on load
+          TeX-auto-save t  ; parse on save
+          ;; Use directories in a hidden away folder for AUCTeX files.
+          TeX-auto-local (concat user-emacs-directory "auctex/auto/")
+          TeX-style-local (concat user-emacs-directory "auctex/style/")
+
+          TeX-source-correlate-mode t
+          TeX-source-correlate-method 'synctex
+
+          TeX-show-compilation nil
+
+          ;; Don't start the Emacs server when correlating sources.
+          TeX-source-correlate-start-server nil
+
+          ;; Automatically insert braces after sub/superscript in `LaTeX-math-mode'.
+          TeX-electric-sub-and-superscript t
+          ;; Just save, don't ask before each compilation.
+          TeX-save-query nil)
+
+    :general
+    (general-define-key
+     :prefix ","
+     :states 'normal
+     :keymaps 'LaTeX-mode-map
+     "" nil
+     "a" '(TeX-command-run-all :which-key "TeX run all")
+     "c" '(TeX-command-master :which-key "TeX-command-master")
+     "c" '(TeX-command-master :which-key "TeX-command-master")
+     "e" '(LaTeX-environment :which-key "Insert environment")
+     "s" '(LaTeX-section :which-key "Insert section")
+     "m" '(TeX-insert-macro :which-key "Insert macro")
+     "r" '(my/revert-buffer-no-confirm :which-key "Reload Latex file")
+     )
+
+    )
+
+  (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer) ;; Standard way
+#+end_src
 ** PDF Preview (pdf-tools)
 #+begin_src emacs-lisp
   (use-package pdf-tools
-    :pin manual
-    :config
-    ;; initialise
-    (pdf-tools-install)
-    ;; open pdfs scaled to fit page
-    (setq-default pdf-view-display-size 'fit-page)
-    ;; automatically annotate highlights
-    (setq pdf-annot-activate-created-annotations t)
-    ;; use normal isearch
-    (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward))
+  :defer t
+  :pin manual
+  :mode  ("\\.pdf\\'" . pdf-view-mode)
+  :init
+  (evil-set-initial-state 'pdf-view-mode 'normal)
+  :config
+  (pdf-loader-install)
+  (setq-default pdf-view-display-size 'fit-height)
+  (setq pdf-view-continuous t) ;; Makes it so scrolling down to the bottom/top of a page switches to the next page
+  (setq pdf-view-midnight-colors '("#ffffff" . "#121212" )) ;; I use midnight mode as dark mode, dark mode doesn't seem to work
+  :general
+  (general-define-key :states 'motion :keymaps 'pdf-view-mode-map
+                      "j" 'pdf-view-next-page
+                      "k" 'pdf-view-previous-page
+
+                      "C-j" 'pdf-view-next-line-or-next-page
+                      "C-k" 'pdf-view-previous-line-or-previous-page
+
+                      "H" 'pdf-view-fit-height-to-window
+                      "0" 'pdf-view-fit-height-to-window
+                      "W" 'pdf-view-fit-width-to-window
+                      "=" 'pdf-view-enlarge
+                      "-" 'pdf-view-shrink
+
+                      "q" 'quit-window
+                      "Q" 'kill-this-buffer
+                      "g" 'revert-buffer
+
+                      "C-s" 'isearch-forward
+                      )
+  )
 #+end_src
-** Use pdf-tools w/ autex
+** Use pdf-tools for Latex preview
 #+begin_src emacs-lisp
 ;; Use pdf-tools to open PDF files
 (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
@@ -923,7 +1015,7 @@ org-todo-keywords
 #+end_src
 
 * You have now reached the end of the configuration.
- * Do you cringe or are you enlightened? Have a great day :)
+ * Do you cringe or are you enlightened? Have a great day either way :)
 #+begin_src 
   _________________________________________
  / Invent and fit; have fits and reinvent! \

@@ -88,6 +88,9 @@ splits the sentence."
 		(next-line 2)
 		(setq lines (1- lines))))))
 
+(defun my/revert-buffer-no-confirm ()
+  "Revert buffer without confirmation."
+  (interactive) (revert-buffer t t))
 ;;;;;;;;;;;;;;;;;;
 ;; Calculations ;;
 ;;;;;;;;;;;;;;;;;;
