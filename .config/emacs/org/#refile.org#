@@ -1,0 +1,22 @@
+#+TITLE: Refile
+#+AUTHOR: Mer Thich
+#+STARTUP: content
+
+ * *"I long to accomplish a great and noble task, but it is my chief duty to accomplish small tasks as if they were great and noble." - Helen Keller*
+ 
+* Tasks
+** PROG Check eligibility for California State Seal of Civic Engagement 
+** TODO Finish installing arch on chromebook
+** TODO  
+* Notes
+** Learn C++ with OpenCV, usb camera, and dreams
+** Most of the configuration to DOOM modeline is within its faces
+** Docker Stuff
+ * sudo apt-get install docker-compose
+   * Installs both docker and docker
+ * sudo docker-compose up to start the docker server
+
+* You Might Also Like...
+ * [[id:0f5d3689-1f7d-4f96-88b5-0463ef375607][Reading List]] 
+ * [[id:d943df17-e7c5-4249-b670-185ba29c7a43][Watchlist]]
+ * [[id:aa0ad2c9-1926-4070-9d63-947be5c7ae56][Sports]]

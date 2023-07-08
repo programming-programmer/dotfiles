@@ -5,13 +5,14 @@
 
 * Preface
  * This is copied from what_it_was.txt
-    * Make sure init.el's path to config.org is there
-    * use-package making sure is installed doesn't work either so install before
+   * Make sure init.el's path to config.org is there
+   * use-package making sure is installed doesn't work either so install before
 
-    * If there is an error with org, start emacs with "emacs -q" and install org
-      9.x. Then reload emacs
+   * If there is an error with org, start emacs with "emacs -q" and install org
+     9.x. Then reload emacs
 
-    * Install Noto Color Emoji or another emoji font to use emojis in Emacs
+   * Install Noto Color Emoji or another emoji font to use emojis in Emacs
+   * Also! Install Source Code Pro
 
 * Garbage Collection
  * Make startup faster by reducing the frequency of garbage collection and then use a hook to measure Emacs startup time. The default is 800 kilobytes. Measured in bytes. Garbage collection off during initialization (focus all memory on initialize)
@@ -49,10 +50,6 @@
     (setq use-package-always-ensure t)
 #+end_src
 
-* Load Custom Lisp Files
-#+begin_src emacs-lisp
-(load (expand-file-name "funcs.el" user-emacs-directory))
-#+end_src
 * Startup and Perfomance
 ** Start Server
  * This does something but if the "original" emacs session closes the server
@@ -80,6 +77,8 @@
    vc-follow-symlinks t                             ; Always follow the symlinks
    view-read-only t)                                ; Always open read only files in view mode
 
+
+  (setq display-line-numbers-type 'relative)              ; Relative line numbers 
   (fset 'yes-or-no-p 'y-or-n-p)                     ; Replace yes/no prompts with y/n
   (set-default-coding-systems 'utf-8)               ; Default to utf-8 encoding
   (show-paren-mode 1)                               ; Show parent paranthesis
@@ -171,11 +170,27 @@
 (setq default-frame-alist '((undecorated . t))) 
 #+end_src
 ** Transparency??
+ * I realized this if for Emacs 29+ which is not on my system. I'll wait for
+   later :(
 #+begin_src emacs-lisp
   (set-frame-parameter (selected-frame) 'alpha '(90 . 90))
   (add-to-list 'default-frame-alist '(alpha . (90 . 90)))
 #+end_src
 
+** Load Custom Lisp Files
+#+begin_src emacs-lisp
+(load "/home/mthich/.config/emacs/lisp/funcs.el")
+(load "/home/mthich/.config/emacs/lisp/var.el")
+#+end_src
+
+** Use System Trash
+ * There has been too many times I've had a near heart attack from deleting.
+   Google Drive was there to prevent to much loss. However, in a move towards no
+   google™ we must *not* rely on such things
+   #+begin_src emacs-lisp
+(setq trash-directory (concat mt/home ".Trash"))
+(setq delete-by-moving-to-trash t)
+   #+end_src
 * Addons
 ** Which-key
  * Shows which keys are avaliable. HAH! look at that pun. amazing
@@ -222,6 +237,8 @@
     (define-key evil-motion-state-map "/" 'swiper)
     (evil-global-set-key 'motion "j" 'evil-next-visual-line)
     (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+    (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
+
 
     ;; ----- Setting cursor colors
     (setq evil-emacs-state-cursor    '("#649bce" box))
@@ -236,9 +253,13 @@
     (evil-set-undo-system 'undo-tree)
     (evil-mode 1))
 
-  (use-package evil-surround
+  (use-package evil-collection
     :after evil
-    :defer 2
+    :ensure t
+    :config
+    (evil-collection-init))
+
+  (use-package evil-surround
     :config
     (global-evil-surround-mode 1))
 #+end_src
@@ -318,7 +339,7 @@
     :defer t
     :config
     (setq writeroom-maximize-window nil
-          writeroom-mode-line t
+          writeroom-mode-line nil
           writeroom-global-effects nil ;; No need to have Writeroom do any of that silly stuff
           writeroom-extra-line-spacing 3) 
     (setq writeroom-width visual-fill-column-width)
@@ -326,6 +347,7 @@
 #+end_src
 
 * Keybindings
+ * All of this thanks to general.el 🎉🎉🎉🎉🎉 YAYAYAY!!
 #+begin_src emacs-lisp
 (use-package general)
 #+end_src
@@ -347,7 +369,9 @@
   "c" '(org-capture :which-key "org-capture")
   "u" '(universal-argument :which-key "universal-argument")
   "z" '(repeat :which-key "repeat")
-  "D" '(dired-jump :which-key "dired jump")
+  "C-d" '(dired-jump :which-key "dired jump")
+  "C-b" '(counsel-bookmark :which-key "bookmarks")
+  "C-o" '(org-agenda :which-key "org agenda")
 #+end_src
 *** Applications
 #+begin_src emacs-lisp
@@ -358,7 +382,7 @@
 ;; "aC" '(calc :which-key "calc")
 
 "ad" '(dired :which-key "dired")
-"aD" '(dired-jump :which-key "dired jump")
+"a C-d" '(dired-jump :which-key "dired jump")
 #+end_src
 *** Buffers
 #+begin_src emacs-lisp
@@ -440,14 +464,7 @@
 #+begin_src emacs-lisp
   (general-def
     :keymaps 'override
-
-    ;; Emacs ---
-    ; "C-x C-m" 'counsel-M-x
-
-    ;; Utility ---
-    ; "C-c c" 'org-capture
-    ; "C-c a" 'org-agenda
-    ; "C-s" 'swiper
+    ;"C-g" 'evil-force-normal-state
     )
 #+end_src
 ** Insert Mode Keymaps
@@ -456,13 +473,14 @@
   (general-def
     :states '(insert)
     "C-a" 'evil-beginning-of-visual-line
-    "C-g" 'evil-normal-state
     "C-e" 'evil-end-of-visual-line
     "C-S-a" 'evil-beginning-of-line
     "C-S-e" 'evil-end-of-line
     "C-n" 'evil-next-visual-line
     "C-p" 'evil-previous-visual-line
     "C-y" 'yank
+    "C-d" 'delete-char
+    "C-g" 'evil-normal-state
   
     ;; Emacs ---
     "C-x C-m" 'counsel-M-x
@@ -471,6 +489,15 @@
     "C-c c" 'org-capture
     "C-c a" 'org-agenda
     "C-s" 'swiper
+    )
+#+end_src
+** Normal Mode Keymaps
+#+begin_src emacs-lisp
+  ;; Insert keymaps
+  (general-def
+    :states '(normal)
+    "$" 'evil-end-of-visual-line
+    "0" 'evil-beginning-of-visual-line
     )
 #+end_src
 ** Duplicate line: C-c d
@@ -519,6 +546,7 @@
      "S-SPC" 'nil
      "C-SPC" 'ivy-restrict-to-matches ;; Default is S-SPC, changed this b/c sometimes I accidentally hit S-SPC
      ;; C-j and C-k to move up/down in Ivy
+     ;; I'm not sure if this is redundant but it's whatever
      "C-k" 'ivy-previous-line
      "C-j" 'ivy-next-line)
     :config
@@ -541,7 +569,7 @@
     (ivy-rich-mode 1))
  #+end_src
 
-* Counsel
+** Counsel
  * Counsel is a customized set of commands to replace `find-file` with
    `counsel-find-file`, etc which provide useful commands for each of the default completion commands.
 #+begin_src emacs-lisp
@@ -563,14 +591,14 @@
     (auto-fill-mode)) 
 #+end_src
 
- * This is another setup :)
+ * This is another preamble :)
 #+begin_src emacs-lisp
     (use-package org
        :defer t
        :hook (org-mode . dw/org-mode-setup)
 #+end_src
 
-** Org Config
+** Org Config 
 #+begin_src emacs-lisp
   :config
   (setq
@@ -581,73 +609,77 @@
   org-ellipsis " ▾"
 #+end_src
 
-*** Keywords
+*** Org Keywords and Faces
+ * I know it sounds silly but the little "|" is acutally really important. It
+   seperates todo from done (or cancelled would be the *only* done state)
+ * So after nearly pulling my hair out, I read thru the manual and discovered
+   that little fact
+ * It solved the agenda problem immediately 😐
+ * I was dissapointed in past me but atleast it's solved :)
 #+begin_src emacs-lisp
-org-todo-keywords
-      '((sequence "TODO" "PROG" "DONE"))
+  ;; Keywords
+  org-todo-keywords
+  '((sequence "TODO" "PROG" "|" "DONE" "CANCELLED"))
+
+  ;; Faces
+  org-todo-keyword-faces
+  '(("PROG" . (:foreground "red" :weight bold))
+    ("DONE" . (:foreground "gray" :weight bold))
+    ("CANCELLED" . (:foreground "black" :weight bold)))         
+  #+end_src
+
+*** Other Defaults
+  #+begin_src emacs-lisp
+
+    ;; Source Fontify
+    org-src-fontify-natively t
+
+    ;; Quote and Verse Blocks
+    org-fontify-quote-and-verse-blocks t
+
+    ;; Org Tab Behaviors
+    org-src-tab-acts-natively t
+
+    ;; Source Code indentation
+    org-edit-src-content-indentation 2
+
+    ;; Block Startup
+    org-hide-block-startup nil
+
+    ;; Org Indentation
+    org-src-preserve-indentation nil
+
+    ;; Folded Org Headers
+    org-startup-folded 'content
+
+    ;; Seperator Lines
+    org-cycle-separator-lines 2
+
+    ;; Inline Images
+    org-startup-with-inline-images t
+
+    ;; Emphasis Markers
+    org-hide-emphasis-markers t
+
+    ;; Show only timer from current clock session in modeline
+    org-clock-mode-line-total 'current
+    org-clock-clocked-in-display 'both
+
+    ;; Org Agenda Column View
+    org-agenda-overriding-columns-format
+    "%TODO %80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM" 
+
+    org-global-properties
+    (quote (("Effort_ALL" . "0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")))
+
+
+    ;; CLOCKING-----
+    ;; Clock out when moving task to a done state
+    org-clock-out-when-done t
+    ;; Change tasks to NEXT when clocking in
+    org-clock-in-switch-to-state "PROG"
 #+end_src
 
-*** Faces
-#+begin_src emacs-lisp
-    org-todo-keyword-faces
-          '(("PROG" . (:foreground "red" :weight bold)))         
-#+end_src
-
-*** Source Fontify
-#+begin_src emacs-lisp
-  org-src-fontify-natively t
-#+end_src
-
-*** Quote and Verse Blocks
-#+begin_src emacs-lisp
-  org-fontify-quote-and-verse-blocks t
-#+end_src
-
-*** Org Tab Behaviors
-#+begin_src emacs-lisp
-  org-src-tab-acts-natively t
-#+end_src
-
-*** Source Code indentation
-#+begin_src emacs-lisp
-  org-edit-src-content-indentation 2
-#+end_src
-
-*** Block Startup
-#+begin_src emacs-lisp
-  org-hide-block-startup nil
-#+end_src
-
-*** Org Indentation
-#+begin_src emacs-lisp
-  org-src-preserve-indentation nil
-#+end_src
-
-*** Folded Org Headers
-#+begin_src emacs-lisp
-  org-startup-folded 'content
-#+end_src
-
-*** Seperator Lines
-#+begin_src emacs-lisp
-  org-cycle-separator-lines 2
-#+end_src
-
-*** Inline Images
-#+begin_src emacs-lisp
-  org-startup-with-inline-images t
-#+end_src
-
-*** Emphasis Markers
-#+begin_src emacs-lisp
-  org-hide-emphasis-markers t
-#+end_src
-
-*** Org Agenda Column View
-#+begin_src emacs-lisp
-  org-agenda-overriding-columns-format
-  "%PRIORITY %TODO %ITEM %TAGS"
-#+end_src
 
 *** End of Org Defualt Block
 #+begin_src emacs-lisp
@@ -685,7 +717,7 @@ org-todo-keywords
    "g" '(counsel-org-goto :which-key "goto heading")
    ":" '(counsel-org-tag :which-key "set tags")
    "p" '(org-set-property :which-key "set property")
-   "t" '(org-todo :which-key "toggle TODO state")
+   "," '(org-todo :which-key "toggle TODO state")
    "e" '(org-export-dispatch :which-key "export org")
    "." '(org-toggle-narrow-to-subtree :which-key "toggle narrow to subtree")
 
@@ -737,19 +769,22 @@ org-todo-keywords
 
 ** Org Capture Templates
 #+begin_src emacs-lisp
-    (setq org-capture-templates '(
+  ;; Removes that annoying bookmark for most recent bookmark (hopefully)
+  (setq org-bookmark-names-plist nil)
+
+  (setq org-capture-templates '(
 #+end_src
 
 *** Task Template
 #+begin_src emacs-lisp
-   ("t" "Todo" entry (file+headline "/mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/20230527140013-refile.org" "Tasks")
+   ("t" "Todo" entry (file+headline "/home/mthich/.config/emacs/org/refile.org"  "Tasks")
     "* TODO  %?\n ")
 #+end_src
 
-*** Reminder Template
+*** Notes Template
 #+begin_src emacs-lisp
-   ("n" "Reminders" entry (file+headline "/mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/20230527140013-refile.org" "Notes")
-  "* %?\n ")
+   ("n" "Notes" entry (file+headline "/home/mthich/.config/emacs/org/refile.org" "Notes")
+  "* %?  \n ")
 #+end_src
 
 *** End of Org Capture Templates
@@ -757,18 +792,18 @@ org-todo-keywords
    ))
 #+end_src
 
-** Command to start Org-agenda: C-c a
+** Org Refile Targets
 #+begin_src emacs-lisp
-  (global-set-key "\C-ca" 'org-agenda)
-#+end_src
+  ; Targets include this file and any file contributing to the agenda - up to 9 levels deep
+(setq org-refile-targets (quote ((org-agenda-files :maxlevel . 2))))
 
-** Command to start Org-capture: C-c c
-#+begin_src emacs-lisp
-  (global-set-key "\C-cc" 'org-capture)
+; Use full outline paths for refile targets
+(setq org-refile-use-outline-path nil)
 #+end_src
 
 ** Org-indent Face
  * Make sure org-indent face is avaliable
+ * Makes it so that the headers indent
 #+begin_src emacs-lisp
     (require 'org-indent)
 #+end_src
@@ -823,26 +858,81 @@ org-todo-keywords
  )
 #+end_src
 
-* Calendar
+* Org Agenda
+** Some sane defaults
 #+begin_src emacs-lisp
-  (use-package calfw
-    :disabled
-    :commands cfw:open-org-calendar
-    :config
-    (setq cfw:fchar-junction ?╋
-          cfw:fchar-vertical-line ?┃
-          cfw:fchar-horizontal-line ?━
-          cfw:fchar-left-junction ?┣
-          cfw:fchar-right-junction ?┫
-          cfw:fchar-top-junction ?┯
-          cfw:fchar-top-left-corner ?┏
-          cfw:fchar-top-right-corner ?┓)
+  ;; Only show upcoming deadlines for the next X days. By default it shows
+  ;; 14 days into the future, which seems excessive.
+  (setq org-deadline-warning-days 3)
+  ;; If something is done, don't show its deadline
+  (setq org-agenda-skip-deadline-if-done t)
+  ;; If something is done, don't show when it's scheduled for
+  (setq org-agenda-skip-scheduled-if-done t)
+  ;; If something is scheduled, don't tell me it is due soon
+  (setq org-agenda-skip-deadline-prewarning-if-scheduled t)
 
-    (use-package calfw-org
-      :config
-      (setq cfw:org-agenda-schedule-args '(:timestamp))))
+  ;; use AM-PM and not 24-hour time
+  (setq org-agenda-timegrid-use-ampm t)
+
+  (setq org-agenda-block-separator ?-)
+
 #+end_src
 
+** Custom Agenda Views
+ * I would like to remove the "DONE" keyword but it's whatever. I DID IT!! WAHOOOTTOTOTO!!
+#+begin_src emacs-lisp
+  (setq org-agenda-custom-commands
+        `(("u" "Daily agenda and top priority tasks"
+           ((tags-todo "*"
+                       ((org-agenda-skip-function '(org-agenda-skip-if nil '(timestamp)))
+                        (org-agenda-skip-function
+                         `(org-agenda-skip-entry-if
+                           'notregexp ,(format "\\[#%s\\]" (char-to-string org-priority-highest))))
+                        (org-agenda-block-separator nil)
+                        (org-agenda-overriding-header "Tasks without a date")))
+
+            (agenda "" ((org-agenda-span 1)
+                        (org-deadline-warning-days 0)
+                        (org-agenda-block-separator nil)
+                        (org-scheduled-past-days 0)
+                        (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+                        (org-agenda-format-date "%A %-e %B %Y")
+                        (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                        (org-agenda-overriding-header "\nToday's agenda")))
+
+            (agenda "" ((org-agenda-start-on-weekday nil)
+                        (org-agenda-start-day "+1d")
+                        (org-agenda-span 3)
+                        (org-deadline-warning-days 0)
+                        (org-agenda-block-separator nil)
+                        (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                        (org-agenda-overriding-header "\nNext three days")))
+
+            (agenda "" ((org-agenda-time-grid nil)
+                        (org-agenda-start-on-weekday nil)
+                        (org-agenda-start-day "+4d")
+                        (org-agenda-span 14)
+                        (org-agenda-show-all-dates nil)
+                        (org-deadline-warning-days 0)
+                        (org-agenda-block-separator nil)
+                        (org-agenda-entry-types '(:deadline))
+                        (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                        (org-agenda-overriding-header "\nUpcoming deadlines (+14d)")))
+
+            ))
+
+           ("t" "Daily agenda"
+            ((agenda "" ((org-agenda-span 1)
+                         (org-deadline-warning-days 0)
+                         (org-agenda-block-separator nil)
+                         (org-scheduled-past-days 0)
+                         (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+                         (org-agenda-format-date "%A %-e %B %Y")
+                         (org-agenda-overriding-header "Today's agenda")))
+
+             ))
+           ))
+#+end_src 
 * Latex
 ** Latex
 #+begin_src emacs-lisp
@@ -877,51 +967,43 @@ org-todo-keywords
      "" nil
      "a" '(TeX-command-run-all :which-key "TeX run all")
      "c" '(TeX-command-master :which-key "TeX-command-master")
-     "c" '(TeX-command-master :which-key "TeX-command-master")
      "e" '(LaTeX-environment :which-key "Insert environment")
      "s" '(LaTeX-section :which-key "Insert section")
      "m" '(TeX-insert-macro :which-key "Insert macro")
-     "r" '(my/revert-buffer-no-confirm :which-key "Reload Latex file")
      )
 
     )
 
   (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer) ;; Standard way
+  (setq org-latex-listings 't) ;; Enable using listings for code highlighting in export
+
+#+end_src
+** Evil Latex!!
+#+begin_src emacs-lisp
+  (use-package evil-tex)
+  (add-hook 'LaTeX-mode-hook #'evil-tex-mode)
 #+end_src
 ** PDF Preview (pdf-tools)
 #+begin_src emacs-lisp
   (use-package pdf-tools
-  :defer t
-  :pin manual
-  :mode  ("\\.pdf\\'" . pdf-view-mode)
-  :init
-  (evil-set-initial-state 'pdf-view-mode 'normal)
-  :config
-  (pdf-loader-install)
-  (setq-default pdf-view-display-size 'fit-height)
-  (setq pdf-view-continuous t) ;; Makes it so scrolling down to the bottom/top of a page switches to the next page
-  (setq pdf-view-midnight-colors '("#ffffff" . "#121212" )) ;; I use midnight mode as dark mode, dark mode doesn't seem to work
-  :general
-  (general-define-key :states 'motion :keymaps 'pdf-view-mode-map
-                      "j" 'pdf-view-next-page
-                      "k" 'pdf-view-previous-page
-
-                      "C-j" 'pdf-view-next-line-or-next-page
-                      "C-k" 'pdf-view-previous-line-or-previous-page
-
-                      "H" 'pdf-view-fit-height-to-window
-                      "0" 'pdf-view-fit-height-to-window
-                      "W" 'pdf-view-fit-width-to-window
-                      "=" 'pdf-view-enlarge
-                      "-" 'pdf-view-shrink
-
-                      "q" 'quit-window
-                      "Q" 'kill-this-buffer
-                      "g" 'revert-buffer
-
-                      "C-s" 'isearch-forward
-                      )
-  )
+    :defer t
+    :pin manual
+    :mode  ("\\.pdf\\'" . pdf-view-mode)
+    :init
+    (evil-set-initial-state 'pdf-view-mode 'normal)
+    :config
+    (pdf-loader-install)
+    (setq-default pdf-view-display-size 'fit-height)
+    (setq pdf-view-continuous t) ;; Makes it so scrolling down to the bottom/top of a page switches to the next page
+    (setq pdf-view-midnight-colors '("#ffffff" . "#121212" )) ;; I use midnight mode as dark mode, dark mode doesn't seem to work
+    :general
+    (general-define-key :states 'motion :keymaps 'pdf-view-mode-map
+                        "H" 'pdf-view-fit-height-to-window
+                        "0" 'pdf-view-fit-height-to-window
+                        "W" 'pdf-view-fit-width-to-window
+                        "C-s" 'isearch-forward
+                        )
+    )
 #+end_src
 ** Use pdf-tools for Latex preview
 #+begin_src emacs-lisp
@@ -933,6 +1015,22 @@ org-todo-keywords
 (add-hook 'TeX-after-compilation-finished-functions
            #'TeX-revert-document-buffer)
 #+end_src
+** Plain Latex file
+ * This will give us a class that won’t include all the default packages in the generated LaTeX file. Put this in your init file. You can then use it with #+LATEX_CLASS: org-plain-latex.
+#+begin_src emacs-lisp
+(with-eval-after-load 'ox-latex
+(add-to-list 'org-latex-classes
+             '("org-plain-latex"
+               "\\documentclass{article}
+           [NO-DEFAULT-PACKAGES]
+           [PACKAGES]
+           [EXTRA]"
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")
+               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
+#+end_src
 * Org-Roam
 #+begin_src emacs-lisp
   (use-package org-roam
@@ -941,7 +1039,7 @@ org-todo-keywords
 ** Org Roam Directory
 #+begin_src emacs-lisp  
     :custom
-    (org-roam-directory "/mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes")
+    (org-roam-directory (concat mt/roam))
 #+end_src
 
 ** Org Roam Completion
@@ -964,14 +1062,14 @@ org-todo-keywords
 
 *** Book Template
 #+begin_src emacs-lisp
-  ("b" "book notes" plain (file "/mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/RoamTemplates/book.org")
+  ("b" "book notes" plain (file "/home/mthich/.config/emacs/org/book_template.org")
    :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
    :unnarrowed t)
 #+end_src
 
 *** Class Template
 #+begin_src emacs-lisp
-  ("c" "class" plain (file "/mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/RoamTemplates/class.org")
+  ("c" "class" plain (file "/home/mthich/.config/emacs/org/class_template.org")
    :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
    :unnarrowed t)
 #+end_src
@@ -983,14 +1081,28 @@ org-todo-keywords
 
 ** Org Roam Bindings
 #+begin_src emacs-lisp
-      :bind (("C-c n l" . org-roam-buffer-toggle)
-             ("C-c n f" . org-roam-node-find)
-             ("C-c n i" . org-roam-node-insert)
-             :map org-mode-map
-             ("C-M-i" . completion-at-point))
-      :config
-      (org-roam-setup)
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n i" . org-roam-node-insert)
+         ("C-c n I" . org-roam-node-insert-immediate)
+
+         :map org-mode-map
+         ("C-M-i" . completion-at-point))
+  :config
+  (org-roam-setup)
+  (org-roam-db-autosync-mode)
   #+end_src
+
+** Insert Node Immediately
+ * This will allow you to quickly create new notes for topics you’re mentioning while writing so that you can go back later and fill those notes in with more details!
+#+begin_src emacs-lisp
+(defun org-roam-node-insert-immediate (arg &rest args)
+  (interactive "P")
+  (let ((args (push arg args))
+        (org-roam-capture-templates (list (append (car org-roam-capture-templates)
+                                                  '(:immediate-finish t)))))
+    (apply #'org-roam-node-insert args)))
+#+end_src
 
 ** End of Org Roam Block
   #+begin_src emacs-lisp

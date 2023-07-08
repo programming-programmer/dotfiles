@@ -1,0 +1,19 @@
+#+STARTUP: showeverything
+
+* Book Title%?
+** Properties
+ * Author: %^{Author}
+
+   
+** New Words
+ * perdition (#) - eternal damnation
+   
+   
+** Notable Quotes
+ * "Huzzah!" (#)
+
+   
+** Notes
+
+   
+ 

@@ -8,6 +8,8 @@
    * Qutebrowser is more stable so I might try it out
    * LIbrewolf will be main bae for a while. I'll try to not use firefox since I
      prefer the librewolf logo more lol
+ * Install Noto Color Emoji (or another emoji font) and install source code pro
+   font
 * Alacritty
  * Terminal emulator
  * It's really pretty

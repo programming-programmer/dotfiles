@@ -1,0 +1,22 @@
+#+STARTUP: content
+
+* Class Name
+** Properties
+ * Professor Name: %^{Professor}
+ * Syllabus: %^{Syllabus}
+ * Textbook: %^{Textbook}
+ * Location: %^{Locaton}
+
+   
+** Meetings
+*** sample meeting
+
+
+** Homework
+*** sample quiz
+
+
+** Notes
+*** Chapter 
+ * %?
+
