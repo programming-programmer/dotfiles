@@ -1,4 +1,5 @@
 #+STARTUP: content
+#+FILETAGS: :school:
 
 * Class Name
 ** Properties

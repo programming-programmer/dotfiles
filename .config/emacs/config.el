@@ -22,8 +22,10 @@
 
 (setq-default
  ad-redefinition-action 'accept                   ; Silence warnings for redefinition
+ inhibit-splash-screen t                          ; No splash screen
  sentence-end-double-space nil                    ; Double space after a period!? Inhumane!
  cursor-in-non-selected-windows t                 ; Hide the cursor in inactive windows
+ initial-scratch-message "(✦ ‿ ✦)\n\n\n"              ; Remove pesky scratch message
  fill-column 80                                   ; Set width for automatic line breaks
  help-window-select t                             ; Focus new help windows when opened
  indent-tabs-mode t                               ; Prefer tabs over inferior spaces
@@ -36,7 +38,6 @@
  view-read-only t)                                ; Always open read only files in view mode
 
 
-(setq display-line-numbers-type 'relative)              ; Relative line numbers 
 (fset 'yes-or-no-p 'y-or-n-p)                     ; Replace yes/no prompts with y/n
 (set-default-coding-systems 'utf-8)               ; Default to utf-8 encoding
 (show-paren-mode 1)                               ; Show parent paranthesis
@@ -47,38 +48,6 @@
 (scroll-bar-mode -1)                              ; Disable visible scrollbar
 (tooltip-mode -1)                                 ; Disable tooltips
 (set-fringe-mode 10)                              ; Give some breathing room
-
-(setq initial-scratch-message
- " 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                                             ███████╗███╗   ███╗ █████╗  ██████╗███████╗
-                                                             ██╔════╝████╗ ████║██╔══██╗██╔════╝██╔════╝
-                                                             █████╗  ██╔████╔██║███████║██║     ███████╗
-                                                             ██╔══╝  ██║╚██╔╝██║██╔══██║██║     ╚════██║
-                                                             ███████╗██║ ╚═╝ ██║██║  ██║╚██████╗███████║
-                                                             ╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝
-
- "                                           
-  )
 
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ; one line at a time
 (setq mouse-wheel-progressive-speed nil)            ; don't accelerate scrolling
@@ -110,6 +79,7 @@
 
 (load "/home/mthich/.config/emacs/lisp/funcs.el")
 (load "/home/mthich/.config/emacs/lisp/var.el")
+(load "/home/mthich/.config/emacs/lisp/plain-dark.el")
 
 (setq trash-directory (concat mt/home ".Trash"))
 (setq delete-by-moving-to-trash t)
@@ -133,21 +103,43 @@
   (setq emojify-emoji-styles '(unicode))
   (bind-key* (kbd "C-c e") #'emojify-insert-emoji)) ; override binding in any mode
 
+(use-package hide-mode-line
+  :commands (hide-mode-line-mode))
+
+(use-package doom-modeline
+  :config
+  (doom-modeline-mode)
+  (setq doom-modeline-enable-word-count nil
+        doom-modeline-buffer-encoding nil
+        doom-modeline-project-detection 'file-name
+        doom-modeline-highlight-modified-buffer-name t
+
+        ;; Icons ---
+        doom-modeline-modal nil
+        doom-modeline-icon nil
+        doom-modeline-modal-icon nil
+        doom-modeline-major-mode-icon nil
+        doom-modeline-major-mode-color-icon nil
+        doom-modeline-buffer-modification-icon nil
+        doom-modeline-buffer-state-icon t
+        doom-modeline-unicode-fallback nil
+        doom-modeline-bar-width 3))
+
 (use-package evil
   :init
   (setq evil-want-keybinding nil) ;; load Evil keybindings in other modes
   (setq evil-want-fine-undo t)
   (setq evil-want-Y-yank-to-eol t)
   (setq evil-mode-line-format nil)
+  (setq evil-disable-insert-state-bindings t)
   :config
+
   ;; ----- Keybindings
   (define-key evil-motion-state-map "/" 'swiper)
   (evil-global-set-key 'motion "j" 'evil-next-visual-line)
   (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
   (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
 
-
-  ;; ----- Setting cursor colors
   (setq evil-emacs-state-cursor    '("#649bce" box))
   (setq evil-normal-state-cursor   '("#d9a871" box))
   (setq evil-operator-state-cursor '("#ebcb8b" hollow))
@@ -175,27 +167,6 @@
   :config
   (global-undo-tree-mode 1))
 
-(use-package hide-mode-line
-  :commands (hide-mode-line-mode))
-
-(use-package doom-modeline
-  :config
-  (doom-modeline-mode)
-  (setq doom-modeline-enable-word-count nil
-        doom-modeline-buffer-encoding nil
-        doom-modeline-project-detection 'file-name
-        doom-modeline-highlight-modified-buffer-name t
-
-        ;; Icons ---
-        doom-modeline-modal nil
-        doom-modeline-icon nil ; Enable/disable all icons
-        doom-modeline-modal-icon nil ;; Icon for Evil mode
-        doom-modeline-major-mode-icon nil
-        doom-modeline-major-mode-color-icon nil
-        doom-modeline-buffer-state-icon nil
-
-        doom-modeline-bar-width 3))
-
 (set-face-attribute 'default t :height 100 :weight 'medium)
 (set-face-attribute 'default t :font "Source Code Pro")
 
@@ -206,7 +177,7 @@
 
 (use-package doom-themes
   :config
-  (load-theme 'doom-spacegrey t))
+  (load-theme 'doom-ayu-dark t))
 
 (use-package visual-fill-column
   :defer t
@@ -236,6 +207,7 @@
 "r" '(counsel-recentf :which-key "recent files")
 "TAB" '(switch-to-prev-buffer :which-key "previous buffer")
 "SPC" '(counsel-M-x :which-key "M-x")
+"B" '(counsel-switch-buffer :which-key "switch buffers")
 "C-c" '(save-buffers-kill-terminal :which-key "quit emacs")
 "c" '(org-capture :which-key "org-capture")
 "u" '(universal-argument :which-key "universal-argument")
@@ -318,20 +290,11 @@
 
 (general-def
   :keymaps 'override
-  ;"C-g" 'evil-force-normal-state
   )
 
 ;; Insert keymaps
 (general-def
   :states '(insert)
-  "C-a" 'evil-beginning-of-visual-line
-  "C-e" 'evil-end-of-visual-line
-  "C-S-a" 'evil-beginning-of-line
-  "C-S-e" 'evil-end-of-line
-  "C-n" 'evil-next-visual-line
-  "C-p" 'evil-previous-visual-line
-  "C-y" 'yank
-  "C-d" 'delete-char
   "C-g" 'evil-normal-state
 
   ;; Emacs ---
@@ -341,6 +304,9 @@
   "C-c c" 'org-capture
   "C-c a" 'org-agenda
   "C-s" 'swiper
+
+  "<tab>" 'tempo-complete-tag
+  "TAB" 'tempo-complete-tag
   )
 
 ;; Insert keymaps
@@ -427,63 +393,60 @@ org-ellipsis " ▾"
 
 ;; Keywords
 org-todo-keywords
-'((sequence "TODO" "PROG" "|" "DONE" "CANCELLED"))
+'((sequence "TODO" "PROG" "|" "DONE" "WAITING" "CANCELLED"))
 
 ;; Faces
 org-todo-keyword-faces
-'(("PROG" . (:foreground "red" :weight bold))
+'(("PROG" . (:foreground "dark red" :weight bold))
   ("DONE" . (:foreground "gray" :weight bold))
-  ("CANCELLED" . (:foreground "black" :weight bold)))
+  ("WAITING" . (:foreground "dark slate gray" :weight bold))
+  ("CANCELLED" . (:foreground "dark gray" :weight bold)))
 
 ;; Source Fontify
 org-src-fontify-natively t
-
 ;; Quote and Verse Blocks
 org-fontify-quote-and-verse-blocks t
-
 ;; Org Tab Behaviors
 org-src-tab-acts-natively t
-
 ;; Source Code indentation
 org-edit-src-content-indentation 2
-
 ;; Block Startup
 org-hide-block-startup nil
-
 ;; Org Indentation
 org-src-preserve-indentation nil
-
 ;; Folded Org Headers
 org-startup-folded 'content
-
 ;; Seperator Lines
 org-cycle-separator-lines 2
-
 ;; Inline Images
 org-startup-with-inline-images t
-
 ;; Emphasis Markers
 org-hide-emphasis-markers t
 
-;; Show only timer from current clock session in modeline
-org-clock-mode-line-total 'current
-org-clock-clocked-in-display 'both
-
 ;; Org Agenda Column View
 org-agenda-overriding-columns-format
-"%TODO %80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM" 
+"%TODO %ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM" 
 
 org-global-properties
 (quote (("Effort_ALL" . "0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")))
 
-
 ;; CLOCKING-----
+;; Show only timer from current clock session in modeline
+org-clock-mode-line-total 'current
+org-clock-clocked-in-display 'both
 ;; Clock out when moving task to a done state
 org-clock-out-when-done t
 ;; Change tasks to NEXT when clocking in
 org-clock-in-switch-to-state "PROG"
 
 )
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+'(org-mode-line-clock ((t (:foreground "red" :box (:line-width -1 :style released-button)))) t))
 
 (use-package evil-org
   :diminish evil-org-mode
@@ -512,7 +475,9 @@ org-clock-in-switch-to-state "PROG"
  ":" '(counsel-org-tag :which-key "set tags")
  "p" '(org-set-property :which-key "set property")
  "," '(org-todo :which-key "toggle TODO state")
- "e" '(org-export-dispatch :which-key "export org")
+ "C" '(org-toggle-checkbox :which-key "toggle checkbox")
+ "E" '(org-export-dispatch :which-key "export org")
+ "e" '(org-set-effort :which-key "set effort")
  "." '(org-toggle-narrow-to-subtree :which-key "toggle narrow to subtree")
 
  "1" '(org-toggle-link-display :which-key "toggle link display")
@@ -523,6 +488,7 @@ org-clock-in-switch-to-state "PROG"
 
  "il" '(org-insert-link :which-key "org-insert-link")
  "iL" '(counsel-org-link :which-key "counsel-org-link")
+ "ic" '(insert-char :which-key "insert character")
 
  "is" '(nil :which-key "insert stamp")
  "iss" '((lambda () (interactive) (call-interactively (org-time-stamp-inactive))) :which-key "org-time-stamp-inactive")
@@ -534,28 +500,6 @@ org-clock-in-switch-to-state "PROG"
  "co" '(org-clock-out :which-key "clock out")
  "cj" '(org-clock-goto :which-key "jump to clock")
  )
-
-(general-define-key
- :prefix ","
- :states 'motion
- :keymaps '(org-agenda-mode-map)
- "" nil
- "a" '(org-agenda :which-key "org agenda")
- "c" '(org-capture :which-key "org-capture")
- "d" '(org-agenda-deadline :which-key "deadline")
- "s" '(org-agenda-schedule :which-key "schedule") 
- "," '(org-agenda-deadline :which-key "deadline") ;; quick access
- "t" '(org-agenda-set-tags :which-key "set tags")
- ;; clocking
- "c" '(nil :which-key "clocking")
- "ci" '(org-agenda-clock-in :which-key "clock in")
- "co" '(org-agenda-clock-out :which-key "clock out")
- "cj" '(org-clock-goto :which-key "jump to clock")
- )
-
-(evil-define-key 'motion org-agenda-mode-map
-  (kbd "f") 'org-agenda-later
-  (kbd "b") 'org-agenda-earlier)
 
 ;; Removes that annoying bookmark for most recent bookmark (hopefully)
 (setq org-bookmark-names-plist nil)
@@ -570,7 +514,7 @@ org-clock-in-switch-to-state "PROG"
 
 ))
 
-; Targets include this file and any file contributing to the agenda - up to 9 levels deep
+; Targets include this file and any file contributing to the agenda - up to 2 levels deep
 (setq org-refile-targets (quote ((org-agenda-files :maxlevel . 2))))
 
 ; Use full outline paths for refile targets
@@ -583,7 +527,7 @@ org-clock-in-switch-to-state "PROG"
   :hook (org-mode . org-superstar-mode)
   :custom
   (org-superstar-remove-leading-stars t)
-  (org-superstar-headline-bullets-list '("◉" "○" "●" "○" "●" "○" "●")))
+  (org-superstar-headline-bullets-list '("◈" "○" "◉" "○" "◆" "○")))
 
 (custom-set-faces
  '(org-level-1 ((t (:inherit outline-1 :height 1.5))))
@@ -620,21 +564,19 @@ org-clock-in-switch-to-state "PROG"
 (setq org-agenda-skip-scheduled-if-done t)
 ;; If something is scheduled, don't tell me it is due soon
 (setq org-agenda-skip-deadline-prewarning-if-scheduled t)
-
 ;; use AM-PM and not 24-hour time
 (setq org-agenda-timegrid-use-ampm t)
-
 (setq org-agenda-block-separator ?-)
 
 (setq org-agenda-custom-commands
-      `(("u" "Daily agenda and top priority tasks"
+      `(("d" "Agenda™"
          ((tags-todo "*"
                      ((org-agenda-skip-function '(org-agenda-skip-if nil '(timestamp)))
                       (org-agenda-skip-function
                        `(org-agenda-skip-entry-if
                          'notregexp ,(format "\\[#%s\\]" (char-to-string org-priority-highest))))
                       (org-agenda-block-separator nil)
-                      (org-agenda-overriding-header "Tasks without a date")))
+                      (org-agenda-overriding-header "Tasks without a date (Refile)")))
 
           (agenda "" ((org-agenda-span 1)
                       (org-deadline-warning-days 0)
@@ -666,17 +608,87 @@ org-clock-in-switch-to-state "PROG"
 
           ))
 
-         ("t" "Daily agenda"
-          ((agenda "" ((org-agenda-span 1)
-                       (org-deadline-warning-days 0)
-                       (org-agenda-block-separator nil)
-                       (org-scheduled-past-days 0)
-                       (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
-                       (org-agenda-format-date "%A %-e %B %Y")
-                       (org-agenda-overriding-header "Today's agenda")))
+        ("D" "Daily agenda"
+         ((agenda "" ((org-agenda-span 1)
+                      (org-deadline-warning-days 0)
+                      (org-agenda-block-separator nil)
+                      (org-scheduled-past-days 0)
+                      (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+                      (org-agenda-format-date "%A %-e %B %Y")
+                      (org-agenda-overriding-header "Today's agenda")))
 
-           ))
-         ))
+          ))
+        ))
+
+;; Always hilight the current agenda line
+(add-hook 'org-agenda-mode-hook
+          '(lambda () (hl-line-mode 1))
+          'append)
+
+(general-define-key
+ :prefix ","
+ :states 'motion
+ :keymaps '(org-agenda-mode-map)
+ "" nil
+ "a" '(org-agenda :which-key "org agenda")
+ "c" '(org-capture :which-key "org-capture")
+ "d" '(org-agenda-deadline :which-key "deadline")
+ "s" '(org-agenda-schedule :which-key "schedule") 
+ "," '(org-agenda-deadline :which-key "deadline") ;; quick access
+ "t" '(org-agenda-set-tags :which-key "set tags")
+ ;; clocking
+ "c" '(nil :which-key "clocking")
+ "ci" '(org-agenda-clock-in :which-key "clock in")
+ "co" '(org-agenda-clock-out :which-key "clock out")
+ "cj" '(org-clock-goto :which-key "jump to clock")
+ )
+
+(evil-define-key 'motion org-agenda-mode-map
+  (kbd "f") 'org-agenda-later
+  (kbd "b") 'org-agenda-earlier)
+
+(use-package org-roam
+
+:custom
+(org-roam-directory (concat mt/roam))
+
+(org-roam-completion-everywhere t)
+
+(org-roam-capture-templates '(
+
+("d" "default" plain
+ "%?"
+ :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+ :unnarrowed t)
+
+("c" "class" plain (file "/home/mthich/.config/emacs/org/class_template.org")
+ :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+ :unnarrowed t)
+
+("s" "school note" plain (file "/home/mthich/.config/emacs/org/school_template.org")
+ :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+ :unnarrowed t)
+
+))
+
+:bind (("C-c n l" . org-roam-buffer-toggle)
+       ("C-c n f" . org-roam-node-find)
+       ("C-c n i" . org-roam-node-insert)
+       ("C-c n I" . org-roam-node-insert-immediate)
+
+       :map org-mode-map
+       ("C-M-i" . completion-at-point))
+:config
+(org-roam-setup)
+
+(defun org-roam-node-insert-immediate (arg &rest args)
+  (interactive "P")
+  (let ((args (push arg args))
+        (org-roam-capture-templates (list (append (car org-roam-capture-templates)
+                                                  '(:immediate-finish t)))))
+    (apply #'org-roam-node-insert args)))
+
+)
 
 (use-package latex ;; This is a weird one. Package is auctex but needs to be managed like this.
   :ensure nil
@@ -762,50 +774,6 @@ org-clock-in-switch-to-state "PROG"
                ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
                ("\\paragraph{%s}" . "\\paragraph*{%s}")
                ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
-
-(use-package org-roam
-
-:custom
-(org-roam-directory (concat mt/roam))
-
-(org-roam-completion-everywhere t)
-
-(org-roam-capture-templates '(
-
-("d" "default" plain
- "%?"
- :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
- :unnarrowed t)
-
-("b" "book notes" plain (file "/home/mthich/.config/emacs/org/book_template.org")
- :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
- :unnarrowed t)
-
-("c" "class" plain (file "/home/mthich/.config/emacs/org/class_template.org")
- :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
- :unnarrowed t)
-
-))
-
-:bind (("C-c n l" . org-roam-buffer-toggle)
-       ("C-c n f" . org-roam-node-find)
-       ("C-c n i" . org-roam-node-insert)
-       ("C-c n I" . org-roam-node-insert-immediate)
-
-       :map org-mode-map
-       ("C-M-i" . completion-at-point))
-:config
-(org-roam-setup)
-(org-roam-db-autosync-mode)
-
-(defun org-roam-node-insert-immediate (arg &rest args)
-  (interactive "P")
-  (let ((args (push arg args))
-        (org-roam-capture-templates (list (append (car org-roam-capture-templates)
-                                                  '(:immediate-finish t)))))
-    (apply #'org-roam-node-insert args)))
-
-)
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))

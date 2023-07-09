@@ -1,5 +1,159 @@
 #+TITLE: Archive
+ * Clear out every month or as often as you wish. When the server comes along
+   you should be fine keeping it as long as you want.
 
- * *Where all complete souls go*
+ * *Where all finished souls go*
 
 * Archive
+** Refile :archived:
+*** DONE Docker Stuff
+ * sudo apt-get install docker-compose
+   * Installs both docker and docker
+ * sudo docker-compose up to start the docker server
+** Personal :archived:
+*** DONE Take out trash
+** Work :archived:
+** School :archived:
+*** DONE Orientation
+DEADLINE: <2023-06-12 Mon 23:59>
+*** DONE Assignment MLA Video Quiz
+DEADLINE: <2023-06-13 Tue 23:59>
+*** DONE Quiz: Format an MLA Paper
+DEADLINE: <2023-06-14 Wed 23:59>
+*** DONE Rhetorical Précis Video Quiz
+DEADLINE: <2023-06-15 Thu 23:59>
+*** DONE Assignment Stephen King Video Quiz
+DEADLINE: <2023-06-15 Thu 23:59>
+*** DONE Week 1.2 Journal
+DEADLINE: <2023-06-16 Fri 23:59>
+
+ * *Précis:* Compose a rhetorical précis of Stephen King's "Why We Crave Horror
+   Stories." Be sure to follow the Rhetorical Précis Lesson carefully.
+
+   * Stephen King, in his essay,"Why We Crave Horror Movies" (1981), argues
+     that people require horror movies to appetize the inner evil in all of us.
+     The author supports his argument by stating, we are all in some degree
+     mentally ill, we watch horror movies to show we are not afraid, we go to feel normal after
+     witnessing surrreal and disgusting images, we go to have fun, and we watch
+     horror movies to appeal to the worst in all of us.
+     His purpose is to persuade readers that horror movies appease the inner
+     "lyncher" in all of us in order to make readers realize that humans all have inner good
+     and evil and that it is fine to appetize the inner evil. This piece is
+     intended for an audience of horror movies enjoyers who may not know why
+     they enjoy such a distrurbing genre.
+
+   
+ * *Understanding the Text:* Answer the "Understanding the Text" questions at the
+   end of the article. If you have not yet been able to acquire the book, here
+   they are:
+   1. King states that when we see a horror film, we are "daring the nightmare"
+      (par. 2). What does he mean by that?
+
+      * King means that everytime we watch a horror movie we are daring to be
+        scared by the movie. 
+
+   2. King uses the metaphor of "emotional muscles'' that need exercise (par.
+      9). Some of these emotions are seen as positive in that they maintain
+      civilization. What are some of the emotions that don't maintain the social
+      status quo, and why do they still need to be exercised?
+       * Some emotions that don't maintain the social status quo are anger,
+         pettiness, and apathy. These emotions are deemed unecessery in society if we let these emotions fester they tend to flare up at unwanted
+         times and truly create a problem. However, if we periodically exercise
+         these emotions it releases the builtup pressure so they stay at normal
+         levels, unseen levels. 
+
+   3. King relies heavily on metaphors and allusions to create a humorous tone
+      while making his argument. What is the advantage of approaching the topic
+      of horror in this way?
+
+       * The advantage of creating a bubble of humor around the sometimes
+         serious topic of horror makes digesting the topic for non-horror fans
+         much more tolerable and easier understanding. 
+*** DONE Topic Discussion Week 1.2
+DEADLINE: <2023-06-17 Sat 23:59>
+ 1. *MLA:* What is the most challenging aspect of formatting an MLA Style essay?
+    How did you overcome this particular challenge?
+    
+    * The most challenging aspect of formatting an MLA Style essay wasn't
+      learning the Style of the essay itself, but making sure that the format of
+      the essay was consistent when exporting to .pdf format. I made sure this
+      didn't happen by reviewing the essay after it was exported and was
+      consistent with proper MLA formatting.  
+   
+ 2. *Prècis Technique:* You have studied the rhetorical prècis form of summary.
+    How do you feel this form of summary might be useful to you in future
+    courses. Explain and discussing some of the key aspects of the prècis and
+    connecting them to academic work may help add clarity and development to
+    your response.
+    
+     * There are many types of summaries that I have read before but I think the
+       power from the rhetorical prècis is its length: the shortness of the
+       prècis, only four key sentences to be exact, aids in a quick understanding of the book or essay. 
+
+ 3. *Reflect and Respond:* The prècis is a useful and versatile form of summary I
+    have shared with you this week. You have written a prècis of King's essay
+    assigned for this week. Now, having worked out the meaning of the piece,
+    respond to it by responding substantively to one of the "Reflection and
+    Response" questions at the end of the essay.
+
+     * Consider your own experience with horror films. Are you a fan of horror
+       or not? If so, what about horror attracts you, and if not, what repels
+       you? Now consider your response in light of King’s statement “We also go
+       [to horror films] to re-establish our feelings of essential normality”
+       (par. 4). Does your response to horror connect to your feelings of
+       normality? If so, how?
+        * I consider myself a fan of horror but I'm certainly not a connesiour
+          of the horror genre, and I mostly enjoy comedy-horrors which tend to
+          be much 
+          less gory than the staples of the genre. The main appeal of horror is
+          how it can be a view of the what if? What if there was a psycho loose
+          in a city with unsuspecting citizens, what if there was a day of total
+          anarchy in America? These crazy open-ended "what ifs?" is what appeals
+          to me as a horror fan. After reading King's essay, it sheded a light
+          on how I viewed watching horror films, and I think it does bring a
+          sense of normality because after watching a horror movie I can turn
+          the television off and be at peace knowing no matter how crazy the
+          world is it will (hopefully not) turn into a full blown anarchy like
+          The Purge. 
+*** DONE Chuck Klosterman Video Quiz
+DEADLINE: <2023-06-20 Tue 23:59>
+*** DONE Week 2.1 Journal
+DEADLINE: <2023-06-21 Wed 23:59>
+**** Prècises
+***** del Toro prècis
+ * Guillermo del Toro and Chuck Hogan, in their essay "Why Vampires Never Die"
+   (2009), argues that vampires will always have some form of relevancy. The
+   authors support their main argument by saying that vampires aren't purely
+   against humans like most monsters, but rather emphasize what most humans
+   idealize: eternal youth, dramatic lives, and compelling detective narratives
+   and others that are among other things humans hope for. Their purpose is to
+   remind readers that we humans don't truly have control over our entire lives
+   in order to remind readers that vampires, and most monsters in media, provide some
+   mystery in human's mundane lives. This piece is intended for an audience
+   vampire fans and fans of monsters in media.  
+
+***** Hogan prècis
+ * Chuck Klosterman, in his article "My Zombie, Myself: Why Modern Life Feels
+   Rather Undead" (2010), implies that the zombie, an undead and unrelecting
+   monster, can be a metaphor for the tasks that fill up people's days. The
+   author supports his main argument by discussing the basics of the zombie and
+   how to kill it and analyzing how it is, "exactly like slaughtering zombies."
+   His purpose is to remind people that even though our modern task-oriented
+   lives still have the ability of accomplishing our goals and still live
+   better. This piece on the surface may appear to be for solely zombie fans but
+   is intended for all people that have to deal with completing tasks on a
+   day-to-day basis and may feel overwhelmed; If the protaginist in our favorite
+   zombie media can defeat the zombies then the reader can defeat their daily
+   tasks. 
+*** DONE Essay 1: Précis
+DEADLINE: <2023-06-26 Mon 23:59>
+*** DONE Critique Video Quiz
+DEADLINE: <2023-06-27 Tue 23:59>
+*** DONE Quiz: Critique Questionnaire
+DEADLINE: <2023-06-28 Wed 23:59>
+*** DONE Quiz: Appropriate Quotation in MLA Style
+DEADLINE: <2023-06-30 Fri 23:59> 
+*** DONE Topic Discussion Week 3
+DEADLINE: <2023-07-01 Sat 23:59>
+*** DONE Fundamentals 1 Video Quiz
+DEADLINE: <2023-07-04 Tue 23:59>

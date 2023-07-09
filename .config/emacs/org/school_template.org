@@ -1,0 +1,5 @@
+#+STARTUP: content
+#+FILETAGS: :school:
+
+* Lorem Ipsum
+ *  %?
