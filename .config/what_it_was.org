@@ -6,10 +6,12 @@
  * For the browser: Nyxt, qutebrowser, or Librewolf.
    * I like the idea of nyxt but it is too unstable
    * Qutebrowser is more stable so I might try it out
-   * LIbrewolf will be main bae for a while. I'll try to not use firefox since I
+   * Librewolf will be main bae for a while. I'll try to not use firefox since I
      prefer the librewolf logo more lol
  * Install Noto Color Emoji (or another emoji font) and install source code pro
    font
+ * For installing arch linux (🤓), check if a) you're connected to internet, b)
+   pacman-keyring is initialized and populated
 * Alacritty
  * Terminal emulator
  * It's really pretty

@@ -1,0 +1,65 @@
+\documentclass[12pt]{article}
+
+% Margin - 1 inch on all sides
+\usepackage[a4paper]{geometry}
+\usepackage{times}
+\geometry{top=1.0in, bottom=1.0in, left=1.0in, right=1.0in}
+
+% Doublespacing
+\usepackage{setspace}
+\doublespacing
+
+% Rotating tables (e.g. sideways when too long)
+\usepackage{rotating}
+
+% Fancy-header package to modify header/page numbering
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{} 
+\chead{} 
+\rhead{Thich \thepage} 
+\lfoot{} 
+\cfoot{} 
+\rfoot{} 
+\renewcommand{\headrulewidth}{0pt} 
+\renewcommand{\footrulewidth}{0pt} 
+% To make sure we actually have header 0.5in away from top edge
+% 12pt is one-sixth of an inch. Subtract this from 0.5in to get headsep value
+\setlength\headsep{0.333in}
+
+% Works cited environment
+\newcommand{\bibent}{\noindent \hangindent 40pt}
+\newenvironment{workscited}{\newpage \begin{center} Works Cited \end{center}}{\newpage }
+
+
+% Begin document
+\begin{document}
+\begin{flushleft}
+
+% Info
+%^{Name}\\
+%^{Professor Name}\\
+%^{Class Name}\\
+%^{Date (DD Month YYYY)}\\
+%^{Assignment Name (Optional)}\\
+
+% Essay Title
+\begin{center}%^{Essay Title}\end{center}
+
+% Changes paragraph indentation to 0.5in
+\setlength{\parindent}{0.5in}
+% Begin body of paper here
+%?
+% Remember to change to .tex file lol
+
+% Works cited
+\begin{workscited}
+
+\bibent % Before each entry
+Hoffman, Andrew J. \textit{Monsters: A Bedford Spotlight Reader}. Bedford Books, 2019.
+
+\end{workscited}
+
+% End document
+\end{flushleft}
+\end{document}

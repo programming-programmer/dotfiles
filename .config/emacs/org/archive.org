@@ -2,7 +2,7 @@
  * Clear out every month or as often as you wish. When the server comes along
    you should be fine keeping it as long as you want.
 
- * *Where all finished souls go*
+ * *Where all complete souls go*
 
 * Archive
 ** Refile :archived:
@@ -157,3 +157,30 @@ DEADLINE: <2023-06-30 Fri 23:59>
 DEADLINE: <2023-07-01 Sat 23:59>
 *** DONE Fundamentals 1 Video Quiz
 DEADLINE: <2023-07-04 Tue 23:59>
+*** DONE Essay 2 Draft and Peer Review
+DEADLINE: <2023-07-08 Sat>
+:LOGBOOK:
+CLOCK: [2023-07-08 Sat 15:50]--[2023-07-08 Sat 15:51] =>  0:01
+CLOCK: [2023-07-08 Sat 13:49]--[2023-07-08 Sat 13:56] =>  0:07
+CLOCK: [2023-07-07 Fri 21:47]--[2023-07-07 Fri 21:47] =>  0:00
+CLOCK: [2023-07-07 Fri 21:44]--[2023-07-07 Fri 21:47] =>  0:03
+CLOCK: [2023-07-07 Fri 21:37]--[2023-07-07 Fri 21:42] =>  0:05
+CLOCK: [2023-07-07 Fri 21:11]--[2023-07-07 Fri 21:25] =>  0:14
+CLOCK: [2023-07-05 Wed 22:30]--[2023-07-05 Wed 23:59] =>  1:29
+:END:
+**** [[id:58388659-8b41-4475-a849-028349c5d508][Peer Review]]
+**** DONE Peer Review - 1
+DEADLINE: <2023-07-08 Sat 19:00>
+:LOGBOOK:
+CLOCK: [2023-07-08 Sat 22:09]--[2023-07-08 Sat 22:34] =>  0:25
+CLOCK: [2023-07-08 Sat 17:49]--[2023-07-08 Sat 18:03] =>  0:14
+:END:
+**** DONE Peer Review - 2
+DEADLINE: <2023-07-08 Sat 19:00>
+:LOGBOOK:
+CLOCK: [2023-07-08 Sat 22:37]--[2023-07-08 Sat 22:56] =>  0:19
+:END:
+**** DONE Peer Review - 3
+DEADLINE: <2023-07-08 Sat 19:00>
+**** TODO Essay 2: Critique
+DEADLINE: <2023-07-11 Tue 23:59>

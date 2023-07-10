@@ -28,6 +28,11 @@ vim.keymap.set("n", "<leader>td", vim.cmd.tabclose)
 vim.keymap.set("n", "<leader>bb", vim.cmd.buffers)
 vim.keymap.set("n", "<leader>bd", vim.cmd.bdelete)
 
+--Because I'm also emacs-pilled. Save file like emacs
+vim.keymap.set("n", "<leader>fs", function()
+    vim.cmd("w")
+end)
+
 -- Easily source file
 vim.keymap.set("n", "<leader><leader>", function()
 	vim.cmd("so")

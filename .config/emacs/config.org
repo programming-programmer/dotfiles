@@ -2,63 +2,63 @@
 #+AUTHOR: Mer Thich (programming-programmer)
 
  * Very evil things follow. Beware! 👻
-
+   
 * Preface
  * This is copied from what_it_was.txt
-   * Make sure init.el's path to config.org is there
-   * use-package making sure is installed doesn't work either so install before
+ * Make sure init.el's path to config.org is there
+ * use-package making sure is installed doesn't work either so install before
 
-   * If there is an error with org, start emacs with "emacs -q" and install org
-     9.x. Then reload emacs
+ * If there is an error with org, start emacs with "emacs -q" and install org
+9.x. Then reload emacs
 
-   * Install Noto Color Emoji or another emoji font to use emojis in Emacs
-   * Also! Install Source Code Pro
+ * Install Noto Color Emoji or another emoji font to use emojis in Emacs
+ * Also! Install Source Code Pro
 
 * Garbage Collection
  * Make startup faster by reducing the frequency of garbage collection and then use a hook to measure Emacs startup time. The default is 800 kilobytes. Measured in bytes. Garbage collection off during initialization (focus all memory on initialize)
 #+begin_src emacs-lisp
-    (setq gc-cons-threshold (* 50 1000 1000) 
-          gc-cons-percentage 0.6)
+  (setq gc-cons-threshold (* 50 1000 1000) 
+        gc-cons-percentage 0.6)
 #+end_src
 
  * Reset garbage collection after initialization (return deprecated memory to stack when idle)
 #+begin_src emacs-lisp
-    (add-hook 'emacs-startup-hook
-              (lambda ()
-                (setq gc-cons-threshold 16777216 ; 16mb
-                      gc-cons-percentage 0.1)))
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (setq gc-cons-threshold 16777216 ; 16mb
+                    gc-cons-percentage 0.1)))
 
-    (setq gcmh-idle-delay 'auto  ; default is 15s
-          gcmh-auto-idle-delay-factor 10
-          gcmh-high-cons-threshold (* 16 1024 1024))  ; 16mb
+  (setq gcmh-idle-delay 'auto  ; default is 15s
+        gcmh-auto-idle-delay-factor 10
+        gcmh-high-cons-threshold (* 16 1024 1024))  ; 16mb
 #+end_src
 
 * Package Management
 ** Package Sources 
- * Where to gather package sources (MELPA and MELPA stable, and ELPA)
+** Where to gather package sources (MELPA and MELPA stable, and ELPA)
 #+begin_src emacs-lisp
-    (require 'package)
-    (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                             ("melpa-stable" . "https://stable.melpa.org/packages/")
-                             ("elpa" . "https://elpa.gnu.org/packages/")))
+  (require 'package)
+  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                           ("melpa-stable" . "https://stable.melpa.org/packages/")
+                           ("elpa" . "https://elpa.gnu.org/packages/")))
 #+end_src
 
 ** Use-package
  * Use use-package for easier and more concise package management. yay!
 #+begin_src emacs-lisp
-    (require 'use-package)
-    (setq use-package-always-ensure t)
+  (require 'use-package)
+  (setq use-package-always-ensure t)
 #+end_src
 
 * Startup and Perfomance
 ** Start Server
  * This does something but if the "original" emacs session closes the server
-   stops. So either workaround this somehow or do something with a script.
+stops. So either workaround this somehow or do something with a script.
 
  * EmacsWiki is helpful
 
 #+begin_src emacs-lisp
-(server-start)
+  (server-start)
 #+end_src
 
 ** Defaults in Emacs
@@ -68,7 +68,7 @@
    inhibit-splash-screen t                          ; No splash screen
    sentence-end-double-space nil                    ; Double space after a period!? Inhumane!
    cursor-in-non-selected-windows t                 ; Hide the cursor in inactive windows
-   initial-scratch-message "(✦ ‿ ✦)\n\n\n"              ; Remove pesky scratch message
+   initial-scratch-message "(✦ ‿ ✦)\n\n"              ; Remove pesky scratch message
    fill-column 80                                   ; Set width for automatic line breaks
    help-window-select t                             ; Focus new help windows when opened
    indent-tabs-mode t                               ; Prefer tabs over inferior spaces
@@ -95,15 +95,15 @@
 
 ** Scrolling improvements
 #+begin_src emacs-lisp
-    (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ; one line at a time
-    (setq mouse-wheel-progressive-speed nil)            ; don't accelerate scrolling
-    (setq mouse-wheel-follow-mouse 't)                  ; scroll window under mouse
-    (setq scroll-step 1)                                ; keyboard scroll one line at a time
+  (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ; one line at a time
+  (setq mouse-wheel-progressive-speed nil)            ; don't accelerate scrolling
+  (setq mouse-wheel-follow-mouse 't)                  ; scroll window under mouse
+  (setq scroll-step 1)                                ; keyboard scroll one line at a time
 #+end_src
 
 ** No Line Numbers
  * No line numbers for org-mode, programming-mode, text-mode, and conf-mode??
-   But they do get toggled heh
+But they do get toggled heh
 #+begin_src emacs-lisp
   (dolist (mode '(org-mode-hook
                   prog-mode-hook
@@ -114,32 +114,32 @@
  
 ** Backups/Lockfiles
 #+begin_src emacs-lisp
-(setq create-lockfiles nil
-      make-backup-files nil
-      ;; But in case the user does enable it, some sensible defaults:
-      version-control t     ; number each backup file
-      backup-by-copying t   ; instead of renaming current file (clobbers links)
-      delete-old-versions t ; clean up after itself
-      kept-old-versions 5
-      kept-new-versions 5
-      backup-directory-alist (list (cons "." (concat user-emacs-directory "backup/"))))
+  (setq create-lockfiles nil
+        make-backup-files nil
+        ;; But in case the user does enable it, some sensible defaults:
+        version-control t     ; number each backup file
+        backup-by-copying t   ; instead of renaming current file (clobbers links)
+        delete-old-versions t ; clean up after itself
+        kept-old-versions 5
+        kept-new-versions 5
+        backup-directory-alist (list (cons "." (concat user-emacs-directory "backup/"))))
 #+end_src
 
 ** Maximization on startup baby!
  * Having Fullscreen on startup is a pain with the ugly bar and it would be a
-   pain in tiling window managers. But it's *also* toggleable
+pain in tiling window managers. But it's *also* toggleable
 #+begin_src emacs-lisp
   (add-hook 'emacs-startup-hook 'toggle-frame-maximized)
 #+end_src
 
 ** Remove window decorations
 #+begin_src emacs-lisp
-(setq default-frame-alist '((undecorated . t))) 
+  (setq default-frame-alist '((undecorated . t))) 
 #+end_src
 
 ** Transparency??
  * I realized this if for Emacs 29+ which is not on my system. I'll wait for
-   later :(
+later :(
 #+begin_src emacs-lisp
   (set-frame-parameter (selected-frame) 'alpha '(90 . 90))
   (add-to-list 'default-frame-alist '(alpha . (90 . 90)))
@@ -147,19 +147,19 @@
 
 ** Load Custom Lisp Files
 #+begin_src emacs-lisp
-(load "/home/mthich/.config/emacs/lisp/funcs.el")
-(load "/home/mthich/.config/emacs/lisp/var.el")
-(load "/home/mthich/.config/emacs/lisp/plain-dark.el")
+  (load "/home/mthich/.config/emacs/lisp/funcs.el")
+  (load "/home/mthich/.config/emacs/lisp/var.el")
+  (load "/home/mthich/.config/emacs/lisp/plain-dark.el")
 #+end_src
 
 ** Use System Trash
  * There has been too many times I've had a near heart attack from deleting.
-   Google Drive was there to prevent to much loss. However, in a move towards no
-   google™ we must *not* rely on such things
-   #+begin_src emacs-lisp
-(setq trash-directory (concat mt/home ".Trash"))
-(setq delete-by-moving-to-trash t)
-   #+end_src
+Google Drive was there to prevent to much loss. However, in a move towards no
+google™ we must *not* rely on such things
+#+begin_src emacs-lisp
+  (setq trash-directory (concat mt/home ".Trash"))
+  (setq delete-by-moving-to-trash t)
+#+end_src
 
 * Addons
 ** Which-key
@@ -183,7 +183,7 @@
 ** Emojis
 
  * Shamelessly stolen from this [[https://ianyepan.github.io/posts/emacs-emojis/][blog]]. Install Noto Color Emoji beforehand though 😔
-  
+
 #+begin_src emacs-lisp
   (use-package emojify
     :config
@@ -198,7 +198,7 @@
 ** Modeline
 *** Hide Modeline
  * Honestly, this is a blessing. Hide the modeline. This is mapped to a
-   keybinding (evil mode of course 👻)
+keybinding (evil mode of course 👻)
 #+begin_src emacs-lisp
   (use-package hide-mode-line
     :commands (hide-mode-line-mode))
@@ -269,10 +269,16 @@
 *** Undo/Redo Functionality (with undo-tree)
 
 #+begin_src emacs-lisp
-(use-package undo-tree
-  :ensure t
-  :config
-  (global-undo-tree-mode 1))
+  (use-package undo-tree
+    :ensure t
+    :config
+    (global-undo-tree-mode 1))
+#+end_src
+
+** Harpoon functionality 
+ * Basically harpoon from ThePrimagen™ 
+#+begin_src emacs-lisp
+  (use-package dogears)
 #+end_src
 
 * Aesthetics
@@ -293,14 +299,14 @@
 
 ** Theme
 #+begin_src emacs-lisp
-(use-package doom-themes
-  :config
-  (load-theme 'doom-ayu-dark t))
+  (use-package doom-themes
+    :config
+    (load-theme 'doom-ayu-dark t))
 #+end_src
 
 ** Writeroom env
  * I removed the writeroom since it wasn't necessary. I guess I'll keep this one
-   though. SIKE!!
+though. SIKE!!
 #+begin_src emacs-lisp
   (use-package visual-fill-column
     :defer t
@@ -323,7 +329,7 @@
 * Keybindings
  * All of this thanks to general.el 🎉🎉🎉🎉🎉 YAYAYAY!!
 #+begin_src emacs-lisp
-(use-package general)
+  (use-package general)
 #+end_src
 
 ** SPC Leader Key
@@ -338,6 +344,7 @@
 #+begin_src emacs-lisp
   "f" '(counsel-find-file :which-key "find file")
   "r" '(counsel-recentf :which-key "recent files")
+  "m" '(dogears-remember :which-key "dogears remember")
   "TAB" '(switch-to-prev-buffer :which-key "previous buffer")
   "SPC" '(counsel-M-x :which-key "M-x")
   "B" '(counsel-switch-buffer :which-key "switch buffers")
@@ -352,56 +359,57 @@
 
 *** Applications
 #+begin_src emacs-lisp
-;; "Applications"
-"a" '(nil :which-key "applications")
-"ao" '(org-agenda :which-key "org-agenda")
-;; "am" '(mu4e :which-key "mu4e") ; I wanna get this setup up so bad >.<
-;; "aC" '(calc :which-key "calc")
+  ;; "Applications"
+  "a" '(nil :which-key "applications")
+  "ao" '(org-agenda :which-key "org-agenda")
+  ;; "am" '(mu4e :which-key "mu4e") ; I wanna get this setup up so bad >.<
+  "aC" '(calc :which-key "calc")
 
-"ad" '(dired :which-key "dired")
-"a C-d" '(dired-jump :which-key "dired jump")
+  "ad" '(dired :which-key "dired")
+  "a C-d" '(dired-jump :which-key "dired jump")
 #+end_src
 
 *** Buffers
 #+begin_src emacs-lisp
-"b" '(nil :which-key "buffer")
-"bb" '(counsel-switch-buffer :which-key "switch buffers")
-"bd" '(evil-delete-buffer :which-key "delete buffer")
+  "b" '(nil :which-key "buffer")
+  "bb" '(counsel-switch-buffer :which-key "switch buffers")
+  "bd" '(evil-delete-buffer :which-key "delete buffer")
 #+end_src
 
 *** Files
 #+begin_src emacs-lisp
-;; Files
-"f" '(nil :which-key "files")
-"fb" '(counsel-bookmark :which-key "bookmarks")
-"ff" '(counsel-find-file :which-key "find file")
-"fr" '(counsel-recentf :which-key "recent files")
-"fR" '(rename-file :which-key "rename file")
-"fs" '(save-buffer :which-key "save buffer")
-"fS" '(evil-write-all :which-key "save all buffers")
+  ;; Files
+  "f" '(nil :which-key "files")
+  "fb" '(counsel-bookmark :which-key "bookmarks")
+  "ff" '(counsel-find-file :which-key "find file")
+  "fr" '(counsel-recentf :which-key "recent files")
+  "fR" '(rename-file :which-key "rename file")
+  "fs" '(save-buffer :which-key "save buffer")
+  "fS" '(evil-write-all :which-key "save all buffers")
+  "fl" '(org-babel-load-file :which-key "org-babel load file")
 #+end_src
 
 *** Help/Emacs
 #+begin_src emacs-lisp
-;; Help/emacs
-"h" '(nil :which-key "help/emacs")
+  ;; Help/emacs
+  "h" '(nil :which-key "help/emacs")
 
-"hv" '(counsel-describe-variable :which-key "des. variable")
-"hb" '(counsel-descbinds :which-key "des. bindings")
-"hM" '(describe-mode :which-key "des. mode")
-"hf" '(counsel-describe-function :which-key "des. func")
-"hF" '(counsel-describe-face :which-key "des. face")
-"hk" '(describe-key :which-key "des. key")
+  "hv" '(counsel-describe-variable :which-key "des. variable")
+  "hb" '(counsel-descbinds :which-key "des. bindings")
+  "hM" '(describe-mode :which-key "des. mode")
+  "hf" '(counsel-describe-function :which-key "des. func")
+  "hF" '(counsel-describe-face :which-key "des. face")
+  "hk" '(describe-key :which-key "des. key")
 
-"hm" '(nil :which-key "switch mode")
-"hme" '(emacs-lisp-mode :which-key "elisp mode")
-"hmo" '(org-mode :which-key "org mode")
-"hmt" '(text-mode :which-key "text mode")
+  "hm" '(nil :which-key "switch mode")
+  "hme" '(emacs-lisp-mode :which-key "elisp mode")
+  "hmo" '(org-mode :which-key "org mode")
+  "hmt" '(text-mode :which-key "text mode")
 
-"hp" '(nil :which-key "packages")
-"hpr" 'package-refresh-contents
-"hpi" 'package-install
-"hpd" 'package-delete
+  "hp" '(nil :which-key "packages")
+  "hpr" 'package-refresh-contents
+  "hpi" 'package-install
+  "hpd" 'package-delete
 #+end_src
 
 *** Toggles/Visuals
@@ -438,9 +446,19 @@
   "wz" '(text-scale-adjust :which-key "text zoom")
 #+end_src
 
+*** Dogears (Bookmark Nav)
+#+begin_src emacs-lisp
+  "g" '(nil :which-key "dogears")
+  "gg" '(dogears-go :which-key "dogears go")
+  "gb" '(dogears-back :which-key "dogears back")
+  "gf" '(dogears-forward :which-key "dogears forward")
+  "gl" '(dogears-list :which-key "dogears list")
+  "gs" '(dogears-sidebar :which-key "dogears sidebar")
+#+end_src
+
 *** End SPC prefix block
 #+begin_src emacs-lisp
-)
+  )
 #+end_src
 
 ** All-mode keybindings
@@ -464,12 +482,20 @@
     "C-c c" 'org-capture
     "C-c a" 'org-agenda
     "C-s" 'swiper
+    "C-x C-e" 'dogears-go
+    "C-x 8 s" 'insert-char
+
+    "M-k" 'org-metaup
+    "M-j" 'org-metadown
+    "S-M-l" 'org-shiftmetaright
+    "S-M-h" 'org-shiftmetaleft
+    "M-l" 'org-metaright
+    "M-h" 'org-metaleft
 
     "<tab>" 'tempo-complete-tag
     "TAB" 'tempo-complete-tag
     )
 #+end_src
-
 
 ** Normal Mode Keymaps
 #+begin_src emacs-lisp
@@ -478,6 +504,7 @@
     :states '(normal)
     "$" 'evil-end-of-visual-line
     "0" 'evil-beginning-of-visual-line
+    "C-e" '(dogears-go :which-key "dogears go")
     )
 #+end_src
 
@@ -682,7 +709,7 @@
 ** Org mode Keybindings
 #+begin_src emacs-lisp
   (general-define-key
-   :prefix ","
+   :prefix "C-SPC"
    :states 'motion
    :keymaps '(org-mode-map)
    "" nil
@@ -695,12 +722,16 @@
    "d" '(org-deadline :which-key "deadline")
    "g" '(counsel-org-goto :which-key "goto heading")
    ":" '(counsel-org-tag :which-key "set tags")
-   "p" '(org-set-property :which-key "set property")
-   "," '(org-todo :which-key "toggle TODO state")
+   "P" '(org-set-property :which-key "set property")
    "C" '(org-toggle-checkbox :which-key "toggle checkbox")
    "E" '(org-export-dispatch :which-key "export org")
    "e" '(org-set-effort :which-key "set effort")
    "." '(org-toggle-narrow-to-subtree :which-key "toggle narrow to subtree")
+
+   "t" '(org-todo :which-key "toggle TODO state")
+   "C" '(org-toggle-checkbox :which-key "toggle checkbox")
+
+   "p" '(org-pomodoro :which-key "start pomodoro and clock-in")
 
    "1" '(org-toggle-link-display :which-key "toggle link display")
    "2" '(org-toggle-inline-images :which-key "toggle images")
@@ -732,16 +763,49 @@
   (setq org-capture-templates '(
 #+end_src
 
-*** Task Template
+*** Refile
+**** Task Template
 #+begin_src emacs-lisp
    ("t" "Todo" entry (file+headline "/home/mthich/.config/emacs/org/refile.org"  "Tasks")
     "* TODO  %?\n ")
 #+end_src
 
-*** Notes Template
+**** Today's Task 
+#+begin_src emacs-lisp
+
+   ("T" "Todo for today" entry (file+headline "/home/mthich/.config/emacs/org/refile.org"  "Tasks")
+    "* TODO  %?\nDEADLINE: %<<%Y-%m-%d>>")
+#+end_src
+
+**** Notes Template
 #+begin_src emacs-lisp
    ("n" "Notes" entry (file+headline "/home/mthich/.config/emacs/org/refile.org" "Notes")
   "* %?  \n ")
+#+end_src
+
+*** Errand Template - Personal
+#+begin_src emacs-lisp
+   ("e" "Errand" entry (file+headline "/mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/personal.org"  "Tasks")
+    "* TODO  %?\n ")
+#+end_src
+
+*** Watchlist
+**** New Movie Template
+#+begin_src emacs-lisp
+   ("m" "Movie" entry (file+headline "/mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/watchlist.org"  "Movies")
+    "* TODO  %?\n ")
+#+end_src
+
+**** New Show/Anime Template
+#+begin_src emacs-lisp
+   ("s" "Show / Anime" entry (file+headline "/mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/watchlist.org"  "Shows / Anime")
+    "* TODO  %?\n ")
+#+end_src
+
+**** New Book Template
+#+begin_src emacs-lisp
+   ("b" "Book" entry (file+headline "/mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/watchlist.org"  "Not Started")
+    "** TODO  %?\n ")
 #+end_src
 
 *** End of Org Capture Templates
@@ -758,6 +822,11 @@
 (setq org-refile-use-outline-path nil)
 #+end_src
 
+** Org-pomodoro
+ * Assuage the urge to procrastinate
+#+begin_src emacs-lisp
+(use-package org-pomodoro)
+#+end_src
 ** Org-indent Face
  * Make sure org-indent face is avaliable
  * Makes it so that the headers indent
@@ -948,23 +1017,24 @@
 #+begin_src emacs-lisp
   ("d" "default" plain
    "%?"
-   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-   :unnarrowed t)
-#+end_src
-
-*** Class Template
-#+begin_src emacs-lisp
-  ("c" "class" plain (file "/home/mthich/.config/emacs/org/class_template.org")
-   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+   :if-new (file+head "roam-${slug}.org" "#+title: ${title}\n")
    :unnarrowed t)
 #+end_src
 
 *** School Note Template
 #+begin_src emacs-lisp
   ("s" "school note" plain (file "/home/mthich/.config/emacs/org/school_template.org")
-   :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+   :if-new (file+head "roam-${slug}.org" "#+title: ${title}\n")
    :unnarrowed t)
 #+end_src
+
+*** MLA essay template
+#+begin_src emacs-lisp
+  ("m" "MLA essay" plain (file "/home/mthich/.config/emacs/org/MLA_template.org")
+   :if-new (file+head "${slug}.org" " ")
+   :unnarrowed t)
+#+end_src
+
 *** End of Org Roam Capture Templates
 #+begin_src emacs-lisp
   ))
