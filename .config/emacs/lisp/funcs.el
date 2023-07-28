@@ -9,15 +9,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;
 ;; Window Functions ;;
 ;;;;;;;;;;;;;;;;;;;;;;
-
-(defun jib/split-window-vertically-and-switch ()
-  (interactive)
-  (split-window-vertically)
-  (other-window 1))
-(defun jib/split-window-horizontally-and-switch ()
-  (interactive)
-  (split-window-horizontally)
-  (other-window 1))
 ;; from https://gist.github.com/3402786
 (defun jib/toggle-maximize-buffer ()
   "Maximize buffer"
@@ -33,34 +24,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;; Files and Buffers ;;
 ;;;;;;;;;;;;;;;;;;;;;;;
-
-(defun jib/save-and-close-this-buffer (buffer)
-  "Saves and closes given buffer."
-  (if (get-buffer buffer)
-	  (let ((b (get-buffer buffer)))
-		(save-buffer b)
-		(kill-buffer b))))
-
-;; found at http://emacswiki.org/emacs/KillingBuffers
-(defun jib/kill-other-buffers (&optional arg)
-  "Kill all other buffers.
-If the universal prefix argument is used then will the windows too."
-  (interactive "P")
-  (when (yes-or-no-p (format "Killing all buffers except \"%s\"? "
-                             (buffer-name)))
-    (mapc 'kill-buffer (delq (current-buffer) (buffer-list)))
-    (when (equal '(4) arg) (delete-other-windows))
-    (message "Buffers deleted!")))
-
-(defun jib/split-and-close-sentence ()
-  "Deletes current word, inserts a period, and capitalizes the next word -
-splits the sentence."
-  (interactive)
-  (kill-word 1)
-  (delete-backward-char 1)
-  (insert ".")
-  (capitalize-word 1))
-
 (defun jib/listify (&optional count)
   "Turn the region's (or count = n lines) into an orgmode list by prepending a +."
   (interactive "p")
