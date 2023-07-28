@@ -1,6 +1,3 @@
-alias vim='/home/mthich/.local/share/applications/nvim-linux64/bin/nvim'
-alias nvim='/home/mthich/.local/share/applications/nvim-linux64/bin/nvim'
-
 alias ll='ls -l --color'
 alias la='ls -A --color'
 alias lla='ls -al --color'
