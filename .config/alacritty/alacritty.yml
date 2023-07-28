@@ -101,7 +101,7 @@ selection:
   save_to_clipboard: true
 
 cursor:
-  style: Underline
+  style: Block
   vi_mode_style: Block
   unfocused_hollow: true
 
