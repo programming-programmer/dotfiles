@@ -1,8 +1,4 @@
-vim.opt.cursorline = true
-
-vim.opt.laststatus = 0
-vim.opt.ruler = false
-vim.opt.showcmd = false
+vim.opt.guicursor = ""
 
 vim.opt.nu = true
 vim.opt.relativenumber = true
@@ -18,6 +14,8 @@ vim.opt.wrap = false
 
 vim.opt.smartindent = true
 
+vim.opt.termguicolors = true
+
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
@@ -28,5 +26,10 @@ vim.opt.backup = false
 vim.opt.undodir = os.getenv("HOME") .. "/.cache/nvim/undodir"
 vim.opt.undofile = true
 
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
+vim.opt.updatetime = 50
+
+vim.opt.colorcolumn = "80"
+
+vim.g.netrw_browse_split = 0
+vim.g.netrw_banner = 0
+vim.g.netrw_winsize = 25
