@@ -155,10 +155,5 @@ map gg top
 map gh cd ~
 map gc cd ~/.config
 map gp cd ~/.local/
-map gp cd ~/Projects
-map gn cd /mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes
-map ge cd /mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/SUM_2023/ENGL_C101/
-map gd cd /mnt/chromeos/GoogleDrive/MyDrive
-map gD cd /mnt/chromeos/MyFiles/Downloads
 
 
