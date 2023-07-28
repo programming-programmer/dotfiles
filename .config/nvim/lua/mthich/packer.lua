@@ -1,8 +1,8 @@
 vim.cmd.packadd('packer.nvim')
 
 return require('packer').startup(function(use)
-	-- Look at packer, managing itself and whatnot
-	use('wbthomason/packer.nvim')
+  -- Look at packer, managing itself and whatnot
+  use('wbthomason/packer.nvim')
 
 
   -- TREESITTER --
@@ -13,7 +13,6 @@ return require('packer').startup(function(use)
           ts_update()
       end,
   }
-
   use('nvim-treesitter/playground')
 
   -- FILE NAV --
@@ -22,16 +21,10 @@ return require('packer').startup(function(use)
       -- or                            , branch = '0.1.x',
       requires = { {'nvim-lua/plenary.nvim'} }
   }
-
   use('ThePrimeagen/harpoon')
-  use('stevearc/oil.nvim')
 
-  -- DEV --
-  use('mbbill/undotree')
-  use('tpope/vim-fugitive')
-  use('lukas-reineke/indent-blankline.nvim')
-
-  use {
+-- DEV --
+use {
       'folke/trouble.nvim',
       config = function()
           require('trouble').setup {
@@ -39,6 +32,9 @@ return require('packer').startup(function(use)
           }
       end
   }
+use('mbbill/undotree')
+use('tpope/vim-fugitive')
+use('lukas-reineke/indent-blankline.nvim')
 
   -- LSP Setup --
   use {
@@ -71,7 +67,6 @@ return require('packer').startup(function(use)
           {'mfussenegger/nvim-dap'}
       }
   }
-
   use('theHamsta/nvim-dap-virtual-text')
 
   -- Java
@@ -79,13 +74,6 @@ return require('packer').startup(function(use)
 
   -- AESTHETICS --
   use("ellisonleao/gruvbox.nvim")
-
-  use {
-      'goolord/alpha-nvim',
-      config = function ()
-          require'alpha'.setup(require'alpha.themes.dashboard'.config)
-      end
-  }
 
   -- MISC --
   use('ThePrimeagen/vim-be-good')
