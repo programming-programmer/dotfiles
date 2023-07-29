@@ -2,7 +2,6 @@
 #+STARTUP: content
 
 * Preface
- * I installed gpg (for encrypting files) so you would have to do the same [[https://www.howtogeek.com/427982/how-to-encrypt-and-decrypt-files-with-gpg-on-linux/][here]] 
  * For the browser: Nyxt, qutebrowser, or Librewolf.
    * I like the idea of nyxt but it is too unstable
    * Qutebrowser is more stable so I might try it out
@@ -47,20 +46,6 @@
    * aliasrc has all the aliases
    * profile has environment variables (stuff to add to $PATH and default editor)
      * This has to be linked to the .profile in the home directory in order for it to actually be sourced
-* Lazygit
- * I'm tired of hving to go thru all unwanted files just to commit something, so
-   I am biting the unsavory bullet
-
- * Installation:
-   #+begin_src sh
-     LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
-     curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
-     tar xf lazygit.tar.gz lazygit
-     sudo install lazygit /usr/local/bin
-
-     # To verify installation
-     lazygit --version
-   #+end_src
 
 * lf
  * Download go file
@@ -131,8 +116,9 @@ make -s # If you don't have make installed, run ./server/autobuild and it will i
    9.x. Then reload emacs
 
  * To run emacs as daemon, it needs to run with either systemd or an init
-   script. Because systemd is unusable on chrombook and not first priority, I
+   script. OR OR OR!!!... you can add "emacs --daemon" to login when on full linux. Because systemd is unusable on chrombook and not first priority, I
    added the init script:
+
    #+begin_src sh
      #! /bin/sh
 ### BEGIN INIT INFO
@@ -306,11 +292,6 @@ Categories=Development;TextEditor;Utility;
 StartupWMClass=Emacs
    #+end_src
    
-   
-* cmus
- * Not much to say install via package manager
- * Most likely will switch over to mpd and nmcpppcpp (or whatever it is)
-
 * mpv
  * Install mpv
 
