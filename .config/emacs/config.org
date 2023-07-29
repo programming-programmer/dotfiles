@@ -132,11 +132,6 @@ pain in tiling window managers. But it's *also* toggleable
   (add-hook 'emacs-startup-hook 'toggle-frame-maximized)
 #+end_src
 
-** Remove window decorations
-#+begin_src emacs-lisp
-  (setq default-frame-alist '((undecorated . t))) 
-#+end_src
-
 ** Transparency??
  * I realized this if for Emacs 29+ which is not on my system. I'll wait for
 later :(
@@ -217,7 +212,7 @@ keybinding (evil mode of course 👻)
           ;; Icons ---
           doom-modeline-modal nil
           doom-modeline-icon nil
-          doom-modeline-modal-icon nil
+          doom-modeline-modal-icon t
           doom-modeline-major-mode-icon nil
           doom-modeline-major-mode-color-icon nil
           doom-modeline-buffer-modification-icon nil
@@ -247,7 +242,7 @@ keybinding (evil mode of course 👻)
     (setq evil-normal-state-cursor   '("#d9a871" box))
     (setq evil-operator-state-cursor '("#ebcb8b" hollow))
     (setq evil-visual-state-cursor   '("#677691" box))
-    (setq evil-insert-state-cursor   '("#eb998b" (bar . 2)))
+    (setq evil-insert-state-cursor   '("#eb998b" box))
     (setq evil-replace-state-cursor  '("#eb998b" hbar))
     (setq evil-motion-state-cursor   '("#ad8beb" box))
 
@@ -260,25 +255,14 @@ keybinding (evil mode of course 👻)
     :ensure t
     :config
     (evil-collection-init))
-
-  (use-package evil-surround
-    :config
-    (global-evil-surround-mode 1))
 #+end_src
 
 *** Undo/Redo Functionality (with undo-tree)
-
 #+begin_src emacs-lisp
   (use-package undo-tree
     :ensure t
     :config
     (global-undo-tree-mode 1))
-#+end_src
-
-** Harpoon functionality 
- * Basically harpoon from ThePrimagen™ 
-#+begin_src emacs-lisp
-  (use-package dogears)
 #+end_src
 
 * Aesthetics
@@ -301,7 +285,7 @@ keybinding (evil mode of course 👻)
 #+begin_src emacs-lisp
   (use-package doom-themes
     :config
-    (load-theme 'doom-ayu-dark t))
+    (load-theme 'doom-tommorow-night t))
 #+end_src
 
 ** Writeroom env
@@ -342,7 +326,7 @@ though. SIKE!!
 
 *** Top level functions
 #+begin_src emacs-lisp
-  "f" '(counsel-find-file :which-key "find file")
+  "." '(counsel-find-file :which-key "find file")
   "r" '(counsel-recentf :which-key "recent files")
   "m" '(dogears-remember :which-key "dogears remember")
   "TAB" '(switch-to-prev-buffer :which-key "previous buffer")
@@ -426,36 +410,6 @@ though. SIKE!!
   "tF" '(toggle-frame-fullscreen :which-key "toggle fullscreen")
 #+end_src
 
-*** Windows
-#+begin_src emacs-lisp
-  "w" '(nil :which-key "window")
-  "wm" '(jib/toggle-maximize-buffer :which-key "maximize buffer")
-  "wN" '(make-frame :which-key "make frame")
-  "wd" '(evil-window-delete :which-key "delete window")
-  "wD" '(delete-other-windows :which-key "delete other windows")
-  "w-" '(jib/split-window-vertically-and-switch :which-key "split below")
-  "w/" '(jib/split-window-horizontally-and-switch :which-key "split right")
-  "w{" '(enlarge-window-horizontally :which-key "expand horizon")
-  "w}" '(shrink-window-horizontally :which-key "shrink horizon")
-  "w+" '(balance-windows :which-key "balance windows")
-  "w^" '(enlarge-window :which-key "enlarge verizon")
-  "wl" '(evil-window-right :which-key "evil-window-right")
-  "wh" '(evil-window-left :which-key "evil-window-left")
-  "wj" '(evil-window-down :which-key "evil-window-down")
-  "wk" '(evil-window-up :which-key "evil-window-up")
-  "wz" '(text-scale-adjust :which-key "text zoom")
-#+end_src
-
-*** Dogears (Bookmark Nav)
-#+begin_src emacs-lisp
-  "g" '(nil :which-key "dogears")
-  "gg" '(dogears-go :which-key "dogears go")
-  "gb" '(dogears-back :which-key "dogears back")
-  "gf" '(dogears-forward :which-key "dogears forward")
-  "gl" '(dogears-list :which-key "dogears list")
-  "gs" '(dogears-sidebar :which-key "dogears sidebar")
-#+end_src
-
 *** End SPC prefix block
 #+begin_src emacs-lisp
   )
@@ -473,7 +427,7 @@ though. SIKE!!
   ;; Insert keymaps
   (general-def
     :states '(insert)
-    "C-g" 'evil-normal-state
+    "C-c" 'evil-normal-state
 
     ;; Emacs ---
     "C-x C-m" 'counsel-M-x
@@ -482,8 +436,8 @@ though. SIKE!!
     "C-c c" 'org-capture
     "C-c a" 'org-agenda
     "C-s" 'swiper
-    "C-x C-e" 'dogears-go
-    "C-x 8 s" 'insert-char
+
+    "C-x 8 RET" 'insert-char
 
     "M-k" 'org-metaup
     "M-j" 'org-metadown
@@ -504,7 +458,6 @@ though. SIKE!!
     :states '(normal)
     "$" 'evil-end-of-visual-line
     "0" 'evil-beginning-of-visual-line
-    "C-e" '(dogears-go :which-key "dogears go")
     )
 #+end_src
 
@@ -682,16 +635,6 @@ though. SIKE!!
 )
 #+end_src
 
-**** Change clock to RED when running overtime
-#+begin_src emacs-lisp
-  (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(org-mode-line-clock ((t (:foreground "red" :box (:line-width -1 :style released-button)))) t))
-#+end_src
-
 *** Evil Org
 #+begin_src emacs-lisp
 (use-package evil-org
@@ -709,7 +652,7 @@ though. SIKE!!
 ** Org mode Keybindings
 #+begin_src emacs-lisp
   (general-define-key
-   :prefix "C-SPC"
+   :prefix "m"
    :states 'motion
    :keymaps '(org-mode-map)
    "" nil
@@ -763,7 +706,7 @@ though. SIKE!!
   (setq org-capture-templates '(
 #+end_src
 
-*** Refile
+*** To Refile
 **** Task Template
 #+begin_src emacs-lisp
    ("t" "Todo" entry (file+headline "/home/mthich/.config/emacs/org/refile.org"  "Tasks")
@@ -783,13 +726,13 @@ though. SIKE!!
   "* %?  \n ")
 #+end_src
 
-*** Errand Template - Personal
+*** To Personal - Errand Template
 #+begin_src emacs-lisp
    ("e" "Errand" entry (file+headline "/mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/personal.org"  "Tasks")
     "* TODO  %?\n ")
 #+end_src
 
-*** Watchlist
+*** To Watchlist
 **** New Movie Template
 #+begin_src emacs-lisp
    ("m" "Movie" entry (file+headline "/mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/watchlist.org"  "Movies")
@@ -818,7 +761,7 @@ though. SIKE!!
 ; Targets include this file and any file contributing to the agenda - up to 2 levels deep
 (setq org-refile-targets (quote ((org-agenda-files :maxlevel . 2))))
 
-; Use full outline paths for refile targets
+; Don't use full outline paths for refile targets
 (setq org-refile-use-outline-path nil)
 #+end_src
 
@@ -827,6 +770,7 @@ though. SIKE!!
 #+begin_src emacs-lisp
 (use-package org-pomodoro)
 #+end_src
+
 ** Org-indent Face
  * Make sure org-indent face is avaliable
  * Makes it so that the headers indent
@@ -872,7 +816,6 @@ though. SIKE!!
                                          ("#+END_SRC" . "†")
                                          ("#+begin_src" . "†")
                                          ("#+end_src" . "†")
-                                         (">=" . "≥")
                                          ("=>" . "⇨")))
 
   (setq prettify-symbols-unprettify-at-point 'right-edge)
@@ -969,7 +912,7 @@ though. SIKE!!
 ** Org Agenda Keybindings
 #+begin_src emacs-lisp
 (general-define-key
- :prefix ","
+ :prefix "m"
  :states 'motion
  :keymaps '(org-agenda-mode-map)
  "" nil
@@ -1097,7 +1040,7 @@ though. SIKE!!
 
     :general
     (general-define-key
-     :prefix ","
+     :prefix "m"
      :states 'normal
      :keymaps 'LaTeX-mode-map
      "" nil
