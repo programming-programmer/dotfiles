@@ -35,7 +35,7 @@
 
 * Package Management
 ** Package Sources 
-** Where to gather package sources (MELPA and MELPA stable, and ELPA)
+ * Where to gather package sources (MELPA and MELPA stable, and ELPA)
 #+begin_src emacs-lisp
   (require 'package)
   (setq package-archives '(("melpa" . "https://melpa.org/packages/")
@@ -51,16 +51,6 @@
 #+end_src
 
 * Startup and Perfomance
-** Start Server
- * This does something but if the "original" emacs session closes the server
-stops. So either workaround this somehow or do something with a script.
-
- * EmacsWiki is helpful
-
-#+begin_src emacs-lisp
-  (server-start)
-#+end_src
-
 ** Defaults in Emacs
 #+begin_src emacs-lisp
   (setq-default
@@ -68,7 +58,7 @@ stops. So either workaround this somehow or do something with a script.
    inhibit-splash-screen t                          ; No splash screen
    sentence-end-double-space nil                    ; Double space after a period!? Inhumane!
    cursor-in-non-selected-windows t                 ; Hide the cursor in inactive windows
-   initial-scratch-message "(✦ ‿ ✦)\n\n"              ; Remove pesky scratch message
+   initial-scratch-message "(ɔ•‿•)ɔ ♥"              ; Remove pesky scratch message
    fill-column 80                                   ; Set width for automatic line breaks
    help-window-select t                             ; Focus new help windows when opened
    indent-tabs-mode t                               ; Prefer tabs over inferior spaces
@@ -132,14 +122,6 @@ pain in tiling window managers. But it's *also* toggleable
   (add-hook 'emacs-startup-hook 'toggle-frame-maximized)
 #+end_src
 
-** Transparency??
- * I realized this if for Emacs 29+ which is not on my system. I'll wait for
-later :(
-#+begin_src emacs-lisp
-  (set-frame-parameter (selected-frame) 'alpha '(90 . 90))
-  (add-to-list 'default-frame-alist '(alpha . (90 . 90)))
-#+end_src
-
 ** Load Custom Lisp Files
 #+begin_src emacs-lisp
   (load "/home/mthich/.config/emacs/lisp/funcs.el")
@@ -175,8 +157,7 @@ google™ we must *not* rely on such things
 #+end_src
 
 ** Emojis
-
- * Shamelessly stolen from this [[https://ianyepan.github.io/posts/emacs-emojis/][blog]]. Install Noto Color Emoji beforehand though 😔
+ * Install Noto Color Emoji beforehand though 😔
 
 #+begin_src emacs-lisp
   (use-package emojify
@@ -218,6 +199,11 @@ keybinding (evil mode of course 👻)
           doom-modeline-buffer-state-icon t
           doom-modeline-unicode-fallback nil
           doom-modeline-bar-width 3))
+#+end_src
+
+*** Diminish
+#+begin_src emacs-lisp
+(use-package diminish)
 #+end_src
 
 ** Evil Mode
@@ -282,10 +268,10 @@ keybinding (evil mode of course 👻)
 #+begin_src emacs-lisp
   (use-package doom-themes
     :config
-    (load-theme 'doom-tommorow-night t))
+    (load-theme 'doom-tomorrow-night t))
 #+end_src
 
-** Writeroom env
+** Writeroom
  * I removed the writeroom since it wasn't necessary. I guess I'll keep this one
 though. SIKE!!
 #+begin_src emacs-lisp
@@ -340,16 +326,11 @@ though. SIKE!!
 
   ;; "om" '(mu4e :which-key "mu4e") ; I wanna get this setup up so bad >.<
   "oA" '(org-agenda :which-key "org-agenda")
-  "oC" '(calc :which-key "calc")
+  "oc" '(calc :which-key "calc")
   "o-" '(dired :which-key "dired")
   "od" '(dired-jump :which-key "dired jump")
-  "of" '(nil :which-key "new frame")
-  "oF" '(nil :which-key "select frame")
-
-  "oa" '(nil :which-key "org agenda cont.")
-  "oan" '(nil :which-key "tags search")
-  "oat" '(nil :which-key "todo list")
-  "oav" '(nil :which-key "view search")
+  "of" '(make-frame :which-key "new frame")
+  "oF" '(select-frame-by-name :which-key "select frame")
 #+end_src
 
 *** Buffers
@@ -358,12 +339,11 @@ though. SIKE!!
 
   "bb" '(counsel-switch-buffer :which-key "switch buffers")
   "bd" '(evil-delete-buffer :which-key "delete buffer")
-  "bn" '(nil :which-key "next buffer")
-  "bp" '(nil :which-key "previous buffer")
-  "bl" '(nil :which-key "switch to last buffer")
-  "bm" '(nil :which-key "set bookmark")
-  "bM" '(nil :which-key "delete bookmark")
-  "bN" '(nil :which-key "new empty buffer")
+  "bn" '(evil-next-buffer :which-key "next buffer")
+  "bp" '(previous-buffer :which-key "previous buffer")
+  "bm" '(bookmark-save :which-key "set bookmark")
+  "bM" '(bookmark-delete  :which-key "delete bookmark")
+  "bN" '(evil-buffer-new :which-key "new empty buffer")
 #+end_src
 
 *** Files
@@ -371,13 +351,12 @@ though. SIKE!!
   "f" '(nil :which-key "files")
 
   "fb" '(counsel-bookmark :which-key "bookmarks")
-  "fC" '(nil :which-key "copy this file")
-  "fD" '(nil :which-key "delete this file")
+  "fC" '(copy-file :which-key "copy this file")
+  "fD" '(delete-file :which-key "delete this file")
   "ff" '(counsel-find-file :which-key "find file")
   "fr" '(counsel-recentf :which-key "recent files")
   "fR" '(rename-file :which-key "rename/move file")
   "fs" '(save-buffer :which-key "save buffer")
-  "fy" '(nil :which-key "yank file path")
   "fS" '(evil-write-all :which-key "save all buffers")
   "fl" '(org-babel-load-file :which-key "org-babel load file")
 #+end_src
@@ -387,36 +366,26 @@ though. SIKE!!
   "q" '(nil :which-key "quit/session")
 
   "qd" '(nil :which-key "restart emacs server")
-  "qf" '(nil :which-key "delete frame")
-  "qF" '(nil :which-key "clear current frame")
-  "qK" '(nil :which-key "kill emacs (and daemon)")
-  "ql" '(nil :which-key "restore last session")
-  "qL" '(nil :which-key "restore last session from file")
-  "qq" '(nil :which-key "quit emacs")
-  "qQ" '(nil :which-key "quit emacs without saving")
-  "qr" '(nil :which-key "restart and restore emacs")
-  "qR" '(nil :which-key "restart emacs")
-  "qs" '(nil :which-key "save session to file")
+  "qf" '(delete-frame :which-key "delete frame")
+  "qF" '(delete-other-frames :which-key "delete other frames")
+  "ql" '(recover-session :which-key "restore last session")
 #+end_src
 
 *** Notes
 #+begin_src emacs-lisp
-  "n" '(nil :which-key "files")
+  "n" '(nil :which-key "notes")
 
-  "na" '(nil :which-key "org agenda")
-  "nc" '(nil :which-key "toggle last org-clock")
-  "nC" '(nil :which-key "cancel current org-clock")
-  "no" '(nil :which-key "active org-clock")
-  "nd" '(nil :which-key "open deft")
-  "nf" '(nil :which-key "find file in notes")
-  "nm" '(nil :which-key "tags search")
-  "nN" '(nil :which-key "goto capture")
-  "nt" '(nil :which-key "todo list")
-  "ny" '(nil :which-key "org export to clipboard")
+  "nc" '(org-clock-in-last :which-key "toggle last org-clock")
+  "nC" '(org-clock-out :which-key "cancel current org-clock")
+  "n C-c" '(org-clock-cancel :which-key "cancel current org-clock")
+  "no" '(org-clock-goto :which-key "active org-clock")
+  "np" '(org-pomodoro :which-key "start pomodoro")
+  "nd" '(deft :which-key "open deft")
 
   "nr" '(nil :which-key "org-roam")
   "nrl" '(org-roam-buffer-toggle :which-key "toggle buffer")
   "nrf" '(org-roam-node-find :which-key "find node")
+  "nrc" '(org-roam-capture :which-key "capture node")
   "nri" '(org-roam-node-insert :which-key "insert node")
   "nrI" '(org-roam-node-insert-immediate :which-key "immediately insert node")
 #+end_src
@@ -425,35 +394,34 @@ though. SIKE!!
 #+begin_src emacs-lisp
   "h" '(nil :which-key "help/emacs")
 
-  "h RET" '(nil :which-key "info-emacs-manual")
-  "h'" '(nil :which-key "describe-char")
-  "h." '(nil :which-key "desplay-local-help")
-  "h?" '(nil :which-key "help-for-help")
-  "hC" '(nil :which-key "describe-coding-system")
-  "he" '(nil :which-key "view-echo-area-messages")
-  "hf" '(nil :which-key "describe function")
-  "hF" '(nil :which-key "describe-face")
-  "hg" '(nil :which-key "describe-gnu-project")
-  "hi" '(nil :which-key "info")
-  "hI" '(nil :which-key "describe-input-method")
-  "hk" '(nil :which-key "describe-key")
-  "hm" '(nil :which-key "describe-mode")
+  "h RET" '(info-emacs-manual :which-key "info-emacs-manual")
+  "h'" '(describe-char :which-key "describe-char")
+  "h." '(display-local-help :which-key "desplay-local-help")
+  "h?" '(help-for-help :which-key "help-for-help")
+  "hC" '(describe-coding-system :which-key "describe-coding-system")
+  "he" '(view-echo-area-messages :which-key "view-echo-area-messages")
+  "hf" '(counsel-describe-function :which-key "describe function")
+  "hF" '(counsel-describe-face :which-key "describe-face")
+  "hg" '(describe-gnu-project :which-key "describe-gnu-project")
+  "hi" '(info :which-key "info")
+  "hI" '(describe-input-method :which-key "describe-input-method")
+  "hk" '(describe-key :which-key "describe-key")
+  "hm" '(describe-mode :which-key "describe-mode")
 
   "hp" '(nil :which-key "packages")
-  "hpr" 'package-refresh-contents
-  "hpi" 'package-install
-  "hpd" 'package-delete
+  "hpr" '(package-refresh-contents :which-key "refresh packages")
+  "hpi" '(package-install :which-key "install packages")
+  "hpd" '(package-delete :which-key "delete package")
+  "hpD" '(describe-package :which-key "describe package")
 #+end_src
 
 *** Insert
 #+begin_src emacs-lisp
   "i" '(nil :which-key "insert")
 
-  "ie" '(nil :which-key "emoji")
-  "if" '(nil :which-key "current file name")
-  "iF" '(nil :which-key "current file path")
-  "iu" '(nil :which-key "unicode")
-  "iy" '(nil :which-key "from clipboard")
+  "ie" '(emojify-insert-emoji :which-key "emoji")
+  "iu" '(counsel-unicode-char :which-key "unicode")
+  "iy" '(counsel-yank-pop :which-key "from clipboard")
 #+end_src
 
 *** Toggles/Visuals
@@ -590,6 +558,15 @@ though. SIKE!!
     (counsel-mode 1))
 #+end_src
 
+* Deft
+#+begin_src emacs-lisp
+  (use-package deft
+    :commands (deft)
+    :config (setq deft-directory (concat mt/roam)
+                  deft-recursive t
+                  deft-extensions '("md" "org")))
+#+end_src
+
 * Org-Mode
 ** Org mode setup 
  * Turn on indentation and auto-fill mode for Org files
@@ -602,9 +579,11 @@ though. SIKE!!
 
  * This is another preamble :)
 #+begin_src emacs-lisp
-    (use-package org
-       :defer t
-       :hook (org-mode . dw/org-mode-setup)
+  (require 'org-macs)
+
+  (use-package org
+	 :defer t
+	 :hook (org-mode . dw/org-mode-setup)
 #+end_src
 
 ** Org Config 
@@ -701,19 +680,16 @@ though. SIKE!!
 #+begin_src emacs-lisp
   (general-define-key
    :prefix "m"
-   :states 'motion
+   :states 'normal
    :keymaps '(org-mode-map)
    "" nil
    "A" '(org-archive-subtree-default :which-key "org-archive")
-   "a" '(org-agenda :which-key "org agenda")
-   "6" '(org-sort :which-key "sort")
    "s" '(org-schedule :which-key "schedule")
    "S" '(jib/org-schedule-tomorrow :which-key "schedule tmrw")
    "d" '(org-deadline :which-key "deadline")
    "g" '(counsel-org-goto :which-key "goto heading")
    ":" '(counsel-org-tag :which-key "set tags")
    "P" '(org-set-property :which-key "set property")
-   "C" '(org-toggle-checkbox :which-key "toggle checkbox")
    "E" '(org-export-dispatch :which-key "export org")
    "e" '(org-set-effort :which-key "set effort")
    "." '(org-toggle-narrow-to-subtree :which-key "toggle narrow to subtree")
@@ -721,27 +697,15 @@ though. SIKE!!
    "t" '(org-todo :which-key "toggle TODO state")
    "C" '(org-toggle-checkbox :which-key "toggle checkbox")
 
-   "p" '(org-pomodoro :which-key "start pomodoro and clock-in")
-
    "1" '(org-toggle-link-display :which-key "toggle link display")
    "2" '(org-toggle-inline-images :which-key "toggle images")
+   "6" '(org-sort :which-key "sort")
 
-   ;; insert
-   "i" '(nil :which-key "insert")
-
-   "il" '(org-insert-link :which-key "org-insert-link")
-   "iL" '(counsel-org-link :which-key "counsel-org-link")
-   "ic" '(insert-char :which-key "insert character")
+   "l" '(counsel-org-link :which-key "counsel-org-link")
 
    "is" '(nil :which-key "insert stamp")
    "iss" '((lambda () (interactive) (call-interactively (org-time-stamp-inactive))) :which-key "org-time-stamp-inactive")
    "isS" '((lambda () (interactive) (call-interactively (org-time-stamp nil))) :which-key "org-time-stamp")
-
-   ;; clocking
-   "c" '(nil :which-key "clocking")
-   "ci" '(org-clock-in :which-key "clock in")
-   "co" '(org-clock-out :which-key "clock out")
-   "cj" '(org-clock-goto :which-key "jump to clock")
    )
 #+end_src
 
@@ -824,7 +788,6 @@ though. SIKE!!
 #+begin_src emacs-lisp
     (require 'org-indent)
 #+end_src
-
 
 ** Org-habit
 #+begin_src emacs-lisp
@@ -956,7 +919,6 @@ though. SIKE!!
 
 ** Highlight current line
 #+begin_src emacs-lisp
-;; Always hilight the current agenda line
 (add-hook 'org-agenda-mode-hook
           '(lambda () (hl-line-mode 1))
           'append)
@@ -966,7 +928,7 @@ though. SIKE!!
 #+begin_src emacs-lisp
 (general-define-key
  :prefix "m"
- :states 'motion
+ :states 'normal
  :keymaps '(org-agenda-mode-map)
  "" nil
  "c" '(org-capture :which-key "org-capture")
@@ -1062,8 +1024,7 @@ though. SIKE!!
 * Latex
 ** Latex
 #+begin_src emacs-lisp
-  (use-package latex ;; This is a weird one. Package is auctex but needs to be managed like this.
-    :ensure nil
+  (use-package auctex ;; This is a weird one. Package is auctex but needs to be managed like this.
     :defer t
     :init
     (setq TeX-parse-self t ; parse on load
@@ -1113,36 +1074,36 @@ though. SIKE!!
 
 ** PDF Preview (pdf-tools)
 #+begin_src emacs-lisp
-  (use-package pdf-tools
-    :defer t
-    :pin manual
-    :mode  ("\\.pdf\\'" . pdf-view-mode)
-    :init
-    (evil-set-initial-state 'pdf-view-mode 'normal)
-    :config
-    (pdf-loader-install)
-    (setq-default pdf-view-display-size 'fit-height)
-    (setq pdf-view-continuous t) ;; Makes it so scrolling down to the bottom/top of a page switches to the next page
-    (setq pdf-view-midnight-colors '("#ffffff" . "#121212" )) ;; I use midnight mode as dark mode, dark mode doesn't seem to work
-    :general
-    (general-define-key :states 'motion :keymaps 'pdf-view-mode-map
-                        "H" 'pdf-view-fit-height-to-window
-                        "0" 'pdf-view-fit-height-to-window
-                        "W" 'pdf-view-fit-width-to-window
-                        "C-s" 'isearch-forward
-                        )
-    )
+  ;; (use-package pdf-tools
+  ;;   :defer t
+  ;;   :pin manual
+  ;;   :mode  ("\\.pdf\\'" . pdf-view-mode)
+  ;;   :init
+  ;;   (evil-set-initial-state 'pdf-view-mode 'normal)
+  ;;   :config
+  ;;   (pdf-loader-install)
+  ;;   (setq-default pdf-view-display-size 'fit-height)
+  ;;   (setq pdf-view-continuous t) ;; Makes it so scrolling down to the bottom/top of a page switches to the next page
+  ;;   (setq pdf-view-midnight-colors '("#ffffff" . "#121212" )) ;; I use midnight mode as dark mode, dark mode doesn't seem to work
+  ;;   :general
+  ;;   (general-define-key :states 'motion :keymaps 'pdf-view-mode-map
+  ;;                       "H" 'pdf-view-fit-height-to-window
+  ;;                       "0" 'pdf-view-fit-height-to-window
+  ;;                       "W" 'pdf-view-fit-width-to-window
+  ;;                       "C-s" 'isearch-forward
+  ;;                       )
+  ;;   )
 #+end_src
 
 ** Use pdf-tools for Latex preview
 #+begin_src emacs-lisp
-;; Use pdf-tools to open PDF files
-(setq TeX-view-program-selection '((output-pdf "PDF Tools"))
-      TeX-source-correlate-start-server t)
+  ;; Use pdf-tools to open PDF files
+  ;; (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
+  ;;       TeX-source-correlate-start-server t)
 
-;; Update PDF buffers after successful LaTeX runs
-(add-hook 'TeX-after-compilation-finished-functions
-           #'TeX-revert-document-buffer)
+  ;; Update PDF buffers after successful LaTeX runs
+  ;; (add-hook 'TeX-after-compilation-finished-functions
+  ;;            #'TeX-revert-document-buffer)
 #+end_src
 
 ** Plain Latex file
@@ -1174,7 +1135,7 @@ though. SIKE!!
  * Magit integration (git integration for emacs)
 #+begin_src emacs-lisp
   (use-package magit
-    :commands (magit-status magit-get-current-branch)
+    :commands (magit-status)
     :custom
     (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 #+end_src

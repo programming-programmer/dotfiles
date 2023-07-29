@@ -18,46 +18,11 @@
  
    
 * Tasks :tasks:
-** DONE Add capture templates [4/4]
- * [X] Errand
- * [X] Movie / Show
- * [X] Make capture for TODO with current date
- * [X] org-roam: MLA paper
-** TODO Add variables for .org files in config.org (refile, work, personal)
- * Make it so that you just have to edit the path files in the variables.el file
-   instead of going through the configuration file. Good Luck :)
- * For later don't bother please
-** TODO Strikethrough DONE tasks
- * Needs some modifications
-#+begin_src emacs-lisp
-  (setq org-fontify-done-headline t)
-  (custom-set-faces
-   '(org-done ((t (:foreground "PaleGreen"   
-                               :weight normal
-                               :strike-through t))))
-   '(org-headline-done 
-     ((((class color) (min-colors 16) (background dark)) 
-       (:foreground "LightSalmon" :strike-through t)))))
-#+end_src
-** DONE Change C-x 8 RET to C-x 8 s (or some other easy letter)
-** DONE Remap M-right for headlines
-| Move a subtree up             | org-metaup / org-move-subtree-up        | M-up      | C-c C-x u       |
-| Move a subtree down           | org-metadown / org-move-subtree-down    | M-down    | C-c C-x d       |
-| Demote a subtree              | org-shiftmetaright / org-demote-subtree | S-M-right | C-c C-x r       |
-| Promote a subtree             | org-shiftmetaleft / org-promote-subtree | S-M-left  | C-c C-x l       |
-| Demote a headline             | org-metaright / org-do-demote           | M-right   | C-c C-x <right> |
-| Promote a headline            | org-metaleft / org-do-promote           | M-left    | C-c C-x <left>  |
-| Collapse or expand a subtree  | org-cycle (while on headline)           | TAB       |                 |
-| Collapse or expand everything | org-shifttab (org-cycle)                | S-TAB     | C-u TAB         |
-** DONE Integrate org-pomodoro 
-:LOGBOOK:
-CLOCK: [2023-07-10 Mon 02:48]--[2023-07-10 Mon 02:48] =>  0:00
-:END:
 * Notes :notes:
 ** Learn C++ with OpenCV, usb camera, and dreams
 ** Possible Emoticons  
 (͠≖ ͜ʖ͠≖)👌
-(ɔ◔‿◔)ɔ ♥
+(ɔ•‿•)ɔ ♥
 ʕ•́ᴥ•̀ʔっ
 ( ͡❛ ‿‿ ͡❛)
 ( ͡❛ ᴗ ͡❛)
