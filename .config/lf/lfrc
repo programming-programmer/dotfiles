@@ -155,5 +155,3 @@ map gg top
 map gh cd ~
 map gc cd ~/.config
 map gp cd ~/.local/
-
-

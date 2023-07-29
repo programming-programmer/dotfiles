@@ -1,6 +1,6 @@
 # Bindings
 bind '"\C-o":"lfcd\C-m"'
-bind '"\C-t":"tmux new -s h@ck -n main\C-m"'
+bind '"\C-t":"tmux new -s HACK -n main\C-m"'
 
 # Very much possible tab completion
 bind 'set show-all-if-ambiguous on'
@@ -40,7 +40,7 @@ PS1="\[\033[1;32m\]\w $ \[\033[00m\]" # Setting PS1 to show full path
 export PROMPT_DIRTRIM=4 # Trimming path to 4 directories
 
 # lfcd script
-LFCD="${HOME}/.local/bin/lfcd"
+LFCD="$HOME/.local/bin/lfcd"
 if [ -f "$LFCD" ]; then
     source "$LFCD"
 fi

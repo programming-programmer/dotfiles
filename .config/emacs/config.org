@@ -144,7 +144,6 @@ later :(
 #+begin_src emacs-lisp
   (load "/home/mthich/.config/emacs/lisp/funcs.el")
   (load "/home/mthich/.config/emacs/lisp/var.el")
-  (load "/home/mthich/.config/emacs/lisp/plain-dark.el")
 #+end_src
 
 ** Use System Trash
@@ -210,7 +209,7 @@ keybinding (evil mode of course 👻)
           doom-modeline-highlight-modified-buffer-name t
 
           ;; Icons ---
-          doom-modeline-modal nil
+          doom-modeline-modal t
           doom-modeline-icon nil
           doom-modeline-modal-icon t
           doom-modeline-major-mode-icon nil
@@ -252,7 +251,6 @@ keybinding (evil mode of course 👻)
 
   (use-package evil-collection
     :after evil
-    :ensure t
     :config
     (evil-collection-init))
 #+end_src
@@ -260,7 +258,6 @@ keybinding (evil mode of course 👻)
 *** Undo/Redo Functionality (with undo-tree)
 #+begin_src emacs-lisp
   (use-package undo-tree
-    :ensure t
     :config
     (global-undo-tree-mode 1))
 #+end_src
@@ -328,67 +325,119 @@ though. SIKE!!
 #+begin_src emacs-lisp
   "." '(counsel-find-file :which-key "find file")
   "r" '(counsel-recentf :which-key "recent files")
-  "m" '(dogears-remember :which-key "dogears remember")
   "TAB" '(switch-to-prev-buffer :which-key "previous buffer")
   "SPC" '(counsel-M-x :which-key "M-x")
-  "B" '(counsel-switch-buffer :which-key "switch buffers")
-  "C-c" '(save-buffers-kill-terminal :which-key "quit emacs")
+  "RET" '(counsel-bookmark :which-key "bookmarks")
+  "," '(counsel-switch-buffer :which-key "switch buffers")
   "c" '(org-capture :which-key "org-capture")
   "u" '(universal-argument :which-key "universal-argument")
   "z" '(repeat :which-key "repeat")
-  "C-d" '(dired-jump :which-key "dired jump")
-  "C-b" '(counsel-bookmark :which-key "bookmarks")
-  "C-o" '(org-agenda :which-key "org agenda")
 #+end_src
 
 *** Applications
 #+begin_src emacs-lisp
-  ;; "Applications"
-  "a" '(nil :which-key "applications")
-  "ao" '(org-agenda :which-key "org-agenda")
-  ;; "am" '(mu4e :which-key "mu4e") ; I wanna get this setup up so bad >.<
-  "aC" '(calc :which-key "calc")
+  "o" '(nil :which-key "open")
 
-  "ad" '(dired :which-key "dired")
-  "a C-d" '(dired-jump :which-key "dired jump")
+  ;; "om" '(mu4e :which-key "mu4e") ; I wanna get this setup up so bad >.<
+  "oA" '(org-agenda :which-key "org-agenda")
+  "oC" '(calc :which-key "calc")
+  "o-" '(dired :which-key "dired")
+  "od" '(dired-jump :which-key "dired jump")
+  "of" '(nil :which-key "new frame")
+  "oF" '(nil :which-key "select frame")
+
+  "oa" '(nil :which-key "org agenda cont.")
+  "oan" '(nil :which-key "tags search")
+  "oat" '(nil :which-key "todo list")
+  "oav" '(nil :which-key "view search")
 #+end_src
 
 *** Buffers
 #+begin_src emacs-lisp
   "b" '(nil :which-key "buffer")
+
   "bb" '(counsel-switch-buffer :which-key "switch buffers")
   "bd" '(evil-delete-buffer :which-key "delete buffer")
+  "bn" '(nil :which-key "next buffer")
+  "bp" '(nil :which-key "previous buffer")
+  "bl" '(nil :which-key "switch to last buffer")
+  "bm" '(nil :which-key "set bookmark")
+  "bM" '(nil :which-key "delete bookmark")
+  "bN" '(nil :which-key "new empty buffer")
 #+end_src
 
 *** Files
 #+begin_src emacs-lisp
-  ;; Files
   "f" '(nil :which-key "files")
+
   "fb" '(counsel-bookmark :which-key "bookmarks")
+  "fC" '(nil :which-key "copy this file")
+  "fD" '(nil :which-key "delete this file")
   "ff" '(counsel-find-file :which-key "find file")
   "fr" '(counsel-recentf :which-key "recent files")
-  "fR" '(rename-file :which-key "rename file")
+  "fR" '(rename-file :which-key "rename/move file")
   "fs" '(save-buffer :which-key "save buffer")
+  "fy" '(nil :which-key "yank file path")
   "fS" '(evil-write-all :which-key "save all buffers")
   "fl" '(org-babel-load-file :which-key "org-babel load file")
 #+end_src
 
+*** Quit/Session
+#+begin_src emacs-lisp
+  "q" '(nil :which-key "quit/session")
+
+  "qd" '(nil :which-key "restart emacs server")
+  "qf" '(nil :which-key "delete frame")
+  "qF" '(nil :which-key "clear current frame")
+  "qK" '(nil :which-key "kill emacs (and daemon)")
+  "ql" '(nil :which-key "restore last session")
+  "qL" '(nil :which-key "restore last session from file")
+  "qq" '(nil :which-key "quit emacs")
+  "qQ" '(nil :which-key "quit emacs without saving")
+  "qr" '(nil :which-key "restart and restore emacs")
+  "qR" '(nil :which-key "restart emacs")
+  "qs" '(nil :which-key "save session to file")
+#+end_src
+
+*** Notes
+#+begin_src emacs-lisp
+  "n" '(nil :which-key "files")
+
+  "na" '(nil :which-key "org agenda")
+  "nc" '(nil :which-key "toggle last org-clock")
+  "nC" '(nil :which-key "cancel current org-clock")
+  "no" '(nil :which-key "active org-clock")
+  "nd" '(nil :which-key "open deft")
+  "nf" '(nil :which-key "find file in notes")
+  "nm" '(nil :which-key "tags search")
+  "nN" '(nil :which-key "goto capture")
+  "nt" '(nil :which-key "todo list")
+  "ny" '(nil :which-key "org export to clipboard")
+
+  "nr" '(nil :which-key "org-roam")
+  "nrl" '(org-roam-buffer-toggle :which-key "toggle buffer")
+  "nrf" '(org-roam-node-find :which-key "find node")
+  "nri" '(org-roam-node-insert :which-key "insert node")
+  "nrI" '(org-roam-node-insert-immediate :which-key "immediately insert node")
+#+end_src
+
 *** Help/Emacs
 #+begin_src emacs-lisp
-  ;; Help/emacs
   "h" '(nil :which-key "help/emacs")
 
-  "hv" '(counsel-describe-variable :which-key "des. variable")
-  "hb" '(counsel-descbinds :which-key "des. bindings")
-  "hM" '(describe-mode :which-key "des. mode")
-  "hf" '(counsel-describe-function :which-key "des. func")
-  "hF" '(counsel-describe-face :which-key "des. face")
-  "hk" '(describe-key :which-key "des. key")
-
-  "hm" '(nil :which-key "switch mode")
-  "hme" '(emacs-lisp-mode :which-key "elisp mode")
-  "hmo" '(org-mode :which-key "org mode")
-  "hmt" '(text-mode :which-key "text mode")
+  "h RET" '(nil :which-key "info-emacs-manual")
+  "h'" '(nil :which-key "describe-char")
+  "h." '(nil :which-key "desplay-local-help")
+  "h?" '(nil :which-key "help-for-help")
+  "hC" '(nil :which-key "describe-coding-system")
+  "he" '(nil :which-key "view-echo-area-messages")
+  "hf" '(nil :which-key "describe function")
+  "hF" '(nil :which-key "describe-face")
+  "hg" '(nil :which-key "describe-gnu-project")
+  "hi" '(nil :which-key "info")
+  "hI" '(nil :which-key "describe-input-method")
+  "hk" '(nil :which-key "describe-key")
+  "hm" '(nil :which-key "describe-mode")
 
   "hp" '(nil :which-key "packages")
   "hpr" 'package-refresh-contents
@@ -396,9 +445,19 @@ though. SIKE!!
   "hpd" 'package-delete
 #+end_src
 
+*** Insert
+#+begin_src emacs-lisp
+  "i" '(nil :which-key "insert")
+
+  "ie" '(nil :which-key "emoji")
+  "if" '(nil :which-key "current file name")
+  "iF" '(nil :which-key "current file path")
+  "iu" '(nil :which-key "unicode")
+  "iy" '(nil :which-key "from clipboard")
+#+end_src
+
 *** Toggles/Visuals
 #+begin_src emacs-lisp
-  ;; Toggles
   "t" '(nil :which-key "toggles")
   "tt" '(toggle-truncate-lines :which-key "truncate lines")
   "tv" '(visual-line-mode :which-key "visual line mode")
@@ -433,11 +492,7 @@ though. SIKE!!
     "C-x C-m" 'counsel-M-x
 
     ;; Utility ---
-    "C-c c" 'org-capture
-    "C-c a" 'org-agenda
     "C-s" 'swiper
-
-    "C-x 8 RET" 'insert-char
 
     "M-k" 'org-metaup
     "M-j" 'org-metadown
@@ -446,8 +501,8 @@ though. SIKE!!
     "M-l" 'org-metaright
     "M-h" 'org-metaleft
 
-    "<tab>" 'tempo-complete-tag
-    "TAB" 'tempo-complete-tag
+    "<tab>" 'org-cycle
+    "TAB" 'org-cycle
     )
 #+end_src
 
@@ -461,7 +516,7 @@ though. SIKE!!
     )
 #+end_src
 
-** Duplicate line: C-c d
+** Duplicate line
 #+begin_src emacs-lisp
     (defun duplicate-line()
       (interactive)
@@ -471,13 +526,6 @@ though. SIKE!!
       (open-line 1)
       (next-line 1)
       (yank))
-
-  (global-set-key (kbd "C-c d") 'duplicate-line)
-#+end_src
-
-** Rebind M-x
-#+begin_src emacs-lisp
- (global-set-key "\C-x\C-m" 'execute-extended-command)
 #+end_src
 
 * Ivy
@@ -659,7 +707,6 @@ though. SIKE!!
    "A" '(org-archive-subtree-default :which-key "org-archive")
    "a" '(org-agenda :which-key "org agenda")
    "6" '(org-sort :which-key "sort")
-   "c" '(org-capture :which-key "org-capture")
    "s" '(org-schedule :which-key "schedule")
    "S" '(jib/org-schedule-tomorrow :which-key "schedule tmrw")
    "d" '(org-deadline :which-key "deadline")
@@ -700,7 +747,7 @@ though. SIKE!!
 
 ** Org Capture Templates
 #+begin_src emacs-lisp
-  ;; Removes that annoying bookmark for most recent bookmark (hopefully)
+  ;; Removes that annoying bookmark for most recent bookmark (hopefully) - IT WORKS YAYAYAA!!!!!!!!!
   (setq org-bookmark-names-plist nil)
 
   (setq org-capture-templates '(
@@ -776,6 +823,12 @@ though. SIKE!!
  * Makes it so that the headers indent
 #+begin_src emacs-lisp
     (require 'org-indent)
+#+end_src
+
+
+** Org-habit
+#+begin_src emacs-lisp
+    (require 'org-habit)
 #+end_src
 
 ** Pretty Header Bullet Points
@@ -916,11 +969,9 @@ though. SIKE!!
  :states 'motion
  :keymaps '(org-agenda-mode-map)
  "" nil
- "a" '(org-agenda :which-key "org agenda")
  "c" '(org-capture :which-key "org-capture")
  "d" '(org-agenda-deadline :which-key "deadline")
  "s" '(org-agenda-schedule :which-key "schedule") 
- "," '(org-agenda-deadline :which-key "deadline") ;; quick access
  "t" '(org-agenda-set-tags :which-key "set tags")
  ;; clocking
  "c" '(nil :which-key "clocking")
@@ -985,15 +1036,11 @@ though. SIKE!!
 
 ** Org Roam Bindings
 #+begin_src emacs-lisp
-  :bind (("C-c n l" . org-roam-buffer-toggle)
-         ("C-c n f" . org-roam-node-find)
-         ("C-c n i" . org-roam-node-insert)
-         ("C-c n I" . org-roam-node-insert-immediate)
-
-         :map org-mode-map
-         ("C-M-i" . completion-at-point))
-  :config
-  (org-roam-setup)
+:bind (
+	:map org-mode-map
+	("C-M-i" . completion-at-point))
+:config
+(org-roam-setup)
   #+end_src
 
 *** Insert Node Immediately
