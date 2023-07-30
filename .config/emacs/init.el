@@ -8,7 +8,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(org-fragtog org-appear org-transclusion org-roam-ui gcmh super-save diminish deft latex magit rainbow-delimiters pdf-tools evil-tex org-roam org-superstar org-pomodoro evil-org counsel ivy-rich ivy general writeroom-mode visual-fill-column doom-themes which-key use-package undo-tree nyan-mode hide-mode-line evil-collection emojify doom-modeline)))
+   '(evil-tex auctex evil-org org-fragtog org-appear org-transclusion org-superstar org-roam-ui org-roam org-pomodoro which-key writeroom-mode websocket use-package undo-fu super-save simple-httpd rainbow-delimiters org nyan-mode magit ivy-rich hide-mode-line general evil-collection emojify emacsql doom-themes doom-modeline diminish counsel alert)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -21,5 +21,3 @@
  '(org-level-4 ((t (:inherit outline-4 :height 1.1))))
  '(org-level-5 ((t (:inherit outline-5 :height 1.1))))
  '(variable-pitch ((t (:family "Source Code Pro" :height 100 :weight medium)))))
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)

@@ -18,25 +18,19 @@
  
    
 * Tasks :tasks:
-** TODO Add portability to file paths in config
- * Based off of Jake B and SystemCrafters (both have videos)
+** TODO Move org files to github for version control 
+** TODO Add h and l to netrw in neovim 
+** TODO Add flyspell and langtool to emacs  
+ * For spelling and *basic* grammar respectively
+ * There are also theasaurus packages
 * Notes :notes:
 ** Learn C++ with OpenCV, usb camera, and dreams
 ** Possible Emoticons  
-(͠≖ ͜ʖ͠≖)👌
 (ɔ•‿•)ɔ ♥
 ʕ•́ᴥ•̀ʔっ
-( ͡❛ ‿‿ ͡❛)
-( ͡❛ ᴗ ͡❛)
-(≖_≖ )
 t(>.<t)
 ≧ω≦
-≧◉◡◉≦
 ≥^.^≤
-💪(◡̀_◡́҂)
-💪 (•︡益︠•) 👊
-ᕙ( ︡'︡益'︠)ง
 ʕ•ᴥ•ʔ
 ʕ⁀ᴥ⁀ʔ
 ʕ •//ω//• ʔ
-ฅʕ ᓀ ᴥ ᓂ ʔฅ
