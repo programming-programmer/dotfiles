@@ -8,7 +8,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(diminish deft latex magit rainbow-delimiters pdf-tools evil-tex org-roam org-superstar org-pomodoro evil-org counsel ivy-rich ivy general writeroom-mode visual-fill-column doom-themes which-key use-package undo-tree nyan-mode hide-mode-line evil-collection emojify doom-modeline)))
+   '(org-roam-ui gcmh super-save diminish deft latex magit rainbow-delimiters pdf-tools evil-tex org-roam org-superstar org-pomodoro evil-org counsel ivy-rich ivy general writeroom-mode visual-fill-column doom-themes which-key use-package undo-tree nyan-mode hide-mode-line evil-collection emojify doom-modeline)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

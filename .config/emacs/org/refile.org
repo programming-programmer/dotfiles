@@ -18,6 +18,8 @@
  
    
 * Tasks :tasks:
+** TODO Add portability to file paths in config
+ * Based off of Jake B and SystemCrafters (both have videos)
 * Notes :notes:
 ** Learn C++ with OpenCV, usb camera, and dreams
 ** Possible Emoticons  

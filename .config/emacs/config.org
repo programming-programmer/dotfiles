@@ -14,7 +14,16 @@
  * Install Noto Color Emoji or another emoji font to use emojis in Emacs
  * Also! Install Source Code Pro
 
-* Garbage Collection
+** Add to config.org 
+*** DONE add file paths 
+*** TODO defer packages (make startup snappy fast)
+*** DONE add registers for common files
+*** TODO add hook to delete Dired buffer when jumping to file
+*** DONE Arrange Headings to make more sense
+ * Especially org-mode and related things
+
+* System
+** Garbage Collection
  * Make startup faster by reducing the frequency of garbage collection and then use a hook to measure Emacs startup time. The default is 800 kilobytes. Measured in bytes. Garbage collection off during initialization (focus all memory on initialize)
 #+begin_src emacs-lisp
   (setq gc-cons-threshold (* 50 1000 1000) 
@@ -33,8 +42,31 @@
         gcmh-high-cons-threshold (* 16 1024 1024))  ; 16mb
 #+end_src
 
-* Package Management
-** Package Sources 
+*** GCMH
+ * Packages for better garbage collection. Might help
+   #+begin_src emacs-lisp
+(use-package gcmh
+  :diminish gcmh-mode
+  :config
+  (setq gcmh-idle-delay 5
+        gcmh-high-cons-threshold (* 16 1024 1024))  ; 16mb
+  (gcmh-mode 1))
+
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (setq gc-cons-percentage 0.1))) ;; Default value for `gc-cons-percentage'
+
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (message "Emacs ready in %s with %d garbage collections."
+                     (format "%.2f seconds"
+                             (float-time
+                              (time-subtract after-init-time before-init-time)))
+                     gcs-done)))
+   #+end_src
+
+** Package Management
+*** Package Sources 
  * Where to gather package sources (MELPA and MELPA stable, and ELPA)
 #+begin_src emacs-lisp
   (require 'package)
@@ -43,14 +75,13 @@
                            ("elpa" . "https://elpa.gnu.org/packages/")))
 #+end_src
 
-** Use-package
+*** Use-package
  * Use use-package for easier and more concise package management. yay!
 #+begin_src emacs-lisp
   (require 'use-package)
   (setq use-package-always-ensure t)
 #+end_src
 
-* Startup and Perfomance
 ** Defaults in Emacs
 #+begin_src emacs-lisp
   (setq-default
@@ -115,19 +146,6 @@ But they do get toggled heh
         backup-directory-alist (list (cons "." (concat user-emacs-directory "backup/"))))
 #+end_src
 
-** Maximization on startup baby!
- * Having Fullscreen on startup is a pain with the ugly bar and it would be a
-pain in tiling window managers. But it's *also* toggleable
-#+begin_src emacs-lisp
-  (add-hook 'emacs-startup-hook 'toggle-frame-maximized)
-#+end_src
-
-** Load Custom Lisp Files
-#+begin_src emacs-lisp
-  (load "/home/mthich/.config/emacs/lisp/funcs.el")
-  (load "/home/mthich/.config/emacs/lisp/var.el")
-#+end_src
-
 ** Use System Trash
  * There has been too many times I've had a near heart attack from deleting.
 Google Drive was there to prevent to much loss. However, in a move towards no
@@ -137,7 +155,20 @@ google™ we must *not* rely on such things
   (setq delete-by-moving-to-trash t)
 #+end_src
 
-* Addons
+** Start Maximized
+ * Having Fullscreen on startup is a pain with the ugly bar and it would be a
+pain in tiling window managers. But it's *also* toggleable
+#+begin_src emacs-lisp
+  (add-hook 'emacs-startup-hook 'toggle-frame-maximized)
+#+end_src
+
+** Load Lisp Files
+#+begin_src emacs-lisp
+  (load (concat user-emacs-directory "lisp/funcs.el"))
+  (load (concat user-emacs-directory "lisp/var.el"))
+#+end_src
+
+* General
 ** Which-key
  * Shows which keys are avaliable. HAH! look at that pun. amazing
 #+begin_src emacs-lisp
@@ -145,111 +176,91 @@ google™ we must *not* rely on such things
     :init (which-key-mode)
     :diminish which-key-mode
     :config
-    (setq which-key-idle-delay 0.3))
+    (setq which-key-idle-delay 0.5))
 #+end_src
 
-** Nyan Mode 
- * Nyan mode baby! 
+** Super Save!
 #+begin_src emacs-lisp
-  (use-package nyan-mode 
-    :init (nyan-mode) 
-    :config (setq nyan-wavy-trail nil))
+(use-package super-save
+  :diminish super-save-mode
+  :defer 2
+  :config
+  (setq super-save-auto-save-when-idle t
+        super-save-idle-duration 5 ;; after 5 seconds of not typing autosave
+        super-save-triggers ;; Functions after which buffers are saved (switching window, for example)
+        '(evil-window-next evil-window-prev balance-windows other-window next-buffer previous-buffer)
+        super-save-max-buffer-size 10000000)
+  (super-save-mode +1))
+
+;; After super-save autosaves, wait __ seconds and then clear the buffer. I don't like
+;; the save message just sitting in the echo area.
+(defun jib-clear-echo-area-timer ()
+  (run-at-time "2 sec" nil (lambda () (message " "))))
+(advice-add 'super-save-command :after 'jib-clear-echo-area-timer)
 #+end_src
 
-** Emojis
- * Install Noto Color Emoji beforehand though 😔
-
+** Registers
 #+begin_src emacs-lisp
-  (use-package emojify
+  (setq register-preview-delay 0) ;; Show registers ASAP
+
+  (set-register ?r (cons 'file (concat user-emacs-directory "org/refile.org")))
+  (set-register ?c (cons 'file (concat user-emacs-directory "config.org")))
+
+  (set-register ?p (cons 'file (concat mt/org-notes "/personal.org")))
+  (set-register ?w (cons 'file (concat mt/org-notes "/work.org")))
+  (set-register ?W (cons 'file (concat mt/org-notes "/watchlist.org")))
+  (set-register ?e (cons 'file (concat mt/org-notes "/SUM_2023/ENGL_C101/engl_101.org")))
+#+end_src
+
+** Deft
+#+begin_src emacs-lisp
+  (defun jib/deft-kill ()
+    (kill-buffer "*Deft*"))
+
+  (use-package deft
     :config
-    (when (member "Noto Color Emoji" (font-family-list))
-      (set-fontset-font
-       t 'symbol (font-spec :family "Noto Color Emoji") nil 'prepend))
-    (setq emojify-display-style 'unicode)
-    (setq emojify-emoji-styles '(unicode))
-    (bind-key* (kbd "C-c e") #'emojify-insert-emoji)) ; override binding in any mode
+    (setq deft-directory (concat mt/org-notes)
+          deft-extensions '("org" "txt" "md")
+          deft-recursive t
+          deft-file-limit 40
+          deft-use-filename-as-title t)
+
+    (add-hook 'deft-open-file-hook 'jib/deft-kill) ;; Once a file is opened, kill Deft
+
+    ;; Removes :PROPERTIES: from descriptions
+    (setq deft-strip-summary-regexp ":PROPERTIES:\n\\(.+\n\\)+:END:\n")
+    :general
+    (general-define-key :states 'normal :keymaps 'deft-mode-map
+                        ;; 'q' kills Deft in normal mode
+                        "q" 'kill-this-buffer))
 #+end_src
 
-** Modeline
-*** Hide Modeline
- * Honestly, this is a blessing. Hide the modeline. This is mapped to a
-keybinding (evil mode of course 👻)
+** Rainbow delimeters
+ * See the nested parentheses (God send) but only in programming-mode
 #+begin_src emacs-lisp
-  (use-package hide-mode-line
-    :commands (hide-mode-line-mode))
+  (use-package rainbow-delimiters
+    :hook (prog-mode . rainbow-delimiters-mode))
+ #+end_src
+
+** Magit
+ * Magit integration (git integration for emacs)
+#+begin_src emacs-lisp
+  (use-package magit
+    :commands (magit-status)
+    :custom
+    (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 #+end_src
 
-*** DOOM Modeline
+** Dired
 #+begin_src emacs-lisp
-  (use-package doom-modeline
-    :config
-    (doom-modeline-mode)
-    (setq doom-modeline-enable-word-count nil
-          doom-modeline-buffer-encoding nil
-          doom-modeline-project-detection 'file-name
-          doom-modeline-highlight-modified-buffer-name t
-
-          ;; Icons ---
-          doom-modeline-modal t
-          doom-modeline-icon nil
-          doom-modeline-modal-icon t
-          doom-modeline-major-mode-icon nil
-          doom-modeline-major-mode-color-icon nil
-          doom-modeline-buffer-modification-icon nil
-          doom-modeline-buffer-state-icon t
-          doom-modeline-unicode-fallback nil
-          doom-modeline-bar-width 3))
-#+end_src
-
-*** Diminish
-#+begin_src emacs-lisp
-(use-package diminish)
-#+end_src
-
-** Evil Mode
-#+begin_src emacs-lisp
-  (use-package evil
-    :init
-    (setq evil-want-keybinding nil) ;; load Evil keybindings in other modes
-    (setq evil-want-fine-undo t)
-    (setq evil-want-Y-yank-to-eol t)
-    (setq evil-mode-line-format nil)
-    (setq evil-disable-insert-state-bindings t)
-    :config
-
-    ;; ----- Keybindings
-    (define-key evil-motion-state-map "/" 'swiper)
-    (evil-global-set-key 'motion "j" 'evil-next-visual-line)
-    (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
-    (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
-
-    (setq evil-emacs-state-cursor    '("#649bce" box))
-    (setq evil-normal-state-cursor   '("#d9a871" box))
-    (setq evil-operator-state-cursor '("#ebcb8b" hollow))
-    (setq evil-visual-state-cursor   '("#677691" box))
-    (setq evil-insert-state-cursor   '("#eb998b" box))
-    (setq evil-replace-state-cursor  '("#eb998b" hbar))
-    (setq evil-motion-state-cursor   '("#ad8beb" box))
-
-    ;; ----- Redo Functionality
-    (evil-set-undo-system 'undo-tree)
-    (evil-mode 1))
-
-  (use-package evil-collection
-    :after evil
-    :config
-    (evil-collection-init))
-#+end_src
-
-*** Undo/Redo Functionality (with undo-tree)
-#+begin_src emacs-lisp
-  (use-package undo-tree
-    :config
-    (global-undo-tree-mode 1))
+(evil-define-key 'normal dired-mode-map
+  (kbd "M-RET") 'dired-display-file
+  (kbd "h") 'dired-up-directory
+  (kbd "l") 'dired-find-file)
 #+end_src
 
 * Aesthetics
-** Font: Source Code Pro
+** Font
  * NOTE: On a new system, you will have to install Source Code Pro on the system
 #+begin_src emacs-lisp
   (set-face-attribute 'default t :height 100 :weight 'medium)
@@ -293,10 +304,106 @@ though. SIKE!!
     )
 #+end_src
 
+** Modeline
+*** Hide Modeline
+ * Honestly, this is a blessing. Hide the modeline. This is mapped to a
+keybinding (evil mode of course 👻)
+#+begin_src emacs-lisp
+  (use-package hide-mode-line
+    :commands (hide-mode-line-mode))
+#+end_src
+
+*** DOOM Modeline
+#+begin_src emacs-lisp
+  (use-package doom-modeline
+    :config
+    (doom-modeline-mode)
+    (setq doom-modeline-enable-word-count nil
+          doom-modeline-buffer-encoding nil
+          doom-modeline-project-detection 'file-name
+          doom-modeline-highlight-modified-buffer-name t
+
+          ;; Icons ---
+          doom-modeline-modal t
+          doom-modeline-icon nil
+          doom-modeline-modal-icon t
+          doom-modeline-major-mode-icon nil
+          doom-modeline-major-mode-color-icon nil
+          doom-modeline-buffer-modification-icon nil
+          doom-modeline-buffer-state-icon t
+          doom-modeline-unicode-fallback nil
+          doom-modeline-bar-width 3))
+#+end_src
+
+*** Diminish
+#+begin_src emacs-lisp
+(use-package diminish)
+#+end_src
+
+** Nyan Mode 
+ * Nyan mode baby! 
+#+begin_src emacs-lisp
+  (use-package nyan-mode 
+    :init (nyan-mode) 
+    :config (setq nyan-wavy-trail nil))
+#+end_src
+
+** Emojis
+ * Install Noto Color Emoji beforehand though 😔
+#+begin_src emacs-lisp
+  (use-package emojify
+    :config
+    (when (member "Noto Color Emoji" (font-family-list))
+      (set-fontset-font
+       t 'symbol (font-spec :family "Noto Color Emoji") nil 'prepend))
+    (setq emojify-display-style 'unicode)
+    (setq emojify-emoji-styles '(unicode)))
+#+end_src
+
 * Keybindings
  * All of this thanks to general.el 🎉🎉🎉🎉🎉 YAYAYAY!!
 #+begin_src emacs-lisp
   (use-package general)
+#+end_src
+
+** Evil Mode
+#+begin_src emacs-lisp
+  (use-package evil
+    :init
+    (setq evil-want-keybinding nil) ;; load Evil keybindings in other modes
+    (setq evil-want-fine-undo t)
+    (setq evil-want-Y-yank-to-eol t)
+    (setq evil-mode-line-format nil)
+    (setq evil-disable-insert-state-bindings t)
+  
+    :config
+    (define-key evil-motion-state-map "/" 'swiper)
+    (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+    (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+    (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
+
+    (setq evil-emacs-state-cursor    '("#649bce" box))
+    (setq evil-normal-state-cursor   '("#d9a871" box))
+    (setq evil-operator-state-cursor '("#ebcb8b" hollow))
+    (setq evil-visual-state-cursor   '("#677691" box))
+    (setq evil-insert-state-cursor   '("#eb998b" box))
+    (setq evil-replace-state-cursor  '("#eb998b" hbar))
+    (setq evil-motion-state-cursor   '("#ad8beb" box))
+
+    (evil-set-undo-system 'undo-tree)
+    (evil-mode 1))
+
+  (use-package evil-collection
+    :after evil
+    :config
+    (evil-collection-init))
+#+end_src
+
+*** Undo/Redo Functionality (with undo-tree)
+#+begin_src emacs-lisp
+  (use-package undo-tree
+    :config
+    (global-undo-tree-mode 1))
 #+end_src
 
 ** SPC Leader Key
@@ -318,6 +425,7 @@ though. SIKE!!
   "c" '(org-capture :which-key "org-capture")
   "u" '(universal-argument :which-key "universal-argument")
   "z" '(repeat :which-key "repeat")
+  "C-r" '(jump-to-register :which-key "jump to register")
 #+end_src
 
 *** Applications
@@ -404,6 +512,7 @@ though. SIKE!!
   "hF" '(counsel-describe-face :which-key "describe-face")
   "hg" '(describe-gnu-project :which-key "describe-gnu-project")
   "hi" '(info :which-key "info")
+  "hv" '(describe-variable :which-key "describe variable")
   "hI" '(describe-input-method :which-key "describe-input-method")
   "hk" '(describe-key :which-key "describe-key")
   "hm" '(describe-mode :which-key "describe-mode")
@@ -437,6 +546,13 @@ though. SIKE!!
   "tF" '(toggle-frame-fullscreen :which-key "toggle fullscreen")
 #+end_src
 
+*** Registers
+#+begin_src emacs-lisp
+  "j" '(nil :which-key "register")
+  
+  "ji" '(point-to-register :which-key "insert register")
+#+end_src
+
 *** End SPC prefix block
 #+begin_src emacs-lisp
   )
@@ -454,6 +570,7 @@ though. SIKE!!
   ;; Insert keymaps
   (general-def
     :states '(insert)
+  
     "C-c" 'evil-normal-state
 
     ;; Emacs ---
@@ -481,7 +598,65 @@ though. SIKE!!
     :states '(normal)
     "$" 'evil-end-of-visual-line
     "0" 'evil-beginning-of-visual-line
+    "gf" 'org-open-at-point
     )
+#+end_src
+
+** Org mode Keybindings
+#+begin_src emacs-lisp
+  (general-define-key
+   :prefix "m"
+   :states 'normal
+   :keymaps '(org-mode-map)
+   "" nil
+   "A" '(org-archive-subtree-default :which-key "org-archive")
+   "s" '(org-schedule :which-key "schedule")
+   "S" '(jib/org-schedule-tomorrow :which-key "schedule tmrw")
+   "d" '(org-deadline :which-key "deadline")
+   "g" '(counsel-org-goto :which-key "goto heading")
+   ":" '(counsel-org-tag :which-key "set tags")
+   "P" '(org-set-property :which-key "set property")
+   "E" '(org-export-dispatch :which-key "export org")
+   "e" '(org-set-effort :which-key "set effort")
+   "." '(org-toggle-narrow-to-subtree :which-key "toggle narrow to subtree")
+
+   "t" '(org-todo :which-key "toggle TODO state")
+   "C" '(org-toggle-checkbox :which-key "toggle checkbox")
+
+   "1" '(org-toggle-link-display :which-key "toggle link display")
+   "2" '(org-toggle-inline-images :which-key "toggle images")
+   "6" '(org-sort :which-key "sort")
+
+   "i" '(nil :which-key "insert")
+   "il" '(org-insert-link :which-key "insert link")
+
+   "is" '(nil :which-key "insert stamp")
+   "iss" '((lambda () (interactive) (call-interactively (org-time-stamp-inactive))) :which-key "org-time-stamp-inactive")
+   "isS" '((lambda () (interactive) (call-interactively (org-time-stamp nil))) :which-key "org-time-stamp")
+   )
+#+end_src
+
+** Org Agenda Keybindings
+#+begin_src emacs-lisp
+(general-define-key
+ :prefix "m"
+ :states 'normal
+ :keymaps '(org-agenda-mode-map)
+ "" nil
+ "c" '(org-capture :which-key "org-capture")
+ "d" '(org-agenda-deadline :which-key "deadline")
+ "s" '(org-agenda-schedule :which-key "schedule") 
+ "t" '(org-agenda-set-tags :which-key "set tags")
+ ;; clocking
+ "c" '(nil :which-key "clocking")
+ "ci" '(org-agenda-clock-in :which-key "clock in")
+ "co" '(org-agenda-clock-out :which-key "clock out")
+ "cj" '(org-clock-goto :which-key "jump to clock")
+ )
+
+(evil-define-key 'motion org-agenda-mode-map
+  (kbd "f") 'org-agenda-later
+  (kbd "b") 'org-agenda-earlier)
 #+end_src
 
 ** Duplicate line
@@ -496,7 +671,7 @@ though. SIKE!!
       (yank))
 #+end_src
 
-* Ivy
+* Ivy & Counsel
  * Ivy is an excellent completion framework for Emacs. It provides a minimal yet powerful selection menu that appears when you open files, switch buffers, and for many other tasks in Emacs. 
 #+begin_src emacs-lisp
   (use-package ivy
@@ -532,9 +707,7 @@ though. SIKE!!
     (setq ivy-count-format "(%d/%d) ")
     (setq enable-recursive-minibuffers t)
 
-    (ivy-mode 1)
-    )  
-
+    (ivy-mode 1))  
 #+end_src
 
 ** Ivy Rich
@@ -558,111 +731,105 @@ though. SIKE!!
     (counsel-mode 1))
 #+end_src
 
-* Deft
-#+begin_src emacs-lisp
-  (use-package deft
-    :commands (deft)
-    :config (setq deft-directory (concat mt/roam)
-                  deft-recursive t
-                  deft-extensions '("md" "org")))
-#+end_src
-
 * Org-Mode
-** Org mode setup 
- * Turn on indentation and auto-fill mode for Org files
+** Org Packages
+*** Org-pomodoro
+ * Assuage the urge to procrastinate
 #+begin_src emacs-lisp
-  (defun dw/org-mode-setup ()
-    (org-indent-mode)
-    (variable-pitch-mode 1)
-    (auto-fill-mode)) 
+(use-package org-pomodoro)
 #+end_src
 
- * This is another preamble :)
+*** Org-indent Face
+ * Make sure org-indent face is avaliable
+ * Makes it so that the headers indent
+#+begin_src emacs-lisp
+    (require 'org-indent)
+#+end_src
+
+*** Org-habit
+#+begin_src emacs-lisp
+    (require 'org-habit)
+#+end_src
+
+*** Org-Roam
+#+begin_src emacs-lisp
+(use-package org-roam
+  :config
+  (org-roam-setup)
+
+  :custom
+  (org-roam-directory (concat mt/org-notes))
+  (org-roam-completion-everywhere t)
+#+end_src
+
+**** Org Roam Capture Templates
+#+begin_src emacs-lisp
+   (org-roam-capture-templates '(
+#+end_src
+
+***** Default Template
+#+begin_src emacs-lisp
+  ("d" "default" plain
+   "%?"
+   :if-new (file+head "${slug}.org" "#+title: ${title}\n")
+   :unnarrowed t)
+#+end_src
+
+***** School Note Template
+#+begin_src emacs-lisp
+  ("s" "school note" plain (file "/home/mthich/.config/emacs/org/school.org")
+   :if-new (file+head "${slug}.org" "#+title: ${title}\n")
+   :unnarrowed t)
+#+end_src
+
+***** End of Org Roam 
+#+begin_src emacs-lisp
+  )))
+#+end_src
+
+**** Insert Node Immediately
+ * This will allow you to quickly create new notes for topics you’re mentioning while writing so that you can go back later and fill those notes in with more details!
+#+begin_src emacs-lisp
+(defun org-roam-node-insert-immediate (arg &rest args)
+  (interactive "P")
+  (let ((args (push arg args))
+        (org-roam-capture-templates (list (append (car org-roam-capture-templates)
+                                                  '(:immediate-finish t)))))
+    (apply #'org-roam-node-insert args)))
+#+end_src
+
+**** Org-roam-ui
+#+begin_src emacs-lisp
+(use-package org-roam-ui)
+#+end_src
+
+*** Org-superstar
+ * Nice header bullet points
+#+begin_src emacs-lisp
+    (use-package org-superstar
+      :after org
+      :hook (org-mode . org-superstar-mode)
+      :custom
+      (org-superstar-remove-leading-stars t)
+      (org-superstar-headline-bullets-list '("◈" "○" "◉" "○" "◆" "○")))
+#+end_src
+
+*** Org-macs
+ * It supposedly helps with weird starting issues :shrug:
 #+begin_src emacs-lisp
   (require 'org-macs)
-
-  (use-package org
-	 :defer t
-	 :hook (org-mode . dw/org-mode-setup)
 #+end_src
 
-** Org Config 
+*** Org-tempo
+ * Type "<el" then hit Tab to expand template. This is needed as of Org 9.2
 #+begin_src emacs-lisp
-  :config
-  (setq
+    (require 'org-tempo)
+
+    (add-to-list 'org-structure-template-alist '("sh" . "src sh"))
+    (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
 #+end_src
 
-*** Org Ellipsis
-#+begin_src emacs-lisp
-  org-ellipsis " ▾"
-#+end_src
-
-*** Org Keywords and Faces
- * I know it sounds silly but the little "|" is acutally really important. It
-   seperates todo from done (or cancelled would be the *only* done state)
- * So after nearly pulling my hair out, I read thru the manual and discovered
-   that little fact
- * It solved the agenda problem immediately 😐
- * I was dissapointed in past me but atleast it's solved :)
-#+begin_src emacs-lisp
-  ;; Keywords
-  org-todo-keywords
-  '((sequence "TODO" "PROG" "|" "DONE" "WAITING" "CANCELLED"))
-
-  ;; Faces
-  org-todo-keyword-faces
-  '(("PROG" . (:foreground "dark red" :weight bold))
-    ("DONE" . (:foreground "gray" :weight bold))
-    ("WAITING" . (:foreground "dark slate gray" :weight bold))
-    ("CANCELLED" . (:foreground "dark gray" :weight bold)))         
-  #+end_src
-
-*** Other Defaults
-  #+begin_src emacs-lisp
-    ;; Source Fontify
-    org-src-fontify-natively t
-    ;; Quote and Verse Blocks
-    org-fontify-quote-and-verse-blocks t
-    ;; Org Tab Behaviors
-    org-src-tab-acts-natively t
-    ;; Source Code indentation
-    org-edit-src-content-indentation 2
-    ;; Block Startup
-    org-hide-block-startup nil
-    ;; Org Indentation
-    org-src-preserve-indentation nil
-    ;; Folded Org Headers
-    org-startup-folded 'content
-    ;; Seperator Lines
-    org-cycle-separator-lines 2
-    ;; Inline Images
-    org-startup-with-inline-images t
-    ;; Emphasis Markers
-    org-hide-emphasis-markers t
-
-    ;; Org Agenda Column View
-    org-agenda-overriding-columns-format
-    "%TODO %ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM" 
-
-    org-global-properties
-    (quote (("Effort_ALL" . "0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")))
-
-    ;; CLOCKING-----
-    ;; Show only timer from current clock session in modeline
-    org-clock-mode-line-total 'current
-    org-clock-clocked-in-display 'both
-    ;; Clock out when moving task to a done state
-    org-clock-out-when-done t
-    ;; Change tasks to NEXT when clocking in
-    org-clock-in-switch-to-state "PROG"
-#+end_src
-
-**** End of Org Defualt Block
-#+begin_src emacs-lisp
-)
-#+end_src
-
-*** Evil Org
+*** Evil-org
 #+begin_src emacs-lisp
 (use-package evil-org
   :diminish evil-org-mode
@@ -676,40 +843,80 @@ though. SIKE!!
 (evil-org-agenda-set-keys)
 #+end_src
 
-** Org mode Keybindings
+** Setup Function
+ * Turn on indentation and auto-fill mode for Org files
 #+begin_src emacs-lisp
-  (general-define-key
-   :prefix "m"
-   :states 'normal
-   :keymaps '(org-mode-map)
-   "" nil
-   "A" '(org-archive-subtree-default :which-key "org-archive")
-   "s" '(org-schedule :which-key "schedule")
-   "S" '(jib/org-schedule-tomorrow :which-key "schedule tmrw")
-   "d" '(org-deadline :which-key "deadline")
-   "g" '(counsel-org-goto :which-key "goto heading")
-   ":" '(counsel-org-tag :which-key "set tags")
-   "P" '(org-set-property :which-key "set property")
-   "E" '(org-export-dispatch :which-key "export org")
-   "e" '(org-set-effort :which-key "set effort")
-   "." '(org-toggle-narrow-to-subtree :which-key "toggle narrow to subtree")
-
-   "t" '(org-todo :which-key "toggle TODO state")
-   "C" '(org-toggle-checkbox :which-key "toggle checkbox")
-
-   "1" '(org-toggle-link-display :which-key "toggle link display")
-   "2" '(org-toggle-inline-images :which-key "toggle images")
-   "6" '(org-sort :which-key "sort")
-
-   "l" '(counsel-org-link :which-key "counsel-org-link")
-
-   "is" '(nil :which-key "insert stamp")
-   "iss" '((lambda () (interactive) (call-interactively (org-time-stamp-inactive))) :which-key "org-time-stamp-inactive")
-   "isS" '((lambda () (interactive) (call-interactively (org-time-stamp nil))) :which-key "org-time-stamp")
-   )
+  (defun dw/org-mode-setup ()
+    (org-indent-mode)
+    (variable-pitch-mode 1)
+    (auto-fill-mode)) 
 #+end_src
 
-** Org Capture Templates
+** Configuration 
+#+begin_src emacs-lisp
+  (use-package org
+    :defer t
+    :hook (org-mode . dw/org-mode-setup)
+    :config
+    (setq
+     org-ellipsis " ▾"
+     org-src-fontify-natively t
+     org-fontify-quote-and-verse-blocks t
+     org-src-tab-acts-natively t
+     org-edit-src-content-indentation 2
+     org-hide-block-startup nil
+     org-src-preserve-indentation nil
+     org-startup-folded 'content
+     org-cycle-separator-lines 2
+     org-startup-with-inline-images t
+     org-hide-emphasis-markers t
+
+#+end_src
+
+*** Org Keywords and Faces
+ * I know it sounds silly but the little "|" is acutally really important. It
+   seperates todo from done (or cancelled would be the *only* done state)
+ * So after nearly pulling my hair out, I read thru the manual and discovered
+   that little fact
+ * It solved the agenda problem immediately 😐
+ * I was dissapointed in past me but atleast it's solved :)
+#+begin_src emacs-lisp
+  org-todo-keywords
+  '((sequence "TODO" "PROG" "|" "DONE" "WAITING" "CANCELLED"))
+
+  org-todo-keyword-faces
+  '(("PROG" . (:foreground "dark red" :weight bold))
+    ("DONE" . (:foreground "gray" :weight bold))
+    ("WAITING" . (:foreground "dark slate gray" :weight bold))
+    ("CANCELLED" . (:foreground "dark gray" :weight bold)))         
+  #+end_src
+
+*** Org Agenda Column Format
+  #+begin_src emacs-lisp
+    org-agenda-overriding-columns-format
+    "%TODO %ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM" 
+#+end_src
+
+*** Effort
+#+begin_src emacs-lisp
+    org-global-properties
+    (quote (("Effort_ALL" . "0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")))
+#+end_src
+
+*** Clocking
+#+begin_src emacs-lisp
+    org-clock-mode-line-total 'current ;; Show only timer from current clock session in modeline
+    org-clock-clocked-in-display 'both
+    org-clock-out-when-done t
+    org-clock-in-switch-to-state "PROG"
+#+end_src
+
+*** End of setq
+#+begin_src emacs-lisp
+)
+#+end_src
+
+*** Org Capture Templates
 #+begin_src emacs-lisp
   ;; Removes that annoying bookmark for most recent bookmark (hopefully) - IT WORKS YAYAYAA!!!!!!!!!
   (setq org-bookmark-names-plist nil)
@@ -717,95 +924,63 @@ though. SIKE!!
   (setq org-capture-templates '(
 #+end_src
 
-*** To Refile
-**** Task Template
+**** To Refile
+***** Task Template
 #+begin_src emacs-lisp
-   ("t" "Todo" entry (file+headline "/home/mthich/.config/emacs/org/refile.org"  "Tasks")
+   ("t" "Todo" entry (file+headline "/home/mthich/.config/emacs/org/refile.org" "Tasks")
     "* TODO  %?\n ")
 #+end_src
 
-**** Today's Task 
+***** Today's Task 
 #+begin_src emacs-lisp
 
-   ("T" "Todo for today" entry (file+headline "/home/mthich/.config/emacs/org/refile.org"  "Tasks")
+   ("T" "Todo for today" entry (file+headline "/home/mthich/.config/emacs/org/refile.org" "Tasks")
     "* TODO  %?\nDEADLINE: %<<%Y-%m-%d>>")
 #+end_src
 
-**** Notes Template
+***** Notes Template
 #+begin_src emacs-lisp
    ("n" "Notes" entry (file+headline "/home/mthich/.config/emacs/org/refile.org" "Notes")
   "* %?  \n ")
 #+end_src
 
-*** To Personal - Errand Template
+**** To Personal - Errand Template
 #+begin_src emacs-lisp
-   ("e" "Errand" entry (file+headline "/mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/personal.org"  "Tasks")
+   ("e" "Errand" entry (file+headline "/mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/personal.org" "Tasks")
     "* TODO  %?\n ")
 #+end_src
 
-*** To Watchlist
-**** New Movie Template
+**** To Watchlist
+***** New Movie Template
 #+begin_src emacs-lisp
-   ("m" "Movie" entry (file+headline "/mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/watchlist.org"  "Movies")
+   ("m" "Movie" entry (file+headline "/mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/watchlist.org" "Movies")
     "* TODO  %?\n ")
 #+end_src
 
-**** New Show/Anime Template
+***** New Show/Anime Template
 #+begin_src emacs-lisp
-   ("s" "Show / Anime" entry (file+headline "/mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/watchlist.org"  "Shows / Anime")
+   ("s" "Show / Anime" entry (file+headline "/mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/watchlist.org" "Shows / Anime")
     "* TODO  %?\n ")
 #+end_src
 
-**** New Book Template
+***** New Book Template
 #+begin_src emacs-lisp
-   ("b" "Book" entry (file+headline "/mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/watchlist.org"  "Not Started")
+   ("b" "Book" entry (file+headline "/mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/watchlist.org" "Not Started")
     "** TODO  %?\n ")
 #+end_src
 
-*** End of Org Capture Templates
+**** End of Org Capture Templates
 #+begin_src emacs-lisp
    ))
 #+end_src
 
-** Org Refile Targets
+*** Org Refile Targets
 #+begin_src emacs-lisp
-; Targets include this file and any file contributing to the agenda - up to 2 levels deep
 (setq org-refile-targets (quote ((org-agenda-files :maxlevel . 2))))
-
-; Don't use full outline paths for refile targets
 (setq org-refile-use-outline-path nil)
 #+end_src
 
-** Org-pomodoro
- * Assuage the urge to procrastinate
-#+begin_src emacs-lisp
-(use-package org-pomodoro)
-#+end_src
-
-** Org-indent Face
- * Make sure org-indent face is avaliable
- * Makes it so that the headers indent
-#+begin_src emacs-lisp
-    (require 'org-indent)
-#+end_src
-
-** Org-habit
-#+begin_src emacs-lisp
-    (require 'org-habit)
-#+end_src
-
-** Pretty Header Bullet Points
- * Nice header bullet points
-#+begin_src emacs-lisp
-    (use-package org-superstar
-      :after org
-      :hook (org-mode . org-superstar-mode)
-      :custom
-      (org-superstar-remove-leading-stars t)
-      (org-superstar-headline-bullets-list '("◈" "○" "◉" "○" "◆" "○")))
-#+end_src
-
-** Header Sizes
+*** Header Sizes
 #+begin_src emacs-lisp
     (custom-set-faces
      '(org-level-1 ((t (:inherit outline-1 :height 1.5))))
@@ -816,16 +991,7 @@ though. SIKE!!
      )
 #+end_src
 
-** Code block templates
- * Type "<el" then hit Tab to expand template. This is needed as of Org 9.2
-#+begin_src emacs-lisp
-    (require 'org-tempo)
-
-    (add-to-list 'org-structure-template-alist '("sh" . "src sh"))
-    (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
-#+end_src
-
-** Pretty Symbols
+*** Pretty Symbols
 #+begin_src emacs-lisp
   ;; Prettifying src blocks
   (setq-default prettify-symbols-alist '(("#+BEGIN_SRC" . "†")
@@ -838,30 +1004,24 @@ though. SIKE!!
   (add-hook 'org-mode-hook 'prettify-symbols-mode)
 #+end_src
 
-** End of Org Block
+*** End of Org Config
 #+begin_src emacs-lisp   
  )
 #+end_src
 
-* Org Agenda
-** Some sane defaults
+** Org Agenda
+*** Some sane defaults
 #+begin_src emacs-lisp
-  ;; Only show upcoming deadlines for the next X days. By default it shows
-  ;; 14 days into the future, which seems excessive.
   (setq org-deadline-warning-days 3)
-  ;; If something is done, don't show its deadline
   (setq org-agenda-skip-deadline-if-done t)
-  ;; If something is done, don't show when it's scheduled for
   (setq org-agenda-skip-scheduled-if-done t)
-  ;; If something is scheduled, don't tell me it is due soon
   (setq org-agenda-skip-deadline-prewarning-if-scheduled t)
-  ;; use AM-PM and not 24-hour time
   (setq org-agenda-timegrid-use-ampm t)
   (setq org-agenda-block-separator ?-)
 
 #+end_src
 
-** Custom Agenda Views
+*** Custom Agenda Views
  * I would like to remove the "DONE" keyword but it's whatever. I DID IT!! WAHOOOTTOTOTO!!
 #+begin_src emacs-lisp
   (setq org-agenda-custom-commands
@@ -917,109 +1077,12 @@ though. SIKE!!
           ))
 #+end_src
 
-** Highlight current line
+*** Highlight current line
 #+begin_src emacs-lisp
 (add-hook 'org-agenda-mode-hook
           '(lambda () (hl-line-mode 1))
           'append)
 #+end_src
-
-** Org Agenda Keybindings
-#+begin_src emacs-lisp
-(general-define-key
- :prefix "m"
- :states 'normal
- :keymaps '(org-agenda-mode-map)
- "" nil
- "c" '(org-capture :which-key "org-capture")
- "d" '(org-agenda-deadline :which-key "deadline")
- "s" '(org-agenda-schedule :which-key "schedule") 
- "t" '(org-agenda-set-tags :which-key "set tags")
- ;; clocking
- "c" '(nil :which-key "clocking")
- "ci" '(org-agenda-clock-in :which-key "clock in")
- "co" '(org-agenda-clock-out :which-key "clock out")
- "cj" '(org-clock-goto :which-key "jump to clock")
- )
-
-(evil-define-key 'motion org-agenda-mode-map
-  (kbd "f") 'org-agenda-later
-  (kbd "b") 'org-agenda-earlier)
-#+end_src
-
-* Org-Roam
-
-#+begin_src emacs-lisp
-  (use-package org-roam
-#+end_src
-
-** Org Roam Directory
-#+begin_src emacs-lisp  
-    :custom
-    (org-roam-directory (concat mt/roam))
-#+end_src
-
-** Org Roam Completion
-#+begin_src emacs-lisp
-    (org-roam-completion-everywhere t)
-    #+end_src
-
-** Org Roam Capture Template
-#+begin_src emacs-lisp
-   (org-roam-capture-templates '(
-#+end_src
-
-*** Default Template
-#+begin_src emacs-lisp
-  ("d" "default" plain
-   "%?"
-   :if-new (file+head "roam-${slug}.org" "#+title: ${title}\n")
-   :unnarrowed t)
-#+end_src
-
-*** School Note Template
-#+begin_src emacs-lisp
-  ("s" "school note" plain (file "/home/mthich/.config/emacs/org/school_template.org")
-   :if-new (file+head "roam-${slug}.org" "#+title: ${title}\n")
-   :unnarrowed t)
-#+end_src
-
-*** MLA essay template
-#+begin_src emacs-lisp
-  ("m" "MLA essay" plain (file "/home/mthich/.config/emacs/org/MLA_template.org")
-   :if-new (file+head "${slug}.org" " ")
-   :unnarrowed t)
-#+end_src
-
-*** End of Org Roam Capture Templates
-#+begin_src emacs-lisp
-  ))
-#+end_src
-
-** Org Roam Bindings
-#+begin_src emacs-lisp
-:bind (
-	:map org-mode-map
-	("C-M-i" . completion-at-point))
-:config
-(org-roam-setup)
-  #+end_src
-
-*** Insert Node Immediately
- * This will allow you to quickly create new notes for topics you’re mentioning while writing so that you can go back later and fill those notes in with more details!
-#+begin_src emacs-lisp
-(defun org-roam-node-insert-immediate (arg &rest args)
-  (interactive "P")
-  (let ((args (push arg args))
-        (org-roam-capture-templates (list (append (car org-roam-capture-templates)
-                                                  '(:immediate-finish t)))))
-    (apply #'org-roam-node-insert args)))
-#+end_src
-
-** End of Org Roam Block
-  #+begin_src emacs-lisp
-  )
-#+end_src 
 
 * Latex
 ** Latex
@@ -1072,30 +1135,7 @@ though. SIKE!!
   (add-hook 'LaTeX-mode-hook #'evil-tex-mode)
 #+end_src
 
-** PDF Preview (pdf-tools)
-#+begin_src emacs-lisp
-  ;; (use-package pdf-tools
-  ;;   :defer t
-  ;;   :pin manual
-  ;;   :mode  ("\\.pdf\\'" . pdf-view-mode)
-  ;;   :init
-  ;;   (evil-set-initial-state 'pdf-view-mode 'normal)
-  ;;   :config
-  ;;   (pdf-loader-install)
-  ;;   (setq-default pdf-view-display-size 'fit-height)
-  ;;   (setq pdf-view-continuous t) ;; Makes it so scrolling down to the bottom/top of a page switches to the next page
-  ;;   (setq pdf-view-midnight-colors '("#ffffff" . "#121212" )) ;; I use midnight mode as dark mode, dark mode doesn't seem to work
-  ;;   :general
-  ;;   (general-define-key :states 'motion :keymaps 'pdf-view-mode-map
-  ;;                       "H" 'pdf-view-fit-height-to-window
-  ;;                       "0" 'pdf-view-fit-height-to-window
-  ;;                       "W" 'pdf-view-fit-width-to-window
-  ;;                       "C-s" 'isearch-forward
-  ;;                       )
-  ;;   )
-#+end_src
-
-** Use pdf-tools for Latex preview
+** Latex preview
 #+begin_src emacs-lisp
   ;; Use pdf-tools to open PDF files
   ;; (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
@@ -1121,23 +1161,6 @@ though. SIKE!!
                ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
                ("\\paragraph{%s}" . "\\paragraph*{%s}")
                ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
-#+end_src
-
-* Development
-** Rainbow delimeters
- * See the nested parentheses (God send) but only in programming-mode
-#+begin_src emacs-lisp
-  (use-package rainbow-delimiters
-    :hook (prog-mode . rainbow-delimiters-mode))
- #+end_src
-
-** Magit
- * Magit integration (git integration for emacs)
-#+begin_src emacs-lisp
-  (use-package magit
-    :commands (magit-status)
-    :custom
-    (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 #+end_src
 
 * You have now reached the end of the configuration.
