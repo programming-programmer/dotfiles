@@ -252,12 +252,8 @@ pain in tiling window managers. But it's *also* toggleable
 #+end_src
 
 ** Dired
-#+begin_src emacs-lisp
-(evil-define-key 'normal dired-mode-map
-  (kbd "M-RET") 'dired-display-file
-  (kbd "h") 'dired-up-directory
-  (kbd "l") 'dired-find-file)
-#+end_src
+ * In Emacs 28.1 and beyond you can set dired-kill-when-opening-new-dired-buffer
+   to be true. Since I'm not :( I'll leave it here
 
 * Aesthetics
 ** Font
@@ -425,7 +421,7 @@ keybinding (evil mode of course 👻)
   "c" '(org-capture :which-key "org-capture")
   "u" '(universal-argument :which-key "universal-argument")
   "z" '(repeat :which-key "repeat")
-  "C-r" '(jump-to-register :which-key "jump to register")
+  "j" '(jump-to-register :which-key "jump to register")
 #+end_src
 
 *** Applications
@@ -484,7 +480,7 @@ keybinding (evil mode of course 👻)
   "n" '(nil :which-key "notes")
 
   "nc" '(org-clock-in-last :which-key "toggle last org-clock")
-  "nC" '(org-clock-out :which-key "cancel current org-clock")
+  "nC" '(org-clock-out :which-key "clock out of current org-clock")
   "n C-c" '(org-clock-cancel :which-key "cancel current org-clock")
   "no" '(org-clock-goto :which-key "active org-clock")
   "np" '(org-pomodoro :which-key "start pomodoro")
@@ -548,9 +544,9 @@ keybinding (evil mode of course 👻)
 
 *** Registers
 #+begin_src emacs-lisp
-  "j" '(nil :which-key "register")
+  "C-r" '(nil :which-key "register")
   
-  "ji" '(point-to-register :which-key "insert register")
+  "C-r i" '(point-to-register :which-key "insert register")
 #+end_src
 
 *** End SPC prefix block
@@ -605,7 +601,7 @@ keybinding (evil mode of course 👻)
 ** Org mode Keybindings
 #+begin_src emacs-lisp
   (general-define-key
-   :prefix "m"
+   :prefix "SPC m"
    :states 'normal
    :keymaps '(org-mode-map)
    "" nil
@@ -628,18 +624,22 @@ keybinding (evil mode of course 👻)
    "6" '(org-sort :which-key "sort")
 
    "i" '(nil :which-key "insert")
+   "ii" '(org-id-get-create :which-key "insert org-id")
    "il" '(org-insert-link :which-key "insert link")
-
    "is" '(nil :which-key "insert stamp")
    "iss" '((lambda () (interactive) (call-interactively (org-time-stamp-inactive))) :which-key "org-time-stamp-inactive")
    "isS" '((lambda () (interactive) (call-interactively (org-time-stamp nil))) :which-key "org-time-stamp")
+
+   "T" '(nil :which-key "org-transclusion")
+   "Ta" '(org-transclusion-add :which-key "add org-transclusion")
+   "Tt" '(org-transclusion-mode :which-key "org-transclusion mode")
    )
 #+end_src
 
 ** Org Agenda Keybindings
 #+begin_src emacs-lisp
 (general-define-key
- :prefix "m"
+ :prefix ","
  :states 'normal
  :keymaps '(org-agenda-mode-map)
  "" nil
@@ -659,6 +659,14 @@ keybinding (evil mode of course 👻)
   (kbd "b") 'org-agenda-earlier)
 #+end_src
 
+** Dired
+#+begin_src emacs-lisp
+(evil-define-key 'normal dired-mode-map
+  (kbd "M-RET") 'dired-display-file
+  (kbd "h") 'dired-up-directory
+  (kbd "l") 'dired-find-file)
+#+end_src
+
 ** Duplicate line
 #+begin_src emacs-lisp
     (defun duplicate-line()
@@ -672,7 +680,8 @@ keybinding (evil mode of course 👻)
 #+end_src
 
 * Ivy & Counsel
- * Ivy is an excellent completion framework for Emacs. It provides a minimal yet powerful selection menu that appears when you open files, switch buffers, and for many other tasks in Emacs. 
+** Ivy
+ * Ivy is an excellent completion framework for Emacs. It provides a minimal yet powerful selection menu that appears when you open files, switch buffers, and for many other tasks in Emacs.
 #+begin_src emacs-lisp
   (use-package ivy
     :diminish ivy-mode
@@ -828,6 +837,29 @@ keybinding (evil mode of course 👻)
     (add-to-list 'org-structure-template-alist '("sh" . "src sh"))
     (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
 #+end_src
+
+*** Org-transclusion
+#+begin_src emacs-lisp
+(use-package org-transclusion
+  :after org)
+#+end_src
+
+*** Org-appear
+ * Toggle visibility of hidden elements such as emphasis markers, links, etc.
+   #+begin_src emacs-lisp
+     (use-package org-appear
+       :after org)
+     (add-hook 'org-mode-hook 'org-appear-mode)
+   #+end_src
+
+*** Org-fragtog
+ * Automatically toggle Org mode LaTeX fragment previews as the cursor enters
+   and exits them
+   #+begin_src emacs-lisp
+     (use-package org-fragtog
+       :after org)
+     (add-hook 'org-mode-hook 'org-fragtog-mode)
+   #+end_src
 
 *** Evil-org
 #+begin_src emacs-lisp
@@ -1111,7 +1143,7 @@ keybinding (evil mode of course 👻)
 
     :general
     (general-define-key
-     :prefix "m"
+     :prefix "SPC m"
      :states 'normal
      :keymaps 'LaTeX-mode-map
      "" nil
