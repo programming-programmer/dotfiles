@@ -85,7 +85,7 @@
    inhibit-splash-screen t                          ; No splash screen
    sentence-end-double-space nil                    ; Double space after a period!? Inhumane!
    cursor-in-non-selected-windows t                 ; Hide the cursor in inactive windows
-   initial-scratch-message "(ɔ•‿•)ɔ ♥"              ; Remove pesky scratch message
+   initial-scratch-message "ʕ•́ᴥ•̀ʔっ"                ; Remove pesky scratch message
    fill-column 80                                   ; Set width for automatic line breaks
    help-window-select t                             ; Focus new help windows when opened
    indent-tabs-mode t                               ; Prefer tabs over inferior spaces
@@ -108,6 +108,13 @@
   (scroll-bar-mode -1)                              ; Disable visible scrollbar
   (tooltip-mode -1)                                 ; Disable tooltips
   (set-fringe-mode 10)                              ; Give some breathing room  
+
+   (setq org-link-frame-setup
+   '((vm . vm-visit-folder-other-frame)
+     (vm-imap . vm-visit-imap-folder-other-frame)
+     (gnus . org-gnus-no-new-news)
+     (file . find-file)
+     (wl . wl-other-frame)))
 #+end_src
 
 ** Scrolling improvements
@@ -175,7 +182,7 @@ pain in tiling window managers. But it's *also* toggleable
     :init (which-key-mode)
     :diminish which-key-mode
     :config
-    (setq which-key-idle-delay 0.3))
+    (setq which-key-idle-delay 0.4))
 #+end_src
 
 ** Super Save!
@@ -219,7 +226,7 @@ pain in tiling window managers. But it's *also* toggleable
   (use-package deft
     :config
     (setq deft-directory (concat mt/org-notes)
-          deft-extensions '("org" "txt" "md")
+          deft-extensions '("org" "txt" "md" "tex")
           deft-recursive t
           deft-file-limit 40
           deft-use-filename-as-title t)
@@ -228,10 +235,7 @@ pain in tiling window managers. But it's *also* toggleable
 
     ;; Removes :PROPERTIES: from descriptions
     (setq deft-strip-summary-regexp ":PROPERTIES:\n\\(.+\n\\)+:END:\n")
-    :general
-    (general-define-key :states 'normal :keymaps 'deft-mode-map
-                        ;; 'q' kills Deft in normal mode
-                        "q" 'kill-this-buffer))
+    )
 #+end_src
 
 ** Rainbow delimeters
@@ -427,6 +431,7 @@ keybinding (evil mode of course 👻)
 
   ;; "om" '(mu4e :which-key "mu4e") ; I wanna get this setup up so bad >.<
   "oA" '(org-agenda :which-key "org-agenda")
+  "oC" '(calendar :which-key "calendar")
   "oc" '(calc :which-key "calc")
   "o-" '(dired :which-key "dired")
   "od" '(dired-jump :which-key "dired jump")
@@ -599,7 +604,7 @@ keybinding (evil mode of course 👻)
 #+begin_src emacs-lisp
   (general-define-key
    :prefix "SPC m"
-   :states 'normal
+   :states '(normal visual motion)
    :keymaps '(org-mode-map)
    "" nil
    "A" '(org-archive-subtree-default :which-key "org-archive")
@@ -637,7 +642,7 @@ keybinding (evil mode of course 👻)
 #+begin_src emacs-lisp
 (general-define-key
  :prefix ","
- :states 'normal
+ :states '(normal motion visual)
  :keymaps '(org-agenda-mode-map)
  "" nil
  "c" '(org-capture :which-key "org-capture")
@@ -1143,7 +1148,7 @@ keybinding (evil mode of course 👻)
     :general
     (general-define-key
      :prefix "SPC m"
-     :states 'normal
+     :states '(normal visual motion)
      :keymaps 'LaTeX-mode-map
      "" nil
      "a" '(TeX-command-run-all :which-key "TeX run all")
@@ -1167,14 +1172,16 @@ keybinding (evil mode of course 👻)
 #+end_src
 
 ** Latex preview
+ * This should allow for zahura being used as default pdf viewer. I /might/ change
+   to pdf-tools but its not working so whatever
 #+begin_src emacs-lisp
-  ;; Use pdf-tools to open PDF files
-  ;; (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
-  ;;       TeX-source-correlate-start-server t)
+(with-eval-after-load 'tex
+  (setq TeX-source-correlate-method 'synctex)
+  (TeX-source-correlate-mode)
+  (setq TeX-source-correlate-start-server t)
 
-  ;; Update PDF buffers after successful LaTeX runs
-  ;; (add-hook 'TeX-after-compilation-finished-functions
-  ;;            #'TeX-revert-document-buffer)
+  (add-to-list 'TeX-view-program-selection
+               '(output-pdf "Zathura")))
 #+end_src
 
 ** Plain Latex file
