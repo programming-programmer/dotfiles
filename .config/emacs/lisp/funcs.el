@@ -20,7 +20,6 @@
       (window-configuration-to-register ?_)
       (delete-other-windows))))
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;; Files and Buffers ;;
 ;;;;;;;;;;;;;;;;;;;;;;;

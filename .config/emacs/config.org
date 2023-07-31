@@ -16,9 +16,6 @@
 
  * For email and such there is an HTML addon for outlook and gmail has it by
    def. Happy hacking!!
-
-** Add to config.org 
-*** TODO Delete dired buffers after moving
 * System
 ** Start Server
 #+begin_src emacs-lisp
@@ -177,7 +174,7 @@ google™ we must *not* rely on such things
  * Having Fullscreen on startup is a pain with the ugly bar and it would be a
 pain in tiling window managers. But it's *also* toggleable
 #+begin_src emacs-lisp
-  (add-hook 'emacs-startup-hook 'toggle-frame-maximized)
+  (add-hook 'emacs-startup-hook 'toggle-frame-fullscreen)
 #+end_src
 
 * General
@@ -572,6 +569,7 @@ keybinding (evil mode of course 👻)
 *** Toggles/Visuals
 #+begin_src emacs-lisp
   "t" '(nil :which-key "toggles")
+  "ty" '(counsel-load-theme 'doom-spacegray :which-key "lighter theme")
   "tt" '(toggle-truncate-lines :which-key "truncate lines")
   "tv" '(visual-line-mode :which-key "visual line mode")
   "tn" '(menu-bar--display-line-numbers-mode-relative :which-key "display line numbers")
@@ -1225,6 +1223,9 @@ keybinding (evil mode of course 👻)
 ** Latex preview
  * This should allow for zahura being used as default pdf viewer. I /might/ change
    to pdf-tools but its not working so whatever
+ * THIS iS AMAZING!! JAW DROPEED LIFE RESSURECTED. UNDEFINED NO MORE!! I'm
+   sticking with zathura and since a tiling window manager is soon it makes
+   sense instead of slowing emacs with pdf views
 #+begin_src emacs-lisp
 (with-eval-after-load 'tex
   (setq TeX-source-correlate-method 'synctex)
