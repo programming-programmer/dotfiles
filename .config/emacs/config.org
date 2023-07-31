@@ -18,7 +18,6 @@
    def. Happy hacking!!
 
 ** Add to config.org 
-*** TODO defer packages (make startup snappy fast)
 *** TODO Delete dired buffers after moving
 * System
 ** Start Server
@@ -353,34 +352,33 @@ though. SIKE!!
 #+end_src
 
 ** Modeline
+*** DOOM Modeline
+#+begin_src emacs-lisp
+  (use-package doom-modeline
+    :config
+    (doom-modeline-mode)
+    (setq doom-modeline-project-detection 'file-name
+          doom-modeline-highlight-modified-buffer-name t
+          ;; Icons ---
+          doom-modeline-modal t
+          doom-modeline-icon nil
+          doom-modeline-buffer-state-icon t
+          doom-modeline-buffer-modified-icon nil
+          doom-modeline-unicode-fallback nil
+          doom-modeline-bar-width 3))
+
+  (doom-modeline-def-modeline 'minimal
+    '(bar matches " " buffer-info buffer-position)
+    '(media-info major-mode))
+   (doom-modeline-set-modeline 'minimal t)
+#+end_src
+
 *** Hide Modeline
  * Honestly, this is a blessing. Hide the modeline. This is mapped to a
 keybinding (evil mode of course 👻)
 #+begin_src emacs-lisp
   (use-package hide-mode-line
     :commands (hide-mode-line-mode))
-#+end_src
-
-*** DOOM Modeline
-#+begin_src emacs-lisp
-  (use-package doom-modeline
-    :config
-    (doom-modeline-mode)
-    (setq doom-modeline-enable-word-count nil
-          doom-modeline-buffer-encoding nil
-          doom-modeline-project-detection 'file-name
-          doom-modeline-highlight-modified-buffer-name t
-
-          ;; Icons ---
-          doom-modeline-modal t
-          doom-modeline-icon nil
-          doom-modeline-modal-icon t
-          doom-modeline-major-mode-icon nil
-          doom-modeline-major-mode-color-icon nil
-          doom-modeline-buffer-modification-icon nil
-          doom-modeline-buffer-state-icon t
-          doom-modeline-unicode-fallback nil
-          doom-modeline-bar-width 3))
 #+end_src
 
 *** Diminish
