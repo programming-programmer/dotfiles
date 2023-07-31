@@ -14,8 +14,12 @@
  * Install Noto Color Emoji or another emoji font to use emojis in Emacs
  * Also! Install Source Code Pro
 
+ * For email and such there is an HTML addon for outlook and gmail has it by
+   def. Happy hacking!!
+
 ** Add to config.org 
 *** TODO defer packages (make startup snappy fast)
+*** TODO Delete dired buffers after moving
 * System
 ** Start Server
 #+begin_src emacs-lisp
@@ -269,6 +273,39 @@ pain in tiling window managers. But it's *also* toggleable
 ** Dired
  * In Emacs 28.1 and beyond you can set dired-kill-when-opening-new-dired-buffer
    to be true. Since I'm not :( I'll leave it here
+
+** Email
+ * To say I gave up on mu4e would be lying.
+ * I don't need the bloat of gmail/outlook in my wonderful emacs. It's bloated enough.
+ * Also setting mu4whatever gave me brainshits. I think this is the best of
+   both: Editing in emacs and email yay.
+ * Stolen from [[https://coredumped.dev/2019/02/08/using-org-mode-to-write-email-for-outlook/][here]]
+ * So... after writing email, convert to html in clipboard and past in
+   addon(outlook) or editor(gmail). Suffer from sucsess :)
+   #+begin_src emacs-lisp
+     (defun org-email-html-head ()
+       "Create the header with CSS for use with email"
+       (concat
+        "<style type=\"text/css\">\n"
+        "<!--/*--><![CDATA[/*><!--*/\n"
+        (with-temp-buffer
+          (insert-file-contents
+           "/home/mthich/.config/emacs/org/outlook_email.css")
+          (buffer-string))
+        "/*]]>*/-->\n"
+        "</style>\n"))
+
+     (defun export-org-email ()
+       "Export the current email org buffer and copy it to the
+     clipboard"
+       (interactive)
+       (let ((org-export-show-temporary-export-buffer nil)
+             (org-html-head (org-email-html-head)))
+         (org-html-export-as-html)
+         (with-current-buffer "*Org HTML Export*"
+           (kill-new (buffer-string)))
+         (message "HTML copied to clipboard")))
+   #+end_src 
 
 * Aesthetics
 ** Font
@@ -620,15 +657,17 @@ keybinding (evil mode of course 👻)
    :keymaps '(org-mode-map)
    "" nil
    "A" '(org-archive-subtree-default :which-key "org-archive")
-   "s" '(org-schedule :which-key "schedule")
-   "S" '(jib/org-schedule-tomorrow :which-key "schedule tmrw")
-   "d" '(org-deadline :which-key "deadline")
    "g" '(counsel-org-goto :which-key "goto heading")
    ":" '(counsel-org-tag :which-key "set tags")
    "P" '(org-set-property :which-key "set property")
    "E" '(org-export-dispatch :which-key "export org")
+   "C-e" '(export-org-email :which-key "export org email")
    "e" '(org-set-effort :which-key "set effort")
    "." '(org-toggle-narrow-to-subtree :which-key "toggle narrow to subtree")
+  
+   "s" '(org-schedule :which-key "schedule")
+   "S" '(jib/org-schedule-tomorrow :which-key "schedule tmrw")
+   "d" '(org-deadline :which-key "deadline")
 
    "t" '(org-todo :which-key "toggle TODO state")
    "C" '(org-toggle-checkbox :which-key "toggle checkbox")
@@ -973,47 +1012,57 @@ keybinding (evil mode of course 👻)
 #+end_src
 
 **** To Refile
-***** Task Template
+***** Task
 #+begin_src emacs-lisp
    ("t" "Todo" entry (file+headline "/home/mthich/.config/emacs/org/refile.org" "Tasks")
     "* TODO  %?\n ")
 #+end_src
 
-***** Today's Task 
+***** Today's Task
 #+begin_src emacs-lisp
 
    ("T" "Todo for today" entry (file+headline "/home/mthich/.config/emacs/org/refile.org" "Tasks")
     "* TODO  %?\nDEADLINE: %<<%Y-%m-%d>>")
 #+end_src
 
-***** Notes Template
+***** Notes
 #+begin_src emacs-lisp
    ("n" "Notes" entry (file+headline "/home/mthich/.config/emacs/org/refile.org" "Notes")
   "* %?  \n ")
 #+end_src
 
+***** Email
+#+begin_src emacs-lisp
+("e" "Email" entry (file+headline "/home/mthich/.config/emacs/org/refile.org" "Emails")
+   "* To: %? \n")
+#+end_src
+
 **** To Personal - Errand Template
 #+begin_src emacs-lisp
-   ("e" "Errand" entry (file+headline "/home/mthich/Notes/personal.org" "Tasks")
+   ("E" "Errand" entry (file+headline "/home/mthich/Notes/personal.org" "Tasks")
     "* TODO  %?\n ")
 #+end_src
 
 **** To Watchlist
+#+begin_src emacs-lisp
+  ("w" "To Watchlist")
+#+end_src
+
 ***** New Movie Template
 #+begin_src emacs-lisp
-   ("m" "Movie" entry (file+headline "/home/mthich/Notes/watchlist.org" "Movies")
+   ("wm" "Movie" entry (file+headline "/home/mthich/Notes/watchlist.org" "Movies")
     "* TODO  %?\n ")
 #+end_src
 
 ***** New Show/Anime Template
 #+begin_src emacs-lisp
-   ("s" "Show / Anime" entry (file+headline "/home/mthich/Notes/watchlist.org" "Shows / Anime")
+   ("ws" "Show / Anime" entry (file+headline "/home/mthich/Notes/watchlist.org" "Shows / Anime")
     "* TODO  %?\n ")
 #+end_src
 
 ***** New Book Template
 #+begin_src emacs-lisp
-   ("b" "Book" entry (file+headline "/home/mthich/Notes/watchlist.org" "Not Started")
+   ("wb" "Book" entry (file+headline "/home/mthich/Notes/watchlist.org" "Not Started")
     "** TODO  %?\n ")
 #+end_src
 

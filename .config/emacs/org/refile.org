@@ -18,7 +18,7 @@
  
    
 * Tasks :tasks:
-** TODO Move org files to github for version control
+** DONE Move org files to github for version control
  * No more Google Cancer Baby!!!
  * Add something/hook that updates whenever a file is saved (already bookmarked
    something similar)
@@ -30,7 +30,17 @@
 DEADLINE: <2023-07-31 Mon>
 ** TODO Ask what times practice @ Keer McGee is 
 DEADLINE: <2023-07-31 Mon>
-** TODO Change theme when writeroom mode is enabled (doom-spacegray)
+** CANCELLED Change theme when writeroom mode is enabled (doom-spacegray)
+** TODO Change to light theme with binding (toggle)
+ * Spacegrey seems good
+** TODO Test sending email with org-htmlize 
+** TODO Book Flight for Mummy 
+** TODO Gather sources for essay 
+DEADLINE: <2023-07-31 Mon>
+** TODO Clean car 
+** TODO Complete Video Quiz 
+** TODO UCLA Applications Open  
+SCHEDULED: <2023-08-01 Tue>
 * Notes :notes:
 ** Learn C++ with OpenCV, usb camera, and dreams
 ** Possible Emoticons  
@@ -41,7 +51,13 @@ DEADLINE: <2023-07-31 Mon>
 ʕ•ᴥ•ʔ
 ʕ⁀ᴥ⁀ʔ
 ʕ •//ω//• ʔ
-** Apply ThePrimagen's config logic
- * Only change something when it is so very annoying. Each month go through a
-   compiled list and fix all in one weekend or free time. Unless it is
-   *stopping* your workflow _do not_ waste time fixing. Have a great day :)
+** Stuff I'm fed up with
+ * In light of my addiction to configuration. I am keeping a list of stuf I'm *fed up* with. After a _month_ I will visit this and deal with it at once
+ * *Only when I have the time!*
+ * Apply ThePrimagen's config logic
+   * Only change something when it is so very annoying. Each month go through a
+     compiled list and fix all in one weekend or free time. Unless it is
+     *stopping* your workflow _do not_ waste time fixing. Have a great day :)
+   
+*** Table editing
+* Emails
