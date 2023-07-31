@@ -16,6 +16,10 @@
 
  * For email and such there is an HTML addon for outlook and gmail has it by
    def. Happy hacking!!
+
+ * Download ispell (package manager) for flyspell
+ * Also download java and languagetool.jar for langtool
+   * Not that hard once you get to it. Java is getting easier each install 
 * System
 ** Start Server
 #+begin_src emacs-lisp
@@ -161,6 +165,11 @@
   (load "/home/mthich/.config/emacs/lisp/var.el")
 #+end_src
 
+** PATH Variables
+#+begin_src emacs-lisp
+(add-to-list 'exec-path "/opt/jdk-20.0.2/bin")
+#+end_src
+
 ** Use System Trash
  * There has been too many times I've had a near heart attack from deleting.
 Google Drive was there to prevent to much loss. However, in a move towards no
@@ -293,6 +302,24 @@ pain in tiling window managers. But it's *also* toggleable
            (kill-new (buffer-string)))
          (message "HTML copied to clipboard")))
    #+end_src 
+
+** Flyspell
+#+begin_src emacs-lisp
+(use-package flyspell-correct
+  :after flyspell
+  :bind (:map flyspell-mode-map ("C-;" . flyspell-correct-wrapper)))
+
+(use-package flyspell-correct-ivy
+  :after flyspell-correct)
+#+end_src
+
+** Langtool
+ * Java and Langtool.jar required. Not much to setup. But what do I know I'm
+   incredibly sleep-deprived lol
+   #+begin_src emacs-lisp
+(setq langtool-language-tool-jar "/home/mthich/LanguageTool-6.2/languagetool-commandline.jar")
+(use-package langtool)
+   #+end_src
 
 * Aesthetics
 ** Font

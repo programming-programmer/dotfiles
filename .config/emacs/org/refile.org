@@ -18,10 +18,6 @@
  
    
 * Tasks :tasks:
-** DONE Move org files to github for version control
- * No more Google Cancer Baby!!!
- * Add something/hook that updates whenever a file is saved (already bookmarked
-   something similar)
 ** TODO Add h and l to netrw in neovim 
 ** TODO Add flyspell and langtool to emacs  
  * For spelling and *basic* grammar respectively
@@ -30,15 +26,8 @@
 DEADLINE: <2023-07-31 Mon>
 ** TODO Ask what times practice @ Keer McGee is 
 DEADLINE: <2023-07-31 Mon>
-** CANCELLED Change theme when writeroom mode is enabled (doom-spacegray)
-** TODO Change to light theme with binding (toggle)
- * Spacegrey seems good
-** TODO Test sending email with org-htmlize 
 ** TODO Book Flight for Mummy 
-** TODO Gather sources for essay 
-DEADLINE: <2023-07-31 Mon>
 ** TODO Clean car 
-** TODO Complete Video Quiz 
 ** TODO UCLA Applications Open  
 SCHEDULED: <2023-08-01 Tue>
 * Notes :notes:
@@ -59,5 +48,4 @@ SCHEDULED: <2023-08-01 Tue>
      compiled list and fix all in one weekend or free time. Unless it is
      *stopping* your workflow _do not_ waste time fixing. Have a great day :)
    
-*** Table editing
 * Emails
