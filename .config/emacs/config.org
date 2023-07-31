@@ -23,7 +23,7 @@
 * System
 ** Start Server
 #+begin_src emacs-lisp
- (server-start)
+  (server-start)
 #+end_src
 
 ** Garbage Collection
@@ -47,26 +47,26 @@
 
 *** GCMH
  * Packages for better garbage collection. Might help
-   #+begin_src emacs-lisp
-(use-package gcmh
-  :diminish gcmh-mode
-  :config
-  (setq gcmh-idle-delay 5
-        gcmh-high-cons-threshold (* 16 1024 1024))  ; 16mb
-  (gcmh-mode 1))
+#+begin_src emacs-lisp
+  (use-package gcmh
+    :diminish gcmh-mode
+    :config
+    (setq gcmh-idle-delay 5
+          gcmh-high-cons-threshold (* 16 1024 1024))  ; 16mb
+    (gcmh-mode 1))
 
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (setq gc-cons-percentage 0.1))) ;; Default value for `gc-cons-percentage'
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (setq gc-cons-percentage 0.1))) ;; Default value for `gc-cons-percentage'
 
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (message "Emacs ready in %s with %d garbage collections."
-                     (format "%.2f seconds"
-                             (float-time
-                              (time-subtract after-init-time before-init-time)))
-                     gcs-done)))
-   #+end_src
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (message "Emacs ready in %s with %d garbage collections."
+                       (format "%.2f seconds"
+                               (float-time
+                                (time-subtract after-init-time before-init-time)))
+                       gcs-done)))
+#+end_src
 
 ** Package Management
 *** Package Sources 
@@ -92,7 +92,7 @@
    inhibit-splash-screen t                          ; No splash screen
    sentence-end-double-space nil                    ; Double space after a period!? Inhumane!
    cursor-in-non-selected-windows t                 ; Hide the cursor in inactive windows
-   initial-scratch-message "ʕ•́ᴥ•̀ʔっ"                ; Remove pesky scratch message
+   initial-scratch-message "Welcome to the Church of Emacs!!\n     ^\nʕ•́ᴥ•̀ʔっ"                ; Remove pesky scratch message
    fill-column 80                                   ; Set width for automatic line breaks
    help-window-select t                             ; Focus new help windows when opened
    indent-tabs-mode t                               ; Prefer tabs over inferior spaces

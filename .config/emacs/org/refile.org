@@ -18,10 +18,6 @@
  
    
 * Tasks :tasks:
-** TODO Add h and l to netrw in neovim 
-** TODO Add flyspell and langtool to emacs  
- * For spelling and *basic* grammar respectively
- * There are also theasaurus packages (theasaurus.el looks cool)
 ** TODO Check that date of interact meeting is correct 
 DEADLINE: <2023-07-31 Mon>
 ** TODO Ask what times practice @ Keer McGee is 
