@@ -994,26 +994,26 @@ keybinding (evil mode of course 👻)
 
 **** To Personal - Errand Template
 #+begin_src emacs-lisp
-   ("e" "Errand" entry (file+headline "/mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/personal.org" "Tasks")
+   ("e" "Errand" entry (file+headline "/home/mthich/Notes/personal.org" "Tasks")
     "* TODO  %?\n ")
 #+end_src
 
 **** To Watchlist
 ***** New Movie Template
 #+begin_src emacs-lisp
-   ("m" "Movie" entry (file+headline "/mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/watchlist.org" "Movies")
+   ("m" "Movie" entry (file+headline "/home/mthich/Notes/watchlist.org" "Movies")
     "* TODO  %?\n ")
 #+end_src
 
 ***** New Show/Anime Template
 #+begin_src emacs-lisp
-   ("s" "Show / Anime" entry (file+headline "/mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/watchlist.org" "Shows / Anime")
+   ("s" "Show / Anime" entry (file+headline "/home/mthich/Notes/watchlist.org" "Shows / Anime")
     "* TODO  %?\n ")
 #+end_src
 
 ***** New Book Template
 #+begin_src emacs-lisp
-   ("b" "Book" entry (file+headline "/mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/watchlist.org" "Not Started")
+   ("b" "Book" entry (file+headline "/home/mthich/Notes/watchlist.org" "Not Started")
     "** TODO  %?\n ")
 #+end_src
 
