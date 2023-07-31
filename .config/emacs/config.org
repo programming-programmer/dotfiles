@@ -363,7 +363,7 @@ though. SIKE!!
           doom-modeline-modal t
           doom-modeline-icon nil
           doom-modeline-buffer-state-icon t
-          doom-modeline-buffer-modified-icon nil
+          doom-modeline-buffer-modification-icon nil
           doom-modeline-unicode-fallback nil
           doom-modeline-bar-width 3))
 
