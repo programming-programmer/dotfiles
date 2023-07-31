@@ -43,5 +43,5 @@ SCHEDULED: <2023-08-01 Tue>
    * Only change something when it is so very annoying. Each month go through a
      compiled list and fix all in one weekend or free time. Unless it is
      *stopping* your workflow _do not_ waste time fixing. Have a great day :)
-   
+*** Make it so that emacs --daemon doesn't break emojis
 * Emails

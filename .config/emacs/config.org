@@ -1,7 +1,7 @@
 #+TITLE: Mer Thich's Emacs Configuration
 #+AUTHOR: Mer Thich (programming-programmer)
 
- * Very evil things follow. Beware! 👻 
+ * Very evil things follow. Beware! 👻
    
 * Preface
  * This is copied from what_it_was.txt
@@ -22,8 +22,17 @@
    * Not that hard once you get to it. Java is getting easier each install 
 * System
 ** Start Server
+ * Had to do it to em cuz I'm a real one who like my web fast and emacs
+   faster 😎. OHHHH YEAHHHH!!!! I can't see emojis 😔 
 #+begin_src emacs-lisp
   (server-start)
+#+end_src
+
+*** Check if loading as DEMON!
+#+begin_src emacs-lisp
+(if (daemonp)
+    (message "Loading in the daemon!")
+    (message "Loading in regular Emacs!"))
 #+end_src
 
 ** Garbage Collection
@@ -591,6 +600,7 @@ keybinding (evil mode of course 👻)
   "ie" '(emojify-insert-emoji :which-key "emoji")
   "iu" '(counsel-unicode-char :which-key "unicode")
   "iy" '(counsel-yank-pop :which-key "from clipboard")
+  "ij" '(point-to-register :which-key "insert register")
 #+end_src
 
 *** Toggles/Visuals
@@ -606,13 +616,6 @@ keybinding (evil mode of course 👻)
   "tm" '(hide-mode-line-mode :which-key "hide modeline mode")
   "tM" '(toggle-frame-maximized :which-key "toggle maximized")
   "tF" '(toggle-frame-fullscreen :which-key "toggle fullscreen")
-#+end_src
-
-*** Registers
-#+begin_src emacs-lisp
-  "C-r" '(nil :which-key "register")
-  
-  "C-r i" '(point-to-register :which-key "insert register")
 #+end_src
 
 *** End SPC prefix block
@@ -1052,7 +1055,8 @@ keybinding (evil mode of course 👻)
    "* To: %? \n")
 #+end_src
 
-**** To Personal - Errand Template
+**** To Personal
+***** Errand
 #+begin_src emacs-lisp
    ("E" "Errand" entry (file+headline "/home/mthich/Notes/personal.org" "Tasks")
     "* TODO  %?\n ")
@@ -1063,19 +1067,19 @@ keybinding (evil mode of course 👻)
   ("w" "To Watchlist")
 #+end_src
 
-***** New Movie Template
+***** Movie
 #+begin_src emacs-lisp
    ("wm" "Movie" entry (file+headline "/home/mthich/Notes/watchlist.org" "Movies")
     "* TODO  %?\n ")
 #+end_src
 
-***** New Show/Anime Template
+***** Show/Anime
 #+begin_src emacs-lisp
    ("ws" "Show / Anime" entry (file+headline "/home/mthich/Notes/watchlist.org" "Shows / Anime")
     "* TODO  %?\n ")
 #+end_src
 
-***** New Book Template
+***** Book
 #+begin_src emacs-lisp
    ("wb" "Book" entry (file+headline "/home/mthich/Notes/watchlist.org" "Not Started")
     "** TODO  %?\n ")
