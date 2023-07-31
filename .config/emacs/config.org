@@ -230,9 +230,9 @@ pain in tiling window managers. But it's *also* toggleable
 #+begin_src emacs-lisp
   (setq register-preview-delay 0) ;; Show registers ASAP
 
-  (set-register ?r (cons 'file (concat user-emacs-directory "org/refile.org")))
   (set-register ?c (cons 'file (concat user-emacs-directory "config.org")))
 
+  (set-register ?r (cons 'file (concat mt/org-notes "/refile.org")))
   (set-register ?p (cons 'file (concat mt/org-notes "/personal.org")))
   (set-register ?w (cons 'file (concat mt/org-notes "/work.org")))
   (set-register ?W (cons 'file (concat mt/org-notes "/watchlist.org")))
@@ -1032,26 +1032,26 @@ keybinding (evil mode of course 👻)
 **** To Refile
 ***** Task
 #+begin_src emacs-lisp
-   ("t" "Todo" entry (file+headline "/home/mthich/.config/emacs/org/refile.org" "Tasks")
+   ("t" "Todo" entry (file+headline "/home/mthich/Notes/refile.org" "Tasks")
     "* TODO  %?\n ")
 #+end_src
 
 ***** Today's Task
 #+begin_src emacs-lisp
 
-   ("T" "Todo for today" entry (file+headline "/home/mthich/.config/emacs/org/refile.org" "Tasks")
+   ("T" "Todo for today" entry (file+headline "/home/mthich/Notes/refile.org" "Tasks")
     "* TODO  %?\nDEADLINE: %<<%Y-%m-%d>>")
 #+end_src
 
 ***** Notes
 #+begin_src emacs-lisp
-   ("n" "Notes" entry (file+headline "/home/mthich/.config/emacs/org/refile.org" "Notes")
+   ("n" "Notes" entry (file+headline "/home/mthich/Notes/refile.org" "Notes")
   "* %?  \n ")
 #+end_src
 
 ***** Email
 #+begin_src emacs-lisp
-("e" "Email" entry (file+headline "/home/mthich/.config/emacs/org/refile.org" "Emails")
+("e" "Email" entry (file+headline "/home/mthich/Notes/refile.org" "Emails")
    "* To: %? \n")
 #+end_src
 
