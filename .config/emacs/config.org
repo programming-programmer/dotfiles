@@ -1,7 +1,7 @@
 #+TITLE: Mer Thich's Emacs Configuration
 #+AUTHOR: Mer Thich (programming-programmer)
 
- * Very evil things follow. Beware! 👻
+ * Very evil things follow. Beware! 👻 
    
 * Preface
  * This is copied from what_it_was.txt
@@ -16,9 +16,12 @@
 
 ** Add to config.org 
 *** TODO defer packages (make startup snappy fast)
-*** TODO add hook to delete Dired buffer when jumping to file
-
 * System
+** Start Server
+#+begin_src emacs-lisp
+ (server-start)
+#+end_src
+
 ** Garbage Collection
  * Make startup faster by reducing the frequency of garbage collection and then use a hook to measure Emacs startup time. The default is 800 kilobytes. Measured in bytes. Garbage collection off during initialization (focus all memory on initialize)
 #+begin_src emacs-lisp
@@ -115,6 +118,15 @@
      (gnus . org-gnus-no-new-news)
      (file . find-file)
      (wl . wl-other-frame)))
+#+end_src
+
+** Version Control
+#+begin_src emacs-lisp
+  (use-package git-auto-commit-mode)
+  (setq
+   gac-ask-for-summary-p nil
+   gac-automatically-add-new-files-p t
+   gac-automatically-push-p t)
 #+end_src
 
 ** Scrolling improvements
@@ -430,7 +442,7 @@ keybinding (evil mode of course 👻)
   "o" '(nil :which-key "open")
 
   ;; "om" '(mu4e :which-key "mu4e") ; I wanna get this setup up so bad >.<
-  "oA" '(org-agenda :which-key "org-agenda")
+  "oa" '(org-agenda :which-key "org-agenda")
   "oC" '(calendar :which-key "calendar")
   "oc" '(calc :which-key "calc")
   "o-" '(dired :which-key "dired")
@@ -790,7 +802,7 @@ keybinding (evil mode of course 👻)
 
 ***** School Note Template
 #+begin_src emacs-lisp
-  ("s" "school note" plain (file "/home/mthich/.config/emacs/org/school.org")
+  ("s" "school note" plain (file "/home/mthich/.config/emacs/org/school_template.org")
    :if-new (file+head "${slug}.org" "#+title: ${title}\n")
    :unnarrowed t)
 #+end_src

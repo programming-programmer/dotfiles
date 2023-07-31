@@ -12,7 +12,7 @@
  '(org-agenda-files
    '("~/.config/emacs/org/refile.org" "/mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/personal.org" "/mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/work.org" "/mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/SUM_2023/ENGL_C101/engl_101.org"))
  '(package-selected-packages
-   '(yasnippet dired-x deft gcmh evil-tex auctex evil-org org-fragtog org-appear org-transclusion org-superstar org-roam-ui org-roam org-pomodoro which-key writeroom-mode websocket use-package undo-fu super-save simple-httpd rainbow-delimiters org nyan-mode magit ivy-rich hide-mode-line general evil-collection emojify emacsql doom-themes doom-modeline diminish counsel alert)))
+   '(git-auto-commit-mode yasnippet dired-x deft gcmh evil-tex auctex evil-org org-fragtog org-appear org-transclusion org-superstar org-roam-ui org-roam org-pomodoro which-key writeroom-mode websocket use-package undo-fu super-save simple-httpd rainbow-delimiters org nyan-mode magit ivy-rich hide-mode-line general evil-collection emojify emacsql doom-themes doom-modeline diminish counsel alert)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
