@@ -113,6 +113,7 @@
    vc-follow-symlinks t                             ; Always follow the symlinks
    view-read-only t                                 ; Always open read only files in view mode
    display-time-default-load-average nil
+   display-line-numbers-type 'visual
    display-time-mail-string "")
 
   (fset 'yes-or-no-p 'y-or-n-p)                     ; Replace yes/no prompts with y/n
@@ -152,6 +153,11 @@
   (setq mouse-wheel-progressive-speed nil)            ; don't accelerate scrolling
   (setq mouse-wheel-follow-mouse 't)                  ; scroll window under mouse
   (setq scroll-step 1)                                ; keyboard scroll one line at a time
+#+end_src
+
+** Line numbers
+#+begin_src emacs-lisp
+   
 #+end_src
 
 ** Backups/Lockfiles
@@ -610,8 +616,7 @@ keybinding (evil mode of course 👻)
   "ty" '(counsel-load-theme 'doom-spacegray :which-key "lighter theme")
   "tt" '(toggle-truncate-lines :which-key "truncate lines")
   "tv" '(visual-line-mode :which-key "visual line mode")
-  "tn" '(menu-bar--display-line-numbers-mode-relative :which-key "display line numbers")
-  "tN" '(display-line-numbers-mode :which-key "display line numbers")
+  "tn" '(display-line-numbers-mode :which-key "display line numbers")
   "tR" '(read-only-mode :which-key "read only mode")
   "tw" '(writeroom-mode :which-key "writeroom mode")
   "tm" '(hide-mode-line-mode :which-key "hide modeline mode")
