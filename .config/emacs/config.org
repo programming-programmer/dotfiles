@@ -140,11 +140,6 @@
   (setq scroll-step 1)                                ; keyboard scroll one line at a time
 #+end_src
 
-** Line numbers
-#+begin_src emacs-lisp
-   
-#+end_src
-
 ** Backups/Lockfiles
 #+begin_src emacs-lisp
   (setq create-lockfiles nil
@@ -163,8 +158,8 @@
    before loading the ACUTAL❗❓ files causes eror that gives mer BIG!!!
    headache point is, don't do dumb programming :)
 #+begin_src emacs-lisp
-  (load "/home/undefined_user/.config/emacs/lisp/funcs.el")
-  (load "/home/undefined_user/.config/emacs/lisp/var.el")
+  (load "/home/mthich/.config/emacs/lisp/funcs.el")
+  (load "/home/mthich/.config/emacs/lisp/var.el")
 #+end_src
 
 ** PATH Variables
@@ -287,7 +282,7 @@ pain in tiling window managers. But it's *also* toggleable
         "<!--/*--><![CDATA[/*><!--*/\n"
         (with-temp-buffer
           (insert-file-contents
-           "/home/undefined_user/.config/emacs/org/outlook_email.css")
+           "/home/mthich/.config/emacs/org/outlook_email.css")
           (buffer-string))
         "/*]]>*/-->\n"
         "</style>\n"))
@@ -318,7 +313,7 @@ pain in tiling window managers. But it's *also* toggleable
  * Java and Langtool.jar required. Not much to setup. But what do I know I'm
    incredibly sleep-deprived lol
    #+begin_src emacs-lisp
-(setq langtool-language-tool-jar "/home/undefined_user/LanguageTool-6.2/languagetool-commandline.jar")
+(setq langtool-language-tool-jar "/home/mthich/LanguageTool-6.2/languagetool-commandline.jar")
 (use-package langtool)
    #+end_src
 
@@ -486,6 +481,7 @@ keybinding (evil mode of course 👻)
   "u" '(universal-argument :which-key "universal-argument")
   "z" '(repeat :which-key "repeat")
   "j" '(jump-to-register :which-key "jump to register")
+  "p" '(flyspell-correct-next :which-key "correct next flyspell error")
 #+end_src
 
 *** Applications
@@ -653,6 +649,8 @@ keybinding (evil mode of course 👻)
     :states '(normal)
     "$" 'evil-end-of-visual-line
     "0" 'evil-beginning-of-visual-line
+
+    ;;Windows
     "C-w m" '(jib/toggle-maximize-buffer :which-key "maximize window")
     )
 #+end_src
@@ -823,7 +821,7 @@ keybinding (evil mode of course 👻)
   (setq org-habit-graph-column 60)
 #+end_src
 
-*** Org-Roam
+*** Org-roam
 #+begin_src emacs-lisp
 (use-package org-roam
   :config
@@ -849,7 +847,7 @@ keybinding (evil mode of course 👻)
 
 ***** School Note Template
 #+begin_src emacs-lisp
-  ("s" "school note" plain (file "/home/undefined_user/.config/emacs/org/school_template.org")
+  ("s" "school note" plain (file "/home/mthich/.config/emacs/org/school_template.org")
    :if-new (file+head "${slug}.org" "#+title: ${title}\n")
    :unnarrowed t)
 #+end_src
@@ -1022,33 +1020,33 @@ keybinding (evil mode of course 👻)
 **** To Refile
 ***** Task
 #+begin_src emacs-lisp
-   ("t" "Todo" entry (file+headline "/home/undefined_user/Notes/refile.org" "Tasks")
+   ("t" "Todo" entry (file+headline "/home/mthich/Notes/refile.org" "Tasks")
     "* TODO  %?\n ")
 #+end_src
 
 ***** Today's Task
 #+begin_src emacs-lisp
 
-   ("T" "Todo for today" entry (file+headline "/home/undefined_user/Notes/refile.org" "Tasks")
+   ("T" "Todo for today" entry (file+headline "/home/mthich/Notes/refile.org" "Tasks")
     "* TODO  %?\nDEADLINE: %<<%Y-%m-%d>>")
 #+end_src
 
 ***** Notes
 #+begin_src emacs-lisp
-   ("n" "Notes" entry (file+headline "/home/undefined_user/Notes/refile.org" "Notes")
+   ("n" "Notes" entry (file+headline "/home/mthich/Notes/refile.org" "Notes")
   "* %?  \n ")
 #+end_src
 
 ***** Email
 #+begin_src emacs-lisp
-("e" "Email" entry (file+headline "/home/undefined_user/Notes/refile.org" "Emails")
+("e" "Email" entry (file+headline "/home/mthich/Notes/refile.org" "Emails")
    "* To: %? \n")
 #+end_src
 
 **** To Personal
 ***** Errand
 #+begin_src emacs-lisp
-   ("E" "Errand" entry (file+headline "/home/undefined_user/Notes/personal.org" "Tasks")
+   ("E" "Errand" entry (file+headline "/home/mthich/Notes/personal.org" "Tasks")
     "* TODO  %?\n ")
 #+end_src
 
@@ -1059,19 +1057,19 @@ keybinding (evil mode of course 👻)
 
 ***** Movie
 #+begin_src emacs-lisp
-   ("wm" "Movie" entry (file+headline "/home/undefined_user/Notes/watchlist.org" "Movies")
+   ("wm" "Movie" entry (file+headline "/home/mthich/Notes/watchlist.org" "Movies")
     "* TODO  %?\n ")
 #+end_src
 
 ***** Show/Anime
 #+begin_src emacs-lisp
-   ("ws" "Show / Anime" entry (file+headline "/home/undefined_user/Notes/watchlist.org" "Shows / Anime")
+   ("ws" "Show / Anime" entry (file+headline "/home/mthich/Notes/watchlist.org" "Shows / Anime")
     "* TODO  %?\n ")
 #+end_src
 
 ***** Book
 #+begin_src emacs-lisp
-   ("wb" "Book" entry (file+headline "/home/undefined_user/Notes/watchlist.org" "Not Started")
+   ("wb" "Book" entry (file+headline "/home/mthich/Notes/watchlist.org" "Not Started")
     "** TODO  %?\n ")
 #+end_src
 
@@ -1116,7 +1114,7 @@ keybinding (evil mode of course 👻)
 #+end_src
 
 ** Org Agenda
-*** Some sane defaults
+*** Some Sane Defaults
 #+begin_src emacs-lisp
   (setq org-deadline-warning-days 3)
   (setq org-agenda-skip-deadline-if-done t)
@@ -1183,7 +1181,7 @@ keybinding (evil mode of course 👻)
           ))
 #+end_src
 
-*** Highlight current line
+*** Highlight Current Line
 #+begin_src emacs-lisp
 (add-hook 'org-agenda-mode-hook
           '(lambda () (hl-line-mode 1))
@@ -1241,7 +1239,7 @@ keybinding (evil mode of course 👻)
   (add-hook 'LaTeX-mode-hook #'evil-tex-mode)
 #+end_src
 
-** Latex preview
+** Latex Preview
  * This should allow for zahura being used as default pdf viewer. I /might/ change
    to pdf-tools but its not working so whatever
  * THIS iS AMAZING!! JAW DROPEED LIFE RESSURECTED. UNDEFINED NO MORE!! I'm
@@ -1257,7 +1255,7 @@ keybinding (evil mode of course 👻)
                '(output-pdf "Zathura")))
 #+end_src
 
-** Plain Latex file
+** Plain Latex
  * This will give us a class that won’t include all the default packages in the generated LaTeX file. Put this in your init file. You can then use it with #+LATEX_CLASS: org-plain-latex.
 #+begin_src emacs-lisp
 (with-eval-after-load 'ox-latex
