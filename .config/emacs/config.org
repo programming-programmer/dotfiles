@@ -99,7 +99,8 @@
    display-time-default-load-average nil
    display-line-numbers-type 'visual
    display-time-mail-string "")
-
+   ring-bell-function 'ignore
+  
   (fset 'yes-or-no-p 'y-or-n-p)                     ; Replace yes/no prompts with y/n
   (set-default-coding-systems 'utf-8)               ; Default to utf-8 encoding
   (show-paren-mode 1)                               ; Show parent paranthesis
@@ -159,8 +160,8 @@
 
 ** Load Lisp Files
  * SMALL BRAIN MOMENT!!! Apparently??? Loading stuff defined in these files
-   before loading the ACUTAL❗? files causes eror that gives mer BIG!!! headache
- * Point is, don't do dumb programming :)
+   before loading the ACUTAL❗❓ files causes eror that gives mer BIG!!!
+   headache point is, don't do dumb programming :)
 #+begin_src emacs-lisp
   (load "/home/undefined_user/.config/emacs/lisp/funcs.el")
   (load "/home/undefined_user/.config/emacs/lisp/var.el")
