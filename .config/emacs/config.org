@@ -47,11 +47,7 @@
   (setq gcmh-idle-delay 'auto  ; default is 15s
         gcmh-auto-idle-delay-factor 10
         gcmh-high-cons-threshold (* 16 1024 1024))  ; 16mb
-#+end_src
-
-*** GCMH
- * Packages for better garbage collection. Might help
-#+begin_src emacs-lisp
+  
   (add-hook 'emacs-startup-hook
             (lambda ()
               (setq gc-cons-percentage 0.1))) ;; Default value for `gc-cons-percentage'
