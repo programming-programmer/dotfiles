@@ -44,26 +44,10 @@
 
  * Reset garbage collection after initialization (return deprecated memory to stack when idle)
 #+begin_src emacs-lisp
-  (add-hook 'emacs-startup-hook
-            (lambda ()
-              (setq gc-cons-threshold 16777216 ; 16mb
-                    gc-cons-percentage 0.1)))
-
   (setq gcmh-idle-delay 'auto  ; default is 15s
         gcmh-auto-idle-delay-factor 10
         gcmh-high-cons-threshold (* 16 1024 1024))  ; 16mb
-#+end_src
-
-*** GCMH
- * Packages for better garbage collection. Might help
-#+begin_src emacs-lisp
-  (use-package gcmh
-    :diminish gcmh-mode
-    :config
-    (setq gcmh-idle-delay 5
-          gcmh-high-cons-threshold (* 16 1024 1024))  ; 16mb
-    (gcmh-mode 1))
-
+  
   (add-hook 'emacs-startup-hook
             (lambda ()
               (setq gc-cons-percentage 0.1))) ;; Default value for `gc-cons-percentage'
@@ -173,8 +157,8 @@
    before loading the ACUTAL❗? files causes eror that gives mer BIG!!! headache
  * Point is, don't do dumb programming :)
 #+begin_src emacs-lisp
-  (load "/home/mthich/.config/emacs/lisp/funcs.el")
-  (load "/home/mthich/.config/emacs/lisp/var.el")
+  (load "/home/undefined_user/.config/emacs/lisp/funcs.el")
+  (load "/home/undefined_user/.config/emacs/lisp/var.el")
 #+end_src
 
 ** PATH Variables
@@ -204,7 +188,6 @@ pain in tiling window managers. But it's *also* toggleable
 #+begin_src emacs-lisp
   (use-package which-key
     :init (which-key-mode)
-    :diminish which-key-mode
     :config
     (setq which-key-idle-delay 0.4))
 #+end_src
@@ -298,7 +281,7 @@ pain in tiling window managers. But it's *also* toggleable
         "<!--/*--><![CDATA[/*><!--*/\n"
         (with-temp-buffer
           (insert-file-contents
-           "/home/mthich/.config/emacs/org/outlook_email.css")
+           "/home/undefined_user/.config/emacs/org/outlook_email.css")
           (buffer-string))
         "/*]]>*/-->\n"
         "</style>\n"))
@@ -329,7 +312,7 @@ pain in tiling window managers. But it's *also* toggleable
  * Java and Langtool.jar required. Not much to setup. But what do I know I'm
    incredibly sleep-deprived lol
    #+begin_src emacs-lisp
-(setq langtool-language-tool-jar "/home/mthich/LanguageTool-6.2/languagetool-commandline.jar")
+(setq langtool-language-tool-jar "/home/undefined_user/LanguageTool-6.2/languagetool-commandline.jar")
 (use-package langtool)
    #+end_src
 
@@ -863,7 +846,7 @@ keybinding (evil mode of course 👻)
 
 ***** School Note Template
 #+begin_src emacs-lisp
-  ("s" "school note" plain (file "/home/mthich/.config/emacs/org/school_template.org")
+  ("s" "school note" plain (file "/home/undefined_user/.config/emacs/org/school_template.org")
    :if-new (file+head "${slug}.org" "#+title: ${title}\n")
    :unnarrowed t)
 #+end_src
@@ -1036,33 +1019,33 @@ keybinding (evil mode of course 👻)
 **** To Refile
 ***** Task
 #+begin_src emacs-lisp
-   ("t" "Todo" entry (file+headline "/home/mthich/Notes/refile.org" "Tasks")
+   ("t" "Todo" entry (file+headline "/home/undefined_user/Notes/refile.org" "Tasks")
     "* TODO  %?\n ")
 #+end_src
 
 ***** Today's Task
 #+begin_src emacs-lisp
 
-   ("T" "Todo for today" entry (file+headline "/home/mthich/Notes/refile.org" "Tasks")
+   ("T" "Todo for today" entry (file+headline "/home/undefined_user/Notes/refile.org" "Tasks")
     "* TODO  %?\nDEADLINE: %<<%Y-%m-%d>>")
 #+end_src
 
 ***** Notes
 #+begin_src emacs-lisp
-   ("n" "Notes" entry (file+headline "/home/mthich/Notes/refile.org" "Notes")
+   ("n" "Notes" entry (file+headline "/home/undefined_user/Notes/refile.org" "Notes")
   "* %?  \n ")
 #+end_src
 
 ***** Email
 #+begin_src emacs-lisp
-("e" "Email" entry (file+headline "/home/mthich/Notes/refile.org" "Emails")
+("e" "Email" entry (file+headline "/home/undefined_user/Notes/refile.org" "Emails")
    "* To: %? \n")
 #+end_src
 
 **** To Personal
 ***** Errand
 #+begin_src emacs-lisp
-   ("E" "Errand" entry (file+headline "/home/mthich/Notes/personal.org" "Tasks")
+   ("E" "Errand" entry (file+headline "/home/undefined_user/Notes/personal.org" "Tasks")
     "* TODO  %?\n ")
 #+end_src
 
@@ -1073,19 +1056,19 @@ keybinding (evil mode of course 👻)
 
 ***** Movie
 #+begin_src emacs-lisp
-   ("wm" "Movie" entry (file+headline "/home/mthich/Notes/watchlist.org" "Movies")
+   ("wm" "Movie" entry (file+headline "/home/undefined_user/Notes/watchlist.org" "Movies")
     "* TODO  %?\n ")
 #+end_src
 
 ***** Show/Anime
 #+begin_src emacs-lisp
-   ("ws" "Show / Anime" entry (file+headline "/home/mthich/Notes/watchlist.org" "Shows / Anime")
+   ("ws" "Show / Anime" entry (file+headline "/home/undefined_user/Notes/watchlist.org" "Shows / Anime")
     "* TODO  %?\n ")
 #+end_src
 
 ***** Book
 #+begin_src emacs-lisp
-   ("wb" "Book" entry (file+headline "/home/mthich/Notes/watchlist.org" "Not Started")
+   ("wb" "Book" entry (file+headline "/home/undefined_user/Notes/watchlist.org" "Not Started")
     "** TODO  %?\n ")
 #+end_src
 
