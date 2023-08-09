@@ -31,6 +31,7 @@
      #+begin_src sh
     cargo install alacritty
      #+end_src
+
 * Bash
  * In order to source bash at .config location, you have to add this to /
    etc/bash.bashrc:

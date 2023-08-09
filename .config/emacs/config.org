@@ -15,9 +15,9 @@
  * Also! Install Source Code Pro
 
  * For email and such there is an HTML addon for outlook and gmail has it by
-   def. Happy hacking!!
+   default Happy hacking!!
 
- * Download ispell (package manager) for flyspell
+ * Download ispell (via package manager) for flyspell
  * Also download java and languagetool.jar for langtool
    * Not that hard once you get to it. Java is getting easier each install 
 * System
@@ -31,7 +31,7 @@
 *** Check if loading as DEMON!
 #+begin_src emacs-lisp
 (if (daemonp)
-    (message "Loading in the daemon!")
+    (message "Loading in DEMON!!!😈")
     (message "Loading in regular Emacs!"))
 #+end_src
 
@@ -162,6 +162,8 @@
 #+end_src
 
 ** PATH Variables
+ * Added because langtool requires java and for some reason?? java isn't with
+   emacs's path as well
 #+begin_src emacs-lisp
 (add-to-list 'exec-path "/opt/jdk-20.0.2/bin")
 #+end_src
@@ -175,9 +177,8 @@ google™ we must *not* rely on such things
   (setq delete-by-moving-to-trash t)
 #+end_src
 
-** Start Maximized
- * Having Fullscreen on startup is a pain with the ugly bar and it would be a
-pain in tiling window managers. But it's *also* toggleable
+** Start Fullscreen
+ * Start fullscreen may change don't be surprised. 
 #+begin_src emacs-lisp
   (add-hook 'emacs-startup-hook 'toggle-frame-fullscreen)
 #+end_src
@@ -222,7 +223,13 @@ pain in tiling window managers. But it's *also* toggleable
   (set-register ?p (cons 'file (concat mt/org-notes "/personal.org")))
   (set-register ?w (cons 'file (concat mt/org-notes "/work.org")))
   (set-register ?W (cons 'file (concat mt/org-notes "/watchlist.org")))
-  (set-register ?e (cons 'file (concat mt/org-notes "/SUM_2023/ENGL_C101/engl_101.org")))
+
+  ;; Classes
+  (set-register ?F (cons 'file (concat mt/org-notes "/FALL_2023/fall_2023.org")))
+  (set-register ?d (cons 'file (concat mt/org-notes "/FALL_2023/Drivers_ED/driver_s_education.org")))
+  (set-register ?e (cons 'file (concat mt/org-notes "/FALL_2023/ENGL_C102/engl_c102.org")))
+  (set-register ?m (cons 'file (concat mt/org-notes "/FALL_2023/MATH_C151/math_c151.org")))
+  (set-register ?p (cons 'file (concat mt/org-notes "/FALL_2023/POLS_C101/pols_c101.org")))
 #+end_src
 
 ** Deft
@@ -391,10 +398,13 @@ keybinding (evil mode of course 👻)
     :commands (hide-mode-line-mode))
 #+end_src
 
-*** Diminish
-#+begin_src emacs-lisp
-(use-package diminish)
-#+end_src
+*** Global Modeline
+ * Since mini-modeline was flop. This package should fix that :)
+ * Hopefully...
+ * nvm
+ #+begin_src emacs-lisp
+;; lol you thought there was going to be something. hah!! i'm lazy
+ #+end_src
 
 ** Nyan Mode 
  * Nyan mode baby! 
@@ -612,6 +622,7 @@ keybinding (evil mode of course 👻)
 #+begin_src emacs-lisp
   (general-def
     :keymaps 'override
+    "C-;" 'flyspell-correct-wrapper
     )
 #+end_src
 
@@ -822,13 +833,15 @@ keybinding (evil mode of course 👻)
 
 *** Org-roam
 #+begin_src emacs-lisp
-(use-package org-roam
-  :config
-  (org-roam-setup)
+  (use-package org-roam
+    :config
+    (org-roam-setup)
+    (setq org-roam-completion-system 'ivy-mode)
 
-  :custom
-  (org-roam-directory (concat mt/org-notes))
-  (org-roam-completion-everywhere t)
+
+    :custom
+    (org-roam-directory (concat mt/org-notes))
+    (org-roam-completion-everywhere t)
 #+end_src
 
 **** Org Roam Capture Templates
