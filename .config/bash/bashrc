@@ -1,7 +1,3 @@
-# Bindings
-bind '"\C-o":"lfcd\C-m"'
-bind '"\C-t":"tmux new -s HACK -n main\C-m"'
-
 # Very much possible tab completion
 bind 'set show-all-if-ambiguous on'
 bind 'TAB:menu-complete'
@@ -12,10 +8,7 @@ shopt -s autocd
 shopt -s expand_aliases 
 
 # If not running interactively, don't do anything
-case $- in
-    *i*) ;;
-      *) return;;
-esac
+[ -z "$PS1" ] && return
 
 # Bash History
 HISTCONTROL=ignoreboth
@@ -23,8 +16,8 @@ HISTSIZE=100
 HISTFILESIZE=200
 HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/bash/history"
 
-# Load aliases and shortcuts if existent.
-[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/bash/aliasrc" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/bash/aliasrc"
+alias vim="/home/mthich/nvim.appimage"
+alias nvim="/home/mthich/nvim.appimage"
 
 # enable programmable completion features 
 if ! shopt -oq posix; then
@@ -38,9 +31,3 @@ fi
 # the beautiful bash prompt
 PS1="\[\033[1;32m\]\w $ \[\033[00m\]" # Setting PS1 to show full path
 export PROMPT_DIRTRIM=4 # Trimming path to 4 directories
-
-# lfcd script
-LFCD="$HOME/.local/bin/lfcd"
-if [ -f "$LFCD" ]; then
-    source "$LFCD"
-fi
