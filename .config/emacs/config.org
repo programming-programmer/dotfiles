@@ -219,10 +219,10 @@ google™ we must *not* rely on such things
 
   (set-register ?c (cons 'file (concat user-emacs-directory "config.org")))
 
-  (set-register ?r (cons 'file (concat mt/org-notes "/refile.org")))
-  (set-register ?p (cons 'file (concat mt/org-notes "/personal.org")))
-  (set-register ?w (cons 'file (concat mt/org-notes "/work.org")))
-  (set-register ?W (cons 'file (concat mt/org-notes "/watchlist.org")))
+  (set-register ?1 (cons 'file (concat mt/org-notes "/refile.org")))
+  (set-register ?2 (cons 'file (concat mt/org-notes "/personal.org")))
+  (set-register ?3 (cons 'file (concat mt/org-notes "/work.org")))
+  (set-register ?4 (cons 'file (concat mt/org-notes "/watchlist.org")))
 
   ;; Classes
   (set-register ?F (cons 'file (concat mt/org-notes "/FALL_2023/fall_2023.org")))
