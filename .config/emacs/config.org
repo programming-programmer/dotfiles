@@ -123,12 +123,13 @@
 
 ** Version Control
 #+begin_src emacs-lisp
-    (use-package git-auto-commit-mode)
-    (setq
-       gac-ask-for-summary-p nil
-       gac-automatically-add-new-files-p nil
-       gac-automatically-push-p t
-       gac-silent-message-p t)
+  (use-package git-auto-commit-mode
+  :config
+  (setq
+     gac-ask-for-summary-p nil
+     gac-automatically-add-new-files-p nil
+     gac-automatically-push-p t
+     gac-silent-message-p t))
 #+end_src
 
 ** Scrolling improvements
@@ -323,6 +324,28 @@ google™ we must *not* rely on such things
 (use-package langtool)
    #+end_src
 
+** OpenWith
+ * THE ANSWER I NEEDED!! Basically open files with a certain extension with an
+   external program. For more extensions see David's config.daviwil
+ * Maybe add an image viewer later??
+   #+begin_src emacs-lisp
+     (use-package openwith
+       :config
+       (setq openwith-associations
+             (list
+              (list (openwith-make-extension-regexp
+                     '("mpg" "mpeg" "mp3" "mp4"
+                       "avi" "wmv" "wav" "mov" "flv"
+                       "ogm" "ogg" "mkv"))
+                    "mpv"
+                    '(file))
+              (list (openwith-make-extension-regexp
+                     '("pdf"))
+                    "zathura"
+                    '(file))))
+       (openwith-mode))
+   #+end_src
+
 * Aesthetics
 ** Font
  * NOTE: On a new system, you will have to install Source Code Pro on the system
@@ -406,7 +429,7 @@ keybinding (evil mode of course 👻)
 ;; lol you thought there was going to be something. hah!! i'm lazy
  #+end_src
 
-** Nyan Mode 
+** Nyan Mode
  * Nyan mode baby! 
 #+begin_src emacs-lisp
   (use-package nyan-mode 
@@ -416,6 +439,7 @@ keybinding (evil mode of course 👻)
 
 ** Emojis
  * Install Noto Color Emoji beforehand though 😔
+ * After Emacs 29+ no more emojify needed.
 #+begin_src emacs-lisp
   (use-package emojify
     :config
@@ -761,23 +785,16 @@ keybinding (evil mode of course 👻)
            ("TAB" . ivy-alt-done)
            ("C-j" . ivy-next-line)
            ("C-k" . ivy-previous-line)
+           ("C-SPC" . ivy-restrict-to-matches)
            :map ivy-switch-buffer-map
            ("C-k" . ivy-previous-line)
            ("C-l" . ivy-done)
            ("C-d" . ivy-switch-buffer-kill)
+           ("C-SPC" . ivy-restrict-to-matches)
            :map ivy-reverse-i-search-map
            ("C-k" . ivy-previous-line)
-           ("C-d" . ivy-reverse-i-search-kill))
-    :general
-    (general-define-key
-     ;; Also put in ivy-switch-buffer-map b/c otherwise switch buffer map overrides and C-k kills buffers
-     :keymaps '(ivy-minibuffer-map ivy-switch-buffer-map)
-     "S-SPC" 'nil
-     "C-SPC" 'ivy-restrict-to-matches ;; Default is S-SPC, changed this b/c sometimes I accidentally hit S-SPC
-     ;; C-j and C-k to move up/down in Ivy
-     ;; I'm not sure if this is redundant but it's whatever
-     "C-k" 'ivy-previous-line
-     "C-j" 'ivy-next-line)
+           ("C-d" . ivy-reverse-i-search-kill)
+           )
     :config
     (setq ivy-use-virtual-buffers t)
     (setq ivy-wrap t)
@@ -974,6 +991,7 @@ keybinding (evil mode of course 👻)
      org-cycle-separator-lines 2
      org-startup-with-inline-images t
      org-hide-emphasis-markers t
+     org-tags-column 0
 
 #+end_src
 
@@ -1108,7 +1126,6 @@ keybinding (evil mode of course 👻)
 
 *** Pretty Symbols
 #+begin_src emacs-lisp
-  ;; Prettifying src blocks
   (setq-default prettify-symbols-alist '(("#+BEGIN_SRC" . "†")
                                          ("#+END_SRC" . "†")
                                          ("#+begin_src" . "†")
