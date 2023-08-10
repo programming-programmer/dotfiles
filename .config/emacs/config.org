@@ -392,10 +392,6 @@ keybinding (evil mode of course 👻)
     :commands (hide-mode-line-mode))
 #+end_src
 
-*** Diminish
-#+begin_src emacs-lisp
-(use-package diminish)
-#+end_src
 
 ** Nyan Mode 
  * Nyan mode baby! 
