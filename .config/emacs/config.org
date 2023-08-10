@@ -219,11 +219,17 @@ pain in tiling window managers. But it's *also* toggleable
 
   (set-register ?c (cons 'file (concat user-emacs-directory "config.org")))
 
-  (set-register ?r (cons 'file (concat mt/org-notes "/refile.org")))
-  (set-register ?p (cons 'file (concat mt/org-notes "/personal.org")))
-  (set-register ?w (cons 'file (concat mt/org-notes "/work.org")))
-  (set-register ?W (cons 'file (concat mt/org-notes "/watchlist.org")))
-  (set-register ?e (cons 'file (concat mt/org-notes "/SUM_2023/ENGL_C101/engl_101.org")))
+  (set-register ?1 (cons 'file (concat mt/org-notes "/refile.org")))
+  (set-register ?2 (cons 'file (concat mt/org-notes "/personal.org")))
+  (set-register ?3 (cons 'file (concat mt/org-notes "/work.org")))
+  (set-register ?4 (cons 'file (concat mt/org-notes "/watchlist.org")))
+
+  ;; Classes
+  (set-register ?F (cons 'file (concat mt/org-notes "/FALL_2023/fall_2023.org")))
+  (set-register ?d (cons 'file (concat mt/org-notes "/FALL_2023/Drivers_ED/driver_s_education.org")))
+  (set-register ?e (cons 'file (concat mt/org-notes "/FALL_2023/ENGL_C102/engl_c102.org")))
+  (set-register ?m (cons 'file (concat mt/org-notes "/FALL_2023/MATH_C151/math_c151.org")))
+  (set-register ?p (cons 'file (concat mt/org-notes "/FALL_2023/POLS_C101/pols_c101.org")))
 #+end_src
 
 ** Deft
@@ -957,9 +963,9 @@ keybinding (evil mode of course 👻)
      org-src-preserve-indentation nil
      org-startup-folded 'content
      org-cycle-separator-lines 2
-     org-startup-with-inline-images t
+     org-startup-wit-inline-images t
      org-hide-emphasis-markers t
-
+     org-tags-column 0
 #+end_src
 
 *** Org Keywords and Faces
