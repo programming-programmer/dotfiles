@@ -28,13 +28,6 @@
   (server-start)
 #+end_src
 
-*** Check if loading as DEMON!
-#+begin_src emacs-lisp
-  (if (daemonp)
-      (message "Loading in the daemon!")
-      (message "Loading in regular Emacs!"))
-#+end_src
-
 ** Garbage Collection
  * Make startup faster by reducing the frequency of garbage collection and then use a hook to measure Emacs startup time. The default is 800 kilobytes. Measured in bytes. Garbage collection off during initialization (focus all memory on initialize)
 #+begin_src emacs-lisp
