@@ -30,9 +30,9 @@
 
 *** Check if loading as DEMON!
 #+begin_src emacs-lisp
-  ;; (if (daemonp)
-  ;;     (message "Loading in the daemon!")
-  ;;     (message "Loading in regular Emacs!"))
+  (if (daemonp)
+      (message "Loading in the daemon!")
+      (message "Loading in regular Emacs!"))
 #+end_src
 
 ** Garbage Collection
