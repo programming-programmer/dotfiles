@@ -184,6 +184,13 @@ google™ we must *not* rely on such things
   (add-hook 'emacs-startup-hook 'toggle-frame-fullscreen)
 #+end_src
 
+** Check for Terminal
+#+begin_src emacs-lisp
+  (when (display-graphic-p) 
+    (nyan-mode)
+    )
+#+end_src
+
 * General
 ** Which-key
  * Shows which keys are avaliable. HAH! look at that pun. amazing
@@ -350,16 +357,15 @@ google™ we must *not* rely on such things
 ** Font
  * NOTE: On a new system, you will have to install Source Code Pro on the system
 #+begin_src emacs-lisp
-  (set-face-attribute 'default t :height 100 :weight 'medium)
-  (set-face-attribute 'default t :font "Source Code Pro")
+  (set-face-attribute 'default t :weight 'medium :height 100 :font "Source Code Pro")
 #+end_src
 
  * Font for org-mode
 #+begin_src emacs-lisp
-  (custom-theme-set-faces
-   'user
-   '(variable-pitch ((t (:family "Source Code Pro" :height 100 :weight medium))))
-   '(fixed-pitch ((t ( :family "Source Code Pro" :height 100)))))
+   (custom-theme-set-faces
+    'user
+    '(variable-pitch ((t (:family "Source Code Pro" :weight medium))))
+    '(fixed-pitch ((t ( :family "Source Code Pro" :height 200)))))
 #+end_src 
 
 ** Theme
@@ -433,7 +439,6 @@ keybinding (evil mode of course 👻)
  * Nyan mode baby! 
 #+begin_src emacs-lisp
   (use-package nyan-mode 
-    :init (nyan-mode) 
     :config (setq nyan-wavy-trail nil))
 #+end_src
 
