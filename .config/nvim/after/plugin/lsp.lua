@@ -11,6 +11,8 @@ lsp.ensure_installed({
   --'pyright',
 })
 
+lsp.skip_server_setup({'jdtls'})
+
 -- Fix Undefined global 'vim'
 lsp.nvim_workspace()
 

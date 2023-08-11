@@ -33,14 +33,6 @@ vim.keymap.set("n", "<leader>td", vim.cmd.tabclose)
 vim.keymap.set("n", "<leader>bb", vim.cmd.buffers)
 vim.keymap.set("n", "<leader>bd", vim.cmd.bdelete)
 
--- The amazing (wow) tmux sessionizer in a simple keybind
-vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
-
---Because I'm also emacs-pilled. Save file like emacs
-vim.keymap.set("n", "<leader>fs", function()
-    vim.cmd("w")
-end)
-
 -- Easily source file
 vim.keymap.set("n", "<leader><leader>", function()
 	vim.cmd("so")
