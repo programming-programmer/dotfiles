@@ -185,6 +185,7 @@ google™ we must *not* rely on such things
 #+end_src
 
 ** Check for Terminal
+ * Not a fan of terminal nyan cat. 
 #+begin_src emacs-lisp
   (when (display-graphic-p) 
     (nyan-mode)
