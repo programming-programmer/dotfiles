@@ -187,9 +187,8 @@ google™ we must *not* rely on such things
 ** Check for Terminal
  * Not a fan of terminal nyan cat. 
 #+begin_src emacs-lisp
-  (when (display-graphic-p) 
-    (nyan-mode)
-    )
+  (unless (display-graphic-p) 
+    (nyan-mode))
 #+end_src
 
 * General
