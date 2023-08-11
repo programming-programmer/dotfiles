@@ -10,9 +10,11 @@
  '(custom-safe-themes
    '("ae426fc51c58ade49774264c17e666ea7f681d8cae62570630539be3d06fd964" "bf948e3f55a8cd1f420373410911d0a50be5a04a8886cabe8d8e471ad8fdba8e" default))
  '(org-agenda-files
-   '("~/.config/emacs/org/refile.org" "/mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/personal.org" "/mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/work.org" "/mnt/chromeos/GoogleDrive/MyDrive/SchoolDocuments/Notes/SUM_2023/ENGL_C101/engl_101.org"))
+   '("~/Notes/watchlist.org" "/home/undefined_user/Notes/work.org" "/home/undefined_user/Notes/personal.org" "/home/undefined_user/Notes/refile.org"))
  '(package-selected-packages
-   '(langtool ivy-postframe ivy-posframe git-auto-commit-mode yasnippet dired-x deft gcmh evil-tex auctex evil-org org-fragtog org-appear org-transclusion org-superstar org-roam-ui org-roam org-pomodoro which-key writeroom-mode websocket use-package undo-fu super-save simple-httpd rainbow-delimiters org nyan-mode magit ivy-rich hide-mode-line general evil-collection emojify emacsql doom-themes doom-modeline diminish counsel alert)))
+   '(langtool ivy-postframe ivy-posframe git-auto-commit-mode yasnippet dired-x deft gcmh evil-tex auctex evil-org org-fragtog org-appear org-transclusion org-superstar org-roam-ui org-roam org-pomodoro which-key writeroom-mode websocket use-package undo-fu super-save simple-httpd rainbow-delimiters org nyan-mode magit ivy-rich hide-mode-line general evil-collection emojify emacsql doom-themes doom-modeline diminish counsel alert))
+ '(warning-suppress-log-types '((comp) (use-package) (use-package)))
+ '(warning-suppress-types '((use-package) (use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
