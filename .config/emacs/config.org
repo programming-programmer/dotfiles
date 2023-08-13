@@ -419,7 +419,6 @@ keybinding (evil mode of course 👻)
   "u" '(universal-argument :which-key "universal-argument")
   "z" '(repeat :which-key "repeat")
   "j" '(jump-to-register :which-key "jump to register")
-  "p" '(flyspell-correct-next :which-key "correct next flyspell error")
 #+end_src
 
 *** Applications
