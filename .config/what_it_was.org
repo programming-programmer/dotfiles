@@ -71,7 +71,6 @@
     env CGO_ENABLED=0 go install -ldflags="-s -w" github.com/gokcehan/lf@latest
      #+end_src
 
-       
 * Latex
 ** Installation: TL;DR Unix(ish)
 #+begin_src sh
@@ -307,7 +306,6 @@ tmux source /path/to/tmux/config
  * Install zathura
  * Not much besides that
 
-   
 * Languages
 ** Rust
  * Install via rustup (requires curl)

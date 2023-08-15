@@ -2,36 +2,36 @@
 #+AUTHOR: Mer Thich (programming-programmer)
 
  * Very evil things follow. Beware! 👻
-   
+
 * Preface
  * This is copied from what_it_was.txt
  * Make sure init.el's path to config.org is there
- * use-package making sure is installed doesn't work either so install before
+  * use-package making sure is installed doesn't work either so install before
 
- * If there is an error with org, start emacs with "emacs -q" and install org
+   * If there is an error with org, start emacs with "emacs -q" and install org
 9.x. Then reload emacs
 
  * Install Noto Color Emoji or another emoji font to use emojis in Emacs
- * Also! Install Source Code Pro
+  * Also! Install Source Code Pro
 
- * For email and such there is an HTML addon for outlook and gmail has it by
-   default Happy hacking!!
+   * For email and such there is an HTML addon for outlook and gmail has it by
+default Happy hacking!!
 
  * Download ispell (via package manager) for flyspell
  * Also download java and languagetool.jar for langtool
-   * Not that hard once you get to it. Java is getting easier each install 
+ * Not that hard once you get to it. Java is getting easier each install 
 * System
 ** Start Server
  * Had to do it to em cuz I'm a real one who like my web fast and emacs
-   faster 😎. OHHHH YEAHHHH!!!! I can't see emojis 😔 
+faster 😎. OHHHH YEAHHHH!!!! I can't see emojis 😔 
 #+begin_src emacs-lisp
   (server-start)
 #+end_src
 
 *** Check if loading as DEMON!
 #+begin_src emacs-lisp
-(if (daemonp)
-    (message "Loading in DEMON!!!😈")
+  (if (daemonp)
+      (message "Loading in DEMON!!!😈")
     (message "Loading in regular Emacs!"))
 #+end_src
 
@@ -47,7 +47,7 @@
   (setq gcmh-idle-delay 'auto  ; default is 15s
         gcmh-auto-idle-delay-factor 10
         gcmh-high-cons-threshold (* 16 1024 1024))  ; 16mb
-  
+
   (add-hook 'emacs-startup-hook
             (lambda ()
               (setq gc-cons-percentage 0.1))) ;; Default value for `gc-cons-percentage'
@@ -124,8 +124,8 @@
 ** Version Control
 #+begin_src emacs-lisp
   (use-package git-auto-commit-mode
-  :config
-  (setq
+    :config
+    (setq
      gac-ask-for-summary-p nil
      gac-automatically-add-new-files-p nil
      gac-automatically-push-p t
@@ -155,7 +155,7 @@
 
 ** Load Lisp Files
  * SMALL BRAIN MOMENT!!! Apparently??? Loading stuff defined in these files
-   before loading the ACUTAL❗? files causes eror that gives mer BIG!!! headache
+before loading the ACUTAL❗? files causes eror that gives mer BIG!!! headache
  * Point is, don't do dumb programming :)
 #+begin_src emacs-lisp
   (load "/home/mthich/.config/emacs/lisp/funcs.el")
@@ -164,9 +164,9 @@
 
 ** PATH Variables
  * Added because langtool requires java and for some reason?? java isn't with
-   emacs's path as well
+emacs's path as well
 #+begin_src emacs-lisp
-(add-to-list 'exec-path "/opt/jdk-20.0.2/bin")
+  (add-to-list 'exec-path "/opt/jdk-20.0.2/bin")
 #+end_src
 
 ** Use System Trash
@@ -184,13 +184,6 @@ google™ we must *not* rely on such things
   (add-hook 'emacs-startup-hook 'toggle-frame-fullscreen)
 #+end_src
 
-** Check for Terminal
- * Not a fan of terminal nyan cat. 
-#+begin_src emacs-lisp
-  (unless (display-graphic-p) 
-    (nyan-mode))
-#+end_src
-
 * General
 ** Which-key
  * Shows which keys are avaliable. HAH! look at that pun. amazing
@@ -203,22 +196,22 @@ google™ we must *not* rely on such things
 
 ** Super Save!
 #+begin_src emacs-lisp
-(use-package super-save
-  :diminish super-save-mode
-  :defer 2
-  :config
-  (setq super-save-auto-save-when-idle t
-        super-save-idle-duration 5 ;; after 5 seconds of not typing autosave
-        super-save-triggers ;; Functions after which buffers are saved (switching window, for example)
-        '(evil-window-next evil-window-prev balance-windows other-window next-buffer previous-buffer)
-        super-save-max-buffer-size 10000000)
-  (super-save-mode +1))
+  (use-package super-save
+    :diminish super-save-mode
+    :defer 2
+    :config
+    (setq super-save-auto-save-when-idle t
+          super-save-idle-duration 5 ;; after 5 seconds of not typing autosave
+          super-save-triggers ;; Functions after which buffers are saved (switching window, for example)
+          '(evil-window-next evil-window-prev balance-windows other-window next-buffer previous-buffer)
+          super-save-max-buffer-size 10000000)
+    (super-save-mode +1))
 
-;; After super-save autosaves, wait __ seconds and then clear the buffer. I don't like
-;; the save message just sitting in the echo area.
-(defun jib-clear-echo-area-timer ()
-  (run-at-time "2 sec" nil (lambda () (message " "))))
-(advice-add 'super-save-command :after 'jib-clear-echo-area-timer)
+  ;; After super-save autosaves, wait __ seconds and then clear the buffer. I don't like
+  ;; the save message just sitting in the echo area.
+  (defun jib-clear-echo-area-timer ()
+    (run-at-time "2 sec" nil (lambda () (message " "))))
+  (advice-add 'super-save-command :after 'jib-clear-echo-area-timer)
 #+end_src
 
 ** Registers
@@ -265,7 +258,7 @@ google™ we must *not* rely on such things
 #+begin_src emacs-lisp
   (use-package rainbow-delimiters
     :hook (prog-mode . rainbow-delimiters-mode))
- #+end_src
+#+end_src
 
 ** Magit
  * Magit integration (git integration for emacs)
@@ -278,80 +271,80 @@ google™ we must *not* rely on such things
 
 ** Dired
  * In Emacs 28.1 and beyond you can set dired-kill-when-opening-new-dired-buffer
-   to be true. Since I'm not :( I'll leave it here
+to be true. Since I'm not :( I'll leave it here
 
 ** Email
  * To say I gave up on mu4e would be lying.
  * I don't need the bloat of gmail/outlook in my wonderful emacs. It's bloated enough.
  * Also setting mu4whatever gave me brainshits. I think this is the best of
-   both: Editing in emacs and email yay.
+both: Editing in emacs and email yay.
  * Stolen from [[https://coredumped.dev/2019/02/08/using-org-mode-to-write-email-for-outlook/][here]]
  * So... after writing email, convert to html in clipboard and past in
-   addon(outlook) or editor(gmail). Suffer from sucsess :)
-   #+begin_src emacs-lisp
-     (defun org-email-html-head ()
-       "Create the header with CSS for use with email"
-       (concat
-        "<style type=\"text/css\">\n"
-        "<!--/*--><![CDATA[/*><!--*/\n"
-        (with-temp-buffer
-          (insert-file-contents
-           "/home/mthich/.config/emacs/org/outlook_email.css")
-          (buffer-string))
-        "/*]]>*/-->\n"
-        "</style>\n"))
+addon(outlook) or editor(gmail). Suffer from sucsess :)
+#+begin_src emacs-lisp
+  (defun org-email-html-head ()
+    "Create the header with CSS for use with email"
+    (concat
+     "<style type=\"text/css\">\n"
+     "<!--/*--><![CDATA[/*><!--*/\n"
+     (with-temp-buffer
+       (insert-file-contents
+        "/home/mthich/.config/emacs/org/outlook_email.css")
+       (buffer-string))
+     "/*]]>*/-->\n"
+     "</style>\n"))
 
-     (defun export-org-email ()
-       "Export the current email org buffer and copy it to the
-     clipboard"
-       (interactive)
-       (let ((org-export-show-temporary-export-buffer nil)
-             (org-html-head (org-email-html-head)))
-         (org-html-export-as-html)
-         (with-current-buffer "*Org HTML Export*"
-           (kill-new (buffer-string)))
-         (message "HTML copied to clipboard")))
-   #+end_src 
+  (defun export-org-email ()
+    "Export the current email org buffer and copy it to the
+  clipboard"
+    (interactive)
+    (let ((org-export-show-temporary-export-buffer nil)
+          (org-html-head (org-email-html-head)))
+      (org-html-export-as-html)
+      (with-current-buffer "*Org HTML Export*"
+        (kill-new (buffer-string)))
+      (message "HTML copied to clipboard")))
+#+end_src 
 
 ** Flyspell
 #+begin_src emacs-lisp
-(use-package flyspell-correct
-  :after flyspell
-  :bind (:map flyspell-mode-map ("C-;" . flyspell-correct-wrapper)))
+  (use-package flyspell-correct
+    :after flyspell
+    :bind (:map flyspell-mode-map ("C-;" . flyspell-correct-wrapper)))
 
-(use-package flyspell-correct-ivy
-  :after flyspell-correct)
+  (use-package flyspell-correct-ivy
+    :after flyspell-correct)
 #+end_src
 
 ** Langtool
  * Java and Langtool.jar required. Not much to setup. But what do I know I'm
-   incredibly sleep-deprived lol
-   #+begin_src emacs-lisp
-(setq langtool-language-tool-jar "/home/mthich/LanguageTool-6.2/languagetool-commandline.jar")
-(use-package langtool)
-   #+end_src
+incredibly sleep-deprived lol
+#+begin_src emacs-lisp
+  (setq langtool-language-tool-jar "/home/mthich/LanguageTool-6.2/languagetool-commandline.jar")
+  (use-package langtool)
+#+end_src
 
 ** OpenWith
  * THE ANSWER I NEEDED!! Basically open files with a certain extension with an
-   external program. For more extensions see David's config.daviwil
+external program. For more extensions see David's config.daviwil
  * Maybe add an image viewer later??
-   #+begin_src emacs-lisp
-     (use-package openwith
-       :config
-       (setq openwith-associations
-             (list
-              (list (openwith-make-extension-regexp
-                     '("mpg" "mpeg" "mp3" "mp4"
-                       "avi" "wmv" "wav" "mov" "flv"
-                       "ogm" "ogg" "mkv"))
-                    "mpv"
-                    '(file))
-              (list (openwith-make-extension-regexp
-                     '("pdf"))
-                    "zathura"
-                    '(file))))
-       (openwith-mode))
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package openwith
+    :config
+    (setq openwith-associations
+          (list
+           (list (openwith-make-extension-regexp
+                  '("mpg" "mpeg" "mp3" "mp4"
+                    "avi" "wmv" "wav" "mov" "flv"
+                    "ogm" "ogg" "mkv"))
+                 "mpv"
+                 '(file))
+           (list (openwith-make-extension-regexp
+                  '("pdf"))
+                 "zathura"
+                 '(file))))
+    (openwith-mode))
+#+end_src
 
 * Aesthetics
 ** Font
@@ -362,10 +355,10 @@ google™ we must *not* rely on such things
 
  * Font for org-mode
 #+begin_src emacs-lisp
-   (custom-theme-set-faces
-    'user
-    '(variable-pitch ((t (:family "Source Code Pro" :weight medium))))
-    '(fixed-pitch ((t ( :family "Source Code Pro" :height 200)))))
+  (custom-theme-set-faces
+   'user
+   '(variable-pitch ((t (:family "Source Code Pro" :weight medium))))
+   '(fixed-pitch ((t ( :family "Source Code Pro" :height 200)))))
 #+end_src 
 
 ** Theme
@@ -376,8 +369,7 @@ google™ we must *not* rely on such things
 #+end_src
 
 ** Writeroom
- * I removed the writeroom since it wasn't necessary. I guess I'll keep this one
-though. SIKE!!
+ * Might change to olivetti but I think I'm fine for now
 #+begin_src emacs-lisp
   (use-package visual-fill-column
     :defer t
@@ -399,6 +391,8 @@ though. SIKE!!
 
 ** Modeline
 *** DOOM Modeline
+ * With the defined segements, there is no need for the diminish package and it
+   is _exactly_ how I want :)
 #+begin_src emacs-lisp
   (use-package doom-modeline
     :config
@@ -416,7 +410,7 @@ though. SIKE!!
   (doom-modeline-def-modeline 'minimal
     '(bar modals buffer-info buffer-position)
     '(time major-mode))
-   (doom-modeline-set-modeline 'minimal t)
+  (doom-modeline-set-modeline 'minimal t)
 #+end_src
 
 *** Hide Modeline
@@ -427,19 +421,16 @@ keybinding (evil mode of course 👻)
     :commands (hide-mode-line-mode))
 #+end_src
 
-*** Global Modeline
- * Since mini-modeline was flop. This package should fix that :)
- * Hopefully...
- * nvm
- #+begin_src emacs-lisp
-;; lol you thought there was going to be something. hah!! i'm lazy
- #+end_src
-
-** Nyan Mode
- * Nyan mode baby! 
+*** Nyan Mode
+ * Nyan mode baby!
+ * Should add something that disables it when in a terminal but since
+   emacsclient is "connected" it nullifies it when I have a terminal and gui
+   open at the same time :(
 #+begin_src emacs-lisp
   (use-package nyan-mode 
-    :config (setq nyan-wavy-trail nil))
+    :config
+    (setq nyan-wavy-trail nil)
+    (nyan-mode))
 #+end_src
 
 ** Emojis
@@ -659,7 +650,7 @@ keybinding (evil mode of course 👻)
   ;; Insert keymaps
   (general-def
     :states '(insert)
-  
+
     "C-c" 'evil-normal-state
 
     ;; Emacs ---
@@ -677,6 +668,10 @@ keybinding (evil mode of course 👻)
 
     "<tab>" 'org-cycle
     "TAB" 'org-cycle
+
+    "<S-up>" 'org-increase-number-at-point
+    "<S-down>" 'org-decrease-number-at-point
+
     )
 #+end_src
 
@@ -690,6 +685,10 @@ keybinding (evil mode of course 👻)
 
     ;;Windows
     "C-w m" '(jib/toggle-maximize-buffer :which-key "maximize window")
+
+    "<S-up>" 'org-increase-number-at-point
+    "<S-down>" 'org-decrease-number-at-point
+
     )
 #+end_src
 
@@ -776,8 +775,7 @@ keybinding (evil mode of course 👻)
       (yank))
 #+end_src
 
-* Completion
-** Ivy
+* Ivy
  * Ivy is an excellent completion framework for Emacs. It provides a minimal yet powerful selection menu that appears when you open files, switch buffers, and for many other tasks in Emacs.
 #+begin_src emacs-lisp
   (use-package ivy
@@ -818,19 +816,19 @@ keybinding (evil mode of course 👻)
     (ivy-rich-mode 1))
  #+end_src
 
-** Counsel
+* Counsel
  * Counsel is a customized set of commands to replace `find-file` with
    `counsel-find-file`, etc which provide useful commands for each of the default completion commands.
+ * Allows for selection. Usually you wouldn't be able to browse through the
+   options in the minibuffer but w/ counsel you can
 #+begin_src emacs-lisp
   (use-package counsel
-    :bind (("C-x b" . 'counsel-switch-buffer)
-           :map minibuffer-local-map
-           ("C-r" . 'counsel-minibuffer-history))
+    :bind (("C-x b" . 'counsel-switch-buffer))
     :config
     (counsel-mode 1))
 #+end_src
 
-* Org-Mode
+* Org Mode
 ** Org Packages
 *** Org-pomodoro
  * Assuage the urge to procrastinate
@@ -997,7 +995,7 @@ keybinding (evil mode of course 👻)
      org-startup-with-inline-images t
      org-hide-emphasis-markers t
      org-tags-column 0
-
+     org-adapt-indentation nil
 #+end_src
 
 *** Org Keywords and Faces
@@ -1038,7 +1036,7 @@ keybinding (evil mode of course 👻)
     org-clock-in-switch-to-state "PROG"
 #+end_src
 
-*** End of setq
+*** End of setq block
 #+begin_src emacs-lisp
 )
 #+end_src
@@ -1141,7 +1139,7 @@ keybinding (evil mode of course 👻)
   (add-hook 'org-mode-hook 'prettify-symbols-mode)
 #+end_src
 
-*** End of Org Config
+*** End of Configuration
 #+begin_src emacs-lisp   
  )
 #+end_src
@@ -1155,7 +1153,6 @@ keybinding (evil mode of course 👻)
   (setq org-agenda-skip-deadline-prewarning-if-scheduled t)
   (setq org-agenda-timegrid-use-ampm t)
   (setq org-agenda-block-separator ?-)
-
 #+end_src
 
 *** Custom Agenda Views

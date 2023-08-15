@@ -1,7 +1,7 @@
 local builtin = require('telescope.builtin')
 local state = false
 
-vim.keymap.set('n', '<leader>ff', function()
+vim.keymap.set('n', '<leader>.', function()
     builtin.find_files({ hidden = state});
 end)
 

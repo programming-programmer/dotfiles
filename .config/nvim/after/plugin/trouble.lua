@@ -1,7 +1,7 @@
 vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", {silent = true, noremap = true})
 vim.keymap.set("n", "<leader>xx", function() require("trouble").open() end)
--- settings without a patched font or icons
-{
+
+require("trouble").setup {
     icons = false,
     fold_open = "v", -- icon used for open folds
     fold_closed = ">", -- icon used for closed folds
