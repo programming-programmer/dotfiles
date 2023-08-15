@@ -72,8 +72,8 @@ return require('packer').startup(function(use)
 	-- Java
 	use('mfussenegger/nvim-jdtls')
 
-	-- AESTHETICS --
-	use("ellisonleao/gruvbox.nvim")
+	-- THEME --
+	use("shaunsingh/nord.nvim")
 
 	-- MISC --
 	use('ThePrimeagen/vim-be-good')
