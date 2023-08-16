@@ -28,34 +28,6 @@ cmd open ${{
     esac
 }}
 
-# Select all files in directory
-cmd all-files &{{
-    get_files() {
-        if [ "$lf_hidden" = 'false' ]; then
-            find "$PWD" -mindepth 1 -maxdepth 1 -type f -not -name '.*' -print0
-        else
-            find "$PWD" -mindepth 1 -maxdepth 1 -type f -print0
-        fi |
-        xargs -0 printf ' %q'
-    }
-
-    lf -remote "send $id :unselect; toggle $(get_files)"
-}}
-
-# Select all directories in directory (tongue twister)
-cmd all-dirs &{{
-    get_dirs() {
-        if [ "$lf_hidden" = 'false' ]; then
-            find "$PWD" -mindepth 1 -maxdepth 1 -type d -not -name '.*' -print0
-        else
-            find "$PWD" -mindepth 1 -maxdepth 1 -type d -print0
-        fi |
-        xargs -0 printf ' %q'
-    }
-
-    lf -remote "send $id :unselect; toggle $(get_dirs)"
-}}
-
 # Custom Functions
 cmd mkdir ${{
   printf "Directory Name: "
@@ -130,6 +102,7 @@ map R
 map A
 map b
 map B
+map q
 
 # Basic Functions
 map C load-config
@@ -147,11 +120,10 @@ map x cut
 map yy copy
 map yp yank-path
 map p paste
-map af all-files
-map ad all-dirs
+map <c-c> quit
 
 # Movement
 map gg top
 map gh cd ~
 map gc cd ~/.config
-map gp cd ~/.local/
+map gl cd ~/.local/

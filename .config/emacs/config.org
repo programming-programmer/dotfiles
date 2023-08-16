@@ -433,19 +433,6 @@ keybinding (evil mode of course 👻)
     (nyan-mode))
 #+end_src
 
-** Emojis
- * Install Noto Color Emoji beforehand though 😔
- * After Emacs 29+ no more emojify needed.
-#+begin_src emacs-lisp
-  (use-package emojify
-    :config
-    (when (member "Noto Color Emoji" (font-family-list))
-      (set-fontset-font
-       t 'symbol (font-spec :family "Noto Color Emoji") nil 'prepend))
-    (setq emojify-display-style 'unicode)
-    (setq emojify-emoji-styles '(unicode)))
-#+end_src
-
 * Keybindings
  * All of this thanks to general.el 🎉🎉🎉🎉🎉 YAYAYAY!!
 #+begin_src emacs-lisp
