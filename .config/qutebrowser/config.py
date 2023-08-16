@@ -1,6 +1,4 @@
 # Web Browsers:
-# Brave - DEFAULT
-# Youtube
 c.url.searchengines = {"DEFAULT": "https://search.brave.com/search?q={}", "g": "https://www.google.com/search?q={}", "yt": "https://www.youtube.com/results?search_query={}"}
 
 # Start and Def pages
@@ -14,17 +12,18 @@ config.set("colors.webpage.darkmode.enabled", True)
 c.input.insert_mode.auto_leave = True
 c.input.insert_mode.auto_load = True
 c.input.insert_mode.leave_on_load = True
-c.hints.chars = "aoeuidhtns"
+c.hints.chars = "aoeuhtns"
 c.hints.uppercase = True
 c.tabs.last_close = "startpage"
 c.tabs.mode_on_change = "normal"
-c.tabs.title.format = "{audio}{index}: {current_title}"
+c.tabs.title.format = "{index}: {current_title}"
 c.window.hide_decoration = False
 c.bindings.key_mappings = {"<Ctrl-c>": "<Escape>"}
 c.content.autoplay = False
 
 # General Bindings
 config.bind("M", "hint links spawn mpv {hint-url}")
+config.bind("<Ctrl-F>", "hint links spawn garcon-url-handler {hint-url}")
 config.bind("tb", "config-cycle statusbar.show always never")
 config.bind("tt", "config-cycle tabs.show always never")
 config.unbind("+")
@@ -34,7 +33,6 @@ config.bind("<Ctrl-=>", "zoom-in")
 config.bind("<Ctrl-->", "zoom-out")
 config.bind("K", "tab-next")
 config.bind("J", "tab-prev")
-config.bind("<Ctrl-F>", "hint links spawn garcon-url-handler {hint-url}")
 
 # Insert Bindings
 config.bind("<Ctrl-f>", "fake-key <Right>", mode="insert")
@@ -105,4 +103,4 @@ config.bind("n", "prompt-accept no", mode="yesno")
 config.bind("y", "prompt-accept yes", mode="yesno")
 
 config.bind("<Escape>", "mode-leave", mode="hint")
-config.load_autoconfig(False)
+config.load_autoconfig()
