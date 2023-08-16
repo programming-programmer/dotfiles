@@ -18,6 +18,7 @@ HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/bash/history"
 
 alias vim="/home/mthich/nvim.appimage"
 alias nvim="/home/mthich/nvim.appimage"
+alias em="emacsclient -nw"
 
 # enable programmable completion features 
 if ! shopt -oq posix; then

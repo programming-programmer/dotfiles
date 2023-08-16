@@ -15,7 +15,7 @@ fi
 # Default programs:
 # export EDITOR="$HOME/.local/share/applications/nvim-linux64/bin/nvim"
 
-export PATH=$PATH:/usr/local/texlive/2023/bin/x86_64-linux
+#export PATH=$PATH:/usr/local/texlive/2023/bin/x86_64-linux
 
 # Clean-up, clean up, everybody everywhere!
 export XDG_CONFIG_HOME="$HOME/.config"
