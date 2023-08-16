@@ -22,8 +22,9 @@ c.bindings.key_mappings = {"<Ctrl-c>": "<Escape>"}
 c.content.autoplay = False
 
 # General Bindings
-config.bind("M", "hint links spawn mpv {hint-url}")
-config.bind("<Ctrl-F>", "hint links spawn garcon-url-handler {hint-url}")
+#config.bind(",M", "hint links spawn --verbose --detach mpv --no-ytdl {hint-url}") 
+# ^ I think it will work on linux-only setup
+config.bind(",F", "hint links spawn --verbose garcon-url-handler {hint-url}")
 config.bind("tb", "config-cycle statusbar.show always never")
 config.bind("tt", "config-cycle tabs.show always never")
 config.unbind("+")

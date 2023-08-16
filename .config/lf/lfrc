@@ -118,7 +118,6 @@ map D delete
 map E unarchive
 map x cut
 map yy copy
-map yp yank-path
 map p paste
 map <c-c> quit
 
