@@ -1,6 +1,0 @@
-#+STARTUP: content
-#+FILETAGS: :school:
-#+LATEX_CLASS: org-plain-latex
-
-* Lorem Ipsum
- *  %?
