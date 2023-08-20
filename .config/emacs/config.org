@@ -1,0 +1,1296 @@
+#+TITLE: Mer Thich's Emacs Configuration
+#+AUTHOR: Mer Thich (programming-programmer)
+
+ * Very evil things follow. Beware! 👻
+
+* Preface
+ * This is copied from what_it_was.txt
+ * Make sure init.el's path to config.org is there
+  * use-package making sure is installed doesn't work either so install before
+
+   * If there is an error with org, start emacs with "emacs -q" and install org
+9.x. Then reload emacs
+
+ * Install Noto Color Emoji or another emoji font to use emojis in Emacs
+  * Also! Install Source Code Pro
+
+   * For email and such there is an HTML addon for outlook and gmail has it by
+default Happy hacking!!
+
+ * Download ispell (via package manager) for flyspell
+ * Also download java and languagetool.jar for langtool
+ * Not that hard once you get to it. Java is getting easier each install 
+* System
+** Garbage Collection
+ * Make startup faster by reducing the frequency of garbage collection and then use a hook to measure Emacs startup time. The default is 800 kilobytes. Measured in bytes. Garbage collection off during initialization (focus all memory on initialize)
+#+begin_src emacs-lisp
+  (setq gc-cons-threshold (* 50 1000 1000) 
+        gc-cons-percentage 0.6)
+#+end_src
+
+ * Reset garbage collection after initialization (return deprecated memory to stack when idle)
+#+begin_src emacs-lisp
+  (setq gcmh-idle-delay 'auto  ; default is 15s
+        gcmh-auto-idle-delay-factor 10
+        gcmh-high-cons-threshold (* 16 1024 1024))  ; 16mb
+
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (setq gc-cons-percentage 0.1))) ;; Default value for `gc-cons-percentage'
+
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (message "Emacs ready in %s with %d garbage collections."
+                       (format "%.2f seconds"
+                               (float-time
+                                (time-subtract after-init-time before-init-time)))
+                       gcs-done)))
+#+end_src
+
+** Package Management
+*** Package Sources 
+ * Where to gather package sources (MELPA and MELPA stable, and ELPA)
+#+begin_src emacs-lisp
+  (require 'package)
+  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                           ("melpa-stable" . "https://stable.melpa.org/packages/")
+                           ("elpa" . "https://elpa.gnu.org/packages/")))
+#+end_src
+
+*** Use-package
+ * Use use-package for easier and more concise package management. yay!
+#+begin_src emacs-lisp
+  (require 'use-package)
+  (setq use-package-always-ensure t)
+#+end_src
+
+** Defaults in Emacs
+#+begin_src emacs-lisp
+  (setq-default
+   ad-redefinition-action 'accept                   ; Silence warnings for redefinition
+   inhibit-splash-screen t                          ; No splash screen
+   sentence-end-double-space nil                    ; Double space after a period!? Inhumane!
+   cursor-in-non-selected-windows t                 ; Hide the cursor in inactive windows
+   initial-scratch-message "Welcome to the Church of Emacs!!\n     ^\nʕ•́ᴥ•̀ʔっ"                ; Remove pesky scratch message
+   fill-column 80                                   ; Set width for automatic line breaks
+   help-window-select t                             ; Focus new help windows when opened
+   indent-tabs-mode t                               ; Prefer tabs over inferior spaces
+   inhibit-startup-screen t                         ; Disable start-up screen
+   load-prefer-newer t                              ; Prefer the newest version of a file
+   mark-ring-max 128                                ; Maximum length of mark ring
+   select-enable-clipboard t                        ; Merge system's and Emacs' clipboard
+   tab-width 4                                      ; Set width for tabs
+   vc-follow-symlinks t                             ; Always follow the symlinks
+   view-read-only t                                 ; Always open read only files in view mode
+   display-time-default-load-average nil
+   display-line-numbers-type 'visual
+   display-time-mail-string "")
+
+  (fset 'yes-or-no-p 'y-or-n-p)                     ; Replace yes/no prompts with y/n
+  (set-default-coding-systems 'utf-8)               ; Default to utf-8 encoding
+  (show-paren-mode 1)                               ; Show parent paranthesis
+  (global-visual-line-mode nil)                     ; Turn off that silly visual line mode
+  (savehist-mode t)                                 ; Save history
+  (menu-bar-mode -1)                                ; Remove that menubar pls :)
+  (tool-bar-mode -1)                                ; Remove toolbar too
+  (scroll-bar-mode -1)                              ; Disable visible scrollbar
+  (tooltip-mode -1)                                 ; Disable tooltips
+  (set-fringe-mode 10)                              ; Give some breathing room  
+  (display-line-numbers-mode -1)                    ; No line numbers
+  (display-time-mode 1)                             ; Display time in cwispy modeline
+
+  (setq org-link-frame-setup
+        '((vm . vm-visit-folder-other-frame)
+          (vm-imap . vm-visit-imap-folder-other-frame)
+          (gnus . org-gnus-no-new-news)
+          (file . find-file)
+          (wl . wl-other-frame)))
+#+end_src
+
+** Transparency
+ * If this works, I'll cry from happiness
+ #+begin_src emacs-lisp
+(set-frame-parameter nil 'alpha-background 85)
+
+(add-to-list 'default-frame-alist '(alpha-background . 85))
+ #+end_src
+
+** Version Control
+#+begin_src emacs-lisp
+  (use-package git-auto-commit-mode
+    :config
+    (setq
+     gac-ask-for-summary-p nil
+     gac-automatically-add-new-files-p nil
+     gac-automatically-push-p t
+     gac-silent-message-p t))
+#+end_src
+
+** Scrolling improvements
+#+begin_src emacs-lisp
+  (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ; one line at a time
+  (setq mouse-wheel-progressive-speed nil)            ; don't accelerate scrolling
+  (setq mouse-wheel-follow-mouse 't)                  ; scroll window under mouse
+  (setq scroll-step 1)                                ; keyboard scroll one line at a time
+#+end_src
+
+** Backups/Lockfiles
+#+begin_src emacs-lisp
+  (setq create-lockfiles nil
+        make-backup-files nil
+        ;; But in case the user does enable it, some sensible defaults:
+        version-control t     ; number each backup file
+        backup-by-copying t   ; instead of renaming current file (clobbers links)
+        delete-old-versions t ; clean up after itself
+        kept-old-versions 5
+        kept-new-versions 5
+        backup-directory-alist (list (cons "." (concat user-emacs-directory "backup/"))))
+#+end_src
+
+** Load Lisp Files
+ * SMALL BRAIN MOMENT!!! Apparently??? Loading stuff defined in these files
+before loading the ACUTAL❗? files causes eror that gives mer BIG!!! headache
+ * Point is, don't do dumb programming :)
+#+begin_src emacs-lisp
+  (load "/home/undefined/.config/emacs/lisp/funcs.el")
+  (load "/home/undefined/.config/emacs/lisp/var.el")
+#+end_src
+
+** PATH Variables
+ * Added because langtool requires java and for some reason?? java isn't with
+emacs's path as well
+#+begin_src emacs-lisp
+  (add-to-list 'exec-path "/opt/jdk-20.0.2/bin")
+#+end_src
+
+** Use System Trash
+ * There has been too many times I've had a near heart attack from deleting.
+Google Drive was there to prevent to much loss. However, in a move towards no
+google™ we must *not* rely on such things
+#+begin_src emacs-lisp
+  (setq trash-directory (concat mt/home ".Trash"))
+  (setq delete-by-moving-to-trash t)
+#+end_src
+
+** Start Maximized
+ * Start fullscreen may change don't be surprised. Y'see
+#+begin_src emacs-lisp
+  (add-hook 'emacs-startup-hook 'toggle-frame-maximized)
+#+end_src
+
+* General
+** Which-key
+ * Shows which keys are avaliable. HAH! look at that pun. amazing
+#+begin_src emacs-lisp
+  (use-package which-key
+    :init (which-key-mode)
+    :config
+    (setq which-key-idle-delay 0.4))
+#+end_src
+
+** Super Save!
+#+begin_src emacs-lisp
+  (use-package super-save
+    :diminish super-save-mode
+    :defer 2
+    :config
+    (setq super-save-auto-save-when-idle t
+          super-save-idle-duration 5 ;; after 5 seconds of not typing autosave
+          super-save-triggers ;; Functions after which buffers are saved (switching window, for example)
+          '(evil-window-next evil-window-prev balance-windows other-window next-buffer previous-buffer)
+          super-save-max-buffer-size 10000000)
+    (super-save-mode +1))
+
+  ;; After super-save autosaves, wait __ seconds and then clear the buffer. I don't like
+  ;; the save message just sitting in the echo area.
+  (defun jib-clear-echo-area-timer ()
+    (run-at-time "2 sec" nil (lambda () (message " "))))
+  (advice-add 'super-save-command :after 'jib-clear-echo-area-timer)
+#+end_src
+
+** Registers
+#+begin_src emacs-lisp
+  (setq register-preview-delay 0) ;; Show registers ASAP
+
+  (set-register ?c (cons 'file (concat user-emacs-directory "config.org")))
+
+  (set-register ?1 (cons 'file (concat mt/org-notes "/refile.org")))
+  (set-register ?2 (cons 'file (concat mt/org-notes "/personal.org")))
+  (set-register ?3 (cons 'file (concat mt/org-notes "/work.org")))
+  (set-register ?4 (cons 'file (concat mt/org-notes "/watchlist.org")))
+
+  ;; Classes
+  (set-register ?F (cons 'file (concat mt/org-notes "/FALL_2023/fall_2023.org")))
+  (set-register ?d (cons 'file (concat mt/org-notes "/FALL_2023/Drivers_ED/driver_s_education.org")))
+  (set-register ?e (cons 'file (concat mt/org-notes "/FALL_2023/ENGL_C102/engl_c102.org")))
+  (set-register ?m (cons 'file (concat mt/org-notes "/FALL_2023/MATH_C151/math_c151.org")))
+  (set-register ?p (cons 'file (concat mt/org-notes "/FALL_2023/POLS_C101/pols_c101.org")))
+#+end_src
+
+** Deft
+#+begin_src emacs-lisp
+  (defun jib/deft-kill ()
+    (kill-buffer "*Deft*"))
+
+  (use-package deft
+    :config
+    (setq deft-directory (concat mt/org-notes)
+          deft-extensions '("org" "txt" "md" "tex")
+          deft-recursive t
+          deft-file-limit 40
+          deft-use-filename-as-title t)
+
+    (add-hook 'deft-open-file-hook 'jib/deft-kill) ;; Once a file is opened, kill Deft
+
+    ;; Removes :PROPERTIES: from descriptions
+    (setq deft-strip-summary-regexp ":PROPERTIES:\n\\(.+\n\\)+:END:\n")
+    )
+#+end_src
+
+** Rainbow delimeters
+ * See the nested parentheses (God send) but only in programming-mode
+#+begin_src emacs-lisp
+  (use-package rainbow-delimiters
+    :hook (prog-mode . rainbow-delimiters-mode))
+#+end_src
+
+** Magit
+ * Magit integration (git integration for emacs)
+#+begin_src emacs-lisp
+  (use-package magit
+    :commands (magit-status)
+    :custom
+    (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+#+end_src
+
+** Email
+ * To say I gave up on mu4e would be lying.
+ * I don't need the bloat of gmail/outlook in my wonderful emacs. It's bloated enough.
+ * Also setting mu4whatever gave me brainshits. I think this is the best of
+both: Editing in emacs and email yay.
+ * Stolen from [[https://coredumped.dev/2019/02/08/using-org-mode-to-write-email-for-outlook/][here]]
+ * So... after writing email, convert to html in clipboard and past in
+addon(outlook) or editor(gmail). Suffer from sucsess :)
+#+begin_src emacs-lisp
+  (defun org-email-html-head ()
+    "Create the header with CSS for use with email"
+    (concat
+     "<style type=\"text/css\">\n"
+     "<!--/*--><![CDATA[/*><!--*/\n"
+     (with-temp-buffer
+       (insert-file-contents
+        "/home/undefined/.config/emacs/org/outlook_email.css")
+       (buffer-string))
+     "/*]]>*/-->\n"
+     "</style>\n"))
+
+  (defun export-org-email ()
+    "Export the current email org buffer and copy it to the
+  clipboard"
+    (interactive)
+    (let ((org-export-show-temporary-export-buffer nil)
+          (org-html-head (org-email-html-head)))
+      (org-html-export-as-html)
+      (with-current-buffer "*Org HTML Export*"
+        (kill-new (buffer-string)))
+      (message "HTML copied to clipboard")))
+#+end_src 
+
+** Flyspell
+#+begin_src emacs-lisp
+  (use-package flyspell-correct
+    :after flyspell
+    :bind (:map flyspell-mode-map ("C-;" . flyspell-correct-wrapper)))
+
+  (use-package flyspell-correct-ivy
+    :after flyspell-correct)
+#+end_src
+
+** Langtool
+ * Java and Langtool.jar required. Not much to setup. But what do I know I'm
+incredibly sleep-deprived lol
+#+begin_src emacs-lisp
+  (setq langtool-language-tool-jar "/opt/LanguageTool-6.2/languagetool-commandline.jar")
+  (use-package langtool)
+#+end_src
+
+** OpenWith
+ * THE ANSWER I NEEDED!! Basically open files with a certain extension with an
+external program. For more extensions see David's config.daviwil
+ * Maybe add an image viewer later??
+#+begin_src emacs-lisp
+  (use-package openwith
+    :config
+    (setq openwith-associations
+          (list
+           (list (openwith-make-extension-regexp
+                  '("mpg" "mpeg" "mp3" "mp4"
+                    "avi" "wmv" "wav" "mov" "flv"
+                    "ogm" "ogg" "mkv"))
+                 "mpv"
+                 '(file))
+           (list (openwith-make-extension-regexp
+                  '("pdf"))
+                 "zathura"
+                 '(file))))
+    (openwith-mode))
+#+end_src
+
+* Aesthetics
+** Font
+ * NOTE: On a new system, you will have to install Source Code Pro on the system
+#+begin_src emacs-lisp
+  (set-face-attribute 'default t :weight 'medium :height 100 :font "Source Code Pro")
+#+end_src
+
+ * Font for org-mode
+#+begin_src emacs-lisp
+  (custom-theme-set-faces
+   'user
+   '(variable-pitch ((t (:family "Source Code Pro" :weight medium))))
+   '(fixed-pitch ((t ( :family "Source Code Pro" :height 200)))))
+#+end_src 
+
+** Theme
+#+begin_src emacs-lisp
+  (use-package doom-themes
+    :config
+    (load-theme 'doom-tomorrow-night t))
+#+end_src
+
+** Writeroom
+ * Might change to olivetti but I think I'm fine for now
+#+begin_src emacs-lisp
+  (use-package visual-fill-column
+    :defer t
+    :config
+    (setq visual-fill-column-center-text t)
+    (setq visual-fill-column-width 80)
+    (setq visual-fill-column-center-text t))
+
+  (use-package writeroom-mode
+    :defer t
+    :config
+    (setq writeroom-maximize-window nil
+          writeroom-mode-line nil
+          writeroom-global-effects nil ;; No need to have Writeroom do any of that silly stuff
+          writeroom-extra-line-spacing 3) 
+    (setq writeroom-width visual-fill-column-width)
+    )
+#+end_src
+
+** Modeline
+*** DOOM Modeline
+ * With the defined segements, there is no need for the diminish package and it
+   is _exactly_ how I want :)
+#+begin_src emacs-lisp
+  (use-package doom-modeline
+    :config
+    (doom-modeline-mode)
+    (setq doom-modeline-project-detection 'file-name
+          doom-modeline-highlight-modified-buffer-name t
+          ;; Icons ---
+          doom-modeline-modal t
+          doom-modeline-icon nil
+          doom-modeline-buffer-state-icon t
+          doom-modeline-buffer-modification-icon nil
+          doom-modeline-unicode-fallback nil
+          doom-modeline-bar-width 3))
+
+  (doom-modeline-def-modeline 'minimal
+    '(bar modals buffer-info buffer-position)
+    '(time major-mode))
+  (doom-modeline-set-modeline 'minimal t)
+#+end_src
+
+*** Hide Modeline
+ * Honestly, this is a blessing. Hide the modeline. This is mapped to a
+keybinding (evil mode of course 👻)
+#+begin_src emacs-lisp
+  (use-package hide-mode-line
+    :commands (hide-mode-line-mode))
+#+end_src
+
+*** Nyan Mode
+ * Nyan mode baby!
+ * Should add something that disables it when in a terminal but since
+   emacsclient is "connected" it nullifies it when I have a terminal and gui
+   open at the same time :(
+#+begin_src emacs-lisp
+  (use-package nyan-mode 
+    :init (nyan-mode)
+    :config
+    (setq nyan-wavy-trail nil)
+    (nyan-mode))
+#+end_src
+
+* Keybindings
+ * All of this thanks to general.el 🎉🎉🎉🎉🎉 YAYAYAY!!
+#+begin_src emacs-lisp
+  (use-package general)
+#+end_src
+
+** Evil Mode
+#+begin_src emacs-lisp
+  (use-package evil
+    :init
+    (setq evil-want-keybinding nil) ;; load Evil keybindings in other modes
+    (setq evil-want-fine-undo t)
+    (setq evil-want-Y-yank-to-eol t)
+    (setq evil-mode-line-format nil)
+    (setq evil-disable-insert-state-bindings t)
+  
+    :config
+    (define-key evil-motion-state-map "/" 'swiper)
+    (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+    (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+    (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
+
+    (setq evil-emacs-state-cursor    '("#649bce" box))
+    (setq evil-normal-state-cursor   '("#d9a871" box))
+    (setq evil-operator-state-cursor '("#ebcb8b" hollow))
+    (setq evil-visual-state-cursor   '("#677691" box))
+    (setq evil-insert-state-cursor   '("#eb998b" box))
+    (setq evil-replace-state-cursor  '("#eb998b" hbar))
+    (setq evil-motion-state-cursor   '("#ad8beb" box))
+
+    (evil-set-undo-system 'undo-fu)
+    (evil-mode 1))
+
+  (use-package evil-collection
+    :after evil
+    :config
+    (evil-collection-init))
+#+end_src
+
+*** Undo/Redo Functionality (with undo-tree)
+#+begin_src emacs-lisp
+  (use-package undo-fu)
+#+end_src
+
+** SPC Leader Key
+#+begin_src emacs-lisp
+  (general-define-key
+   :states '(normal motion visual)
+   :keymaps 'override
+   :prefix "SPC"
+#+end_src
+
+*** Top level functions
+#+begin_src emacs-lisp
+  "." '(counsel-find-file :which-key "find file")
+  "r" '(counsel-recentf :which-key "recent files")
+  "TAB" '(switch-to-prev-buffer :which-key "previous buffer")
+  "SPC" '(counsel-M-x :which-key "M-x")
+  "RET" '(counsel-bookmark :which-key "bookmarks")
+  "," '(counsel-switch-buffer :which-key "switch buffers")
+  "c" '(org-capture :which-key "org-capture")
+  "z" '(repeat :which-key "repeat")
+  "j" '(jump-to-register :which-key "jump to register")
+#+end_src
+
+*** Applications
+#+begin_src emacs-lisp
+  "a" '(nil :which-key "open")
+
+  "aa" '(org-agenda :which-key "org-agenda")
+  "ac" '(calendar :which-key "calendar")
+  "aC" '(calc :which-key "calc")
+  "a-" '(dired :which-key "dired")
+  "ad" '(dired-jump :which-key "dired jump")
+  "af" '(make-frame :which-key "new frame")
+  "aF" '(select-frame-by-name :which-key "select frame")
+#+end_src
+
+*** Buffers
+#+begin_src emacs-lisp
+  "b" '(nil :which-key "buffer")
+
+  "bb" '(counsel-switch-buffer :which-key "switch buffers")
+  "bd" '(evil-delete-buffer :which-key "delete buffer")
+  "bn" '(evil-next-buffer :which-key "next buffer")
+  "bp" '(previous-buffer :which-key "previous buffer")
+  "bm" '(bookmark-save :which-key "set bookmark")
+  "bM" '(bookmark-delete  :which-key "delete bookmark")
+  "bN" '(evil-buffer-new :which-key "new empty buffer")
+#+end_src
+
+*** Files
+#+begin_src emacs-lisp
+  "f" '(nil :which-key "files")
+
+  "fb" '(counsel-bookmark :which-key "bookmarks")
+  "fC" '(copy-file :which-key "copy this file")
+  "fD" '(delete-file :which-key "delete this file")
+  "ff" '(counsel-find-file :which-key "find file")
+  "fr" '(counsel-recentf :which-key "recent files")
+  "fR" '(rename-file :which-key "rename/move file")
+  "fs" '(save-buffer :which-key "save buffer")
+  "fS" '(evil-write-all :which-key "save all buffers")
+  "fl" '(org-babel-load-file :which-key "org-babel load file")
+#+end_src
+
+*** Quit/Session
+#+begin_src emacs-lisp
+  "q" '(nil :which-key "quit/session")
+
+  "qd" '(nil :which-key "restart emacs server")
+  "qf" '(delete-frame :which-key "delete frame")
+  "qF" '(delete-other-frames :which-key "delete other frames")
+  "ql" '(recover-session :which-key "restore last session")
+#+end_src
+
+*** Notes
+#+begin_src emacs-lisp
+  "n" '(nil :which-key "notes")
+
+  "nc" '(org-clock-in-last :which-key "toggle last org-clock")
+  "nC" '(org-clock-out :which-key "clock out of current org-clock")
+  "n C-c" '(org-clock-cancel :which-key "cancel current org-clock")
+  "no" '(org-clock-goto :which-key "active org-clock")
+  "np" '(org-pomodoro :which-key "start pomodoro")
+  "nd" '(deft :which-key "open deft")
+
+  "nr" '(nil :which-key "org-roam")
+  "nrl" '(org-roam-buffer-toggle :which-key "toggle buffer")
+  "nrf" '(org-roam-node-find :which-key "find node")
+  "nrc" '(org-roam-capture :which-key "capture node")
+  "nri" '(org-roam-node-insert :which-key "insert node")
+  "nrI" '(org-roam-node-insert-immediate :which-key "immediately insert node")
+#+end_src
+
+*** Help/Emacs
+#+begin_src emacs-lisp
+  "h" '(nil :which-key "help/emacs")
+
+  "h RET" '(info-emacs-manual :which-key "info-emacs-manual")
+  "h'" '(describe-char :which-key "describe-char")
+  "h." '(display-local-help :which-key "desplay-local-help")
+  "h?" '(help-for-help :which-key "help-for-help")
+  "hC" '(describe-coding-system :which-key "describe-coding-system")
+  "he" '(view-echo-area-messages :which-key "view-echo-area-messages")
+  "hf" '(counsel-describe-function :which-key "describe function")
+  "hF" '(counsel-describe-face :which-key "describe-face")
+  "hg" '(describe-gnu-project :which-key "describe-gnu-project")
+  "hi" '(info :which-key "info")
+  "hv" '(describe-variable :which-key "describe variable")
+  "hI" '(describe-input-method :which-key "describe-input-method")
+  "hk" '(describe-key :which-key "describe-key")
+  "hm" '(describe-mode :which-key "describe-mode")
+
+  "hp" '(nil :which-key "packages")
+  "hpr" '(package-refresh-contents :which-key "refresh packages")
+  "hpi" '(package-install :which-key "install packages")
+  "hpd" '(package-delete :which-key "delete package")
+  "hpD" '(describe-package :which-key "describe package")
+#+end_src
+
+*** Insert
+#+begin_src emacs-lisp
+  "i" '(nil :which-key "insert")
+
+  "ie" '(emojify-insert-emoji :which-key "emoji")
+  "iu" '(counsel-unicode-char :which-key "unicode")
+  "iy" '(counsel-yank-pop :which-key "from clipboard")
+  "ij" '(point-to-register :which-key "insert register")
+#+end_src
+
+*** Toggles/Visuals
+#+begin_src emacs-lisp
+  "t" '(nil :which-key "toggles")
+  "ty" '(counsel-load-theme 'doom-spacegray :which-key "lighter theme")
+  "tt" '(toggle-truncate-lines :which-key "truncate lines")
+  "tv" '(visual-line-mode :which-key "visual line mode")
+  "tn" '(display-line-numbers-mode :which-key "display line numbers")
+  "tR" '(read-only-mode :which-key "read only mode")
+  "tw" '(writeroom-mode :which-key "writeroom mode")
+  "tm" '(hide-mode-line-mode :which-key "hide modeline mode")
+  "tM" '(toggle-frame-maximized :which-key "toggle maximized")
+  "tF" '(toggle-frame-fullscreen :which-key "toggle fullscreen")
+#+end_src
+
+*** End SPC prefix block
+#+begin_src emacs-lisp
+  )
+#+end_src
+
+** All-mode keybindings
+#+begin_src emacs-lisp
+  (general-def
+    :keymaps 'override
+    "C-;" 'flyspell-correct-wrapper
+    )
+#+end_src
+
+** Insert Mode Keymaps
+#+begin_src emacs-lisp
+  ;; Insert keymaps
+  (general-def
+    :states '(insert)
+
+    "C-c" 'evil-normal-state
+  
+    ;; Emacs ---
+    "C-x C-m" 'counsel-M-x
+
+    ;; Utility ---
+    "C-s" 'swiper
+
+    "M-k" 'org-metaup
+    "M-j" 'org-metadown
+    "S-M-l" 'org-shiftmetaright
+    "S-M-h" 'org-shiftmetaleft
+    "M-l" 'org-metaright
+    "M-h" 'org-metaleft
+
+    "<tab>" 'org-cycle
+    "TAB" 'org-cycle
+
+    "<S-up>" 'org-increase-number-at-point
+    "<S-down>" 'org-decrease-number-at-point
+
+    )
+#+end_src
+
+** Normal Mode Keymaps
+#+begin_src emacs-lisp
+  ;; Insert keymaps
+  (general-def
+    :states '(normal)
+    "$" 'evil-end-of-visual-line
+    "0" 'evil-beginning-of-visual-line
+
+    ;;Windows
+    "C-w m" '(jib/toggle-maximize-buffer :which-key "maximize window")
+
+    "<S-up>" 'org-increase-number-at-point
+    "<S-down>" 'org-decrease-number-at-point
+
+    )
+#+end_src
+
+** Org mode Keybindings
+#+begin_src emacs-lisp
+  (general-define-key
+   :prefix "SPC m"
+   :states '(normal visual motion)
+   :keymaps '(org-mode-map)
+   "" nil
+   "A" '(org-archive-subtree-default :which-key "org-archive")
+   "g" '(counsel-org-goto :which-key "goto heading")
+   ":" '(counsel-org-tag :which-key "set tags")
+   "P" '(org-set-property :which-key "set property")
+   "E" '(org-export-dispatch :which-key "export org")
+   "C-e" '(export-org-email :which-key "export org email")
+   "e" '(org-set-effort :which-key "set effort")
+   "." '(org-toggle-narrow-to-subtree :which-key "toggle narrow to subtree")
+  
+   "s" '(org-schedule :which-key "schedule")
+   "S" '(jib/org-schedule-tomorrow :which-key "schedule tmrw")
+   "d" '(org-deadline :which-key "deadline")
+
+   "t" '(org-todo :which-key "toggle TODO state")
+   "C" '(org-toggle-checkbox :which-key "toggle checkbox")
+
+   "1" '(org-toggle-link-display :which-key "toggle link display")
+   "2" '(org-toggle-inline-images :which-key "toggle images")
+   "6" '(org-sort :which-key "sort")
+
+   "i" '(nil :which-key "insert")
+   "ii" '(org-id-get-create :which-key "insert org-id")
+   "il" '(org-insert-link :which-key "insert link")
+   "is" '(nil :which-key "insert stamp")
+   "iss" '((lambda () (interactive) (call-interactively (org-time-stamp-inactive))) :which-key "org-time-stamp-inactive")
+   "isS" '((lambda () (interactive) (call-interactively (org-time-stamp nil))) :which-key "org-time-stamp")
+
+   "T" '(nil :which-key "org-transclusion")
+   "Ta" '(org-transclusion-add :which-key "add org-transclusion")
+   "Tt" '(org-transclusion-mode :which-key "org-transclusion mode")
+   )
+#+end_src
+
+** Org Agenda Keybindings
+#+begin_src emacs-lisp
+(general-define-key
+ :prefix ","
+ :states '(normal motion visual)
+ :keymaps '(org-agenda-mode-map)
+ "" nil
+ "c" '(org-capture :which-key "org-capture")
+ "d" '(org-agenda-deadline :which-key "deadline")
+ "s" '(org-agenda-schedule :which-key "schedule") 
+ "t" '(org-agenda-set-tags :which-key "set tags")
+ ;; clocking
+ "c" '(nil :which-key "clocking")
+ "ci" '(org-agenda-clock-in :which-key "clock in")
+ "co" '(org-agenda-clock-out :which-key "clock out")
+ "cj" '(org-clock-goto :which-key "jump to clock")
+ )
+
+(evil-define-key 'motion org-agenda-mode-map
+  (kbd "f") 'org-agenda-later
+  (kbd "b") 'org-agenda-earlier)
+#+end_src
+
+** Dired
+#+begin_src emacs-lisp
+  (evil-define-key 'normal dired-mode-map
+    (kbd "M-RET") 'dired-display-file
+    (kbd "h") 'dired-up-directory
+    (kbd "l") 'dired-find-alternate-file)
+#+end_src
+
+** Duplicate line
+#+begin_src emacs-lisp
+    (defun duplicate-line()
+      (interactive)
+      (move-beginning-of-line 1)
+      (kill-line)
+      (yank)
+      (open-line 1)
+      (next-line 1)
+      (yank))
+#+end_src
+
+* Ivy
+ * Ivy is an excellent completion framework for Emacs. It provides a minimal yet powerful selection menu that appears when you open files, switch buffers, and for many other tasks in Emacs.
+#+begin_src emacs-lisp
+  (use-package ivy
+    :diminish ivy-mode
+    :config
+    (setq ivy-extra-directories nil) ;; Hides . and .. directories
+    (setq ivy-initial-inputs-alist nil) ;; Removes the ^ in ivy searches
+    :bind (("C-s" . swiper)
+           :map ivy-minibuffer-map
+           ("TAB" . ivy-alt-done)
+           ("C-j" . ivy-next-line)
+           ("C-k" . ivy-previous-line)
+           ("C-SPC" . ivy-restrict-to-matches)
+           :map ivy-switch-buffer-map
+           ("C-k" . ivy-previous-line)
+           ("C-l" . ivy-done)
+           ("C-d" . ivy-switch-buffer-kill)
+           ("C-SPC" . ivy-restrict-to-matches)
+           :map ivy-reverse-i-search-map
+           ("C-k" . ivy-previous-line)
+           ("C-d" . ivy-reverse-i-search-kill)
+           )
+    :config
+    (setq ivy-use-virtual-buffers t)
+    (setq ivy-wrap t)
+    (setq ivy-count-format "(%d/%d) ")
+    (setq enable-recursive-minibuffers t)
+
+    (ivy-mode 1))  
+#+end_src
+
+** Ivy Rich
+ * ivy-rich adds extra columns to a few of the Counsel commands to provide more information about each item.
+ #+begin_src emacs-lisp
+   (use-package ivy-rich
+    :init
+    (setq ivy-rich-path-style 'abbrev)
+    (ivy-rich-mode 1))
+ #+end_src
+
+* Counsel
+ * Counsel is a customized set of commands to replace `find-file` with
+   `counsel-find-file`, etc which provide useful commands for each of the default completion commands.
+ * Allows for selection. Usually you wouldn't be able to browse through the
+   options in the minibuffer but w/ counsel you can
+#+begin_src emacs-lisp
+  (use-package counsel
+    :bind (("C-x b" . 'counsel-switch-buffer))
+    :config
+    (counsel-mode 1))
+#+end_src
+
+* Org Mode
+** Org Packages
+*** Org-pomodoro
+ * Assuage the urge to procrastinate
+#+begin_src emacs-lisp
+(use-package org-pomodoro)
+#+end_src
+
+*** Org-indent Face
+ * Make sure org-indent face is avaliable
+ * Makes it so that the headers indent
+#+begin_src emacs-lisp
+    (require 'org-indent)
+#+end_src
+
+*** Org-habit
+#+begin_src emacs-lisp
+  (require 'org-habit)
+  (add-to-list 'org-modules 'org-habit)
+  (setq org-habit-graph-column 60)
+#+end_src
+
+*** Org-roam
+#+begin_src emacs-lisp
+  (use-package org-roam
+    :config
+    (org-roam-setup)
+    (setq org-roam-completion-system 'ivy-mode)
+
+
+    :custom
+    (org-roam-directory (concat mt/org-notes))
+    (org-roam-completion-everywhere t)
+#+end_src
+
+**** Org Roam Capture Templates
+#+begin_src emacs-lisp
+   (org-roam-capture-templates '(
+#+end_src
+
+***** Default Template
+#+begin_src emacs-lisp
+  ("d" "default" plain
+   "%?"
+   :if-new (file+head "${slug}.org" "#+title: ${title}\n")
+   :unnarrowed t)
+#+end_src
+
+***** School Note Template
+#+begin_src emacs-lisp
+  ("s" "school note" plain (file "/home/undefined/.config/emacs/org/school_template.org")
+   :if-new (file+head "${slug}.org" "#+title: ${title}\n")
+   :unnarrowed t)
+#+end_src
+
+***** End of Org Roam 
+#+begin_src emacs-lisp
+  )))
+#+end_src
+
+**** Insert Node Immediately
+ * This will allow you to quickly create new notes for topics you’re mentioning while writing so that you can go back later and fill those notes in with more details!
+#+begin_src emacs-lisp
+(defun org-roam-node-insert-immediate (arg &rest args)
+  (interactive "P")
+  (let ((args (push arg args))
+        (org-roam-capture-templates (list (append (car org-roam-capture-templates)
+                                                  '(:immediate-finish t)))))
+    (apply #'org-roam-node-insert args)))
+#+end_src
+
+**** Org-roam-ui
+#+begin_src emacs-lisp
+(use-package org-roam-ui)
+#+end_src
+
+*** Org-superstar
+ * Nice header bullet points
+#+begin_src emacs-lisp
+    (use-package org-superstar
+      :after org
+      :hook (org-mode . org-superstar-mode)
+      :custom
+      (org-superstar-remove-leading-stars t)
+      (org-superstar-headline-bullets-list '("◈" "○" "◉" "○" "◆" "○")))
+#+end_src
+
+*** Org-macs
+ * It supposedly helps with weird starting issues :shrug:
+#+begin_src emacs-lisp
+  (require 'org-macs)
+#+end_src
+
+*** Org-tempo
+ * Type "<el" then hit Tab to expand template. This is needed as of Org 9.2
+#+begin_src emacs-lisp
+    (require 'org-tempo)
+
+    (add-to-list 'org-structure-template-alist '("sh" . "src sh"))
+    (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+#+end_src
+
+*** Org-transclusion
+#+begin_src emacs-lisp
+(use-package org-transclusion
+  :after org)
+#+end_src
+
+*** Org-appear
+ * Toggle visibility of hidden elements such as emphasis markers, links, etc.
+   #+begin_src emacs-lisp
+     (use-package org-appear
+       :after org)
+     (add-hook 'org-mode-hook 'org-appear-mode)
+   #+end_src
+
+*** Org-fragtog
+ * Automatically toggle Org mode LaTeX fragment previews as the cursor enters
+   and exits them
+   #+begin_src emacs-lisp
+     (use-package org-fragtog
+       :after org)
+     (add-hook 'org-mode-hook 'org-fragtog-mode)
+   #+end_src
+
+*** Evil-org
+#+begin_src emacs-lisp
+(use-package evil-org
+  :diminish evil-org-mode
+  :after org
+  :config
+  (add-hook 'org-mode-hook 'evil-org-mode)
+  (add-hook 'evil-org-mode-hook
+            (lambda () (evil-org-set-key-theme))))
+
+(require 'evil-org-agenda)
+(evil-org-agenda-set-keys)
+#+end_src
+
+** Setup Function
+ * Turn on indentation and auto-fill mode for Org files
+#+begin_src emacs-lisp
+  (defun dw/org-mode-setup ()
+    (org-indent-mode)
+    (variable-pitch-mode 1)
+    (auto-fill-mode)) 
+#+end_src
+
+** Configuration 
+#+begin_src emacs-lisp
+  (use-package org
+    :defer t
+    :hook (org-mode . dw/org-mode-setup)
+    :config
+    (setq
+     org-ellipsis " ▾"
+     org-src-fontify-natively t
+     org-fontify-quote-and-verse-blocks t
+     org-src-tab-acts-natively t
+     org-edit-src-content-indentation 2
+     org-hide-block-startup nil
+     org-src-preserve-indentation nil
+     org-startup-folded 'content
+     org-cycle-separator-lines 2
+     org-startup-with-inline-images t
+     org-hide-emphasis-markers t
+     org-tags-column 0
+     org-adapt-indentation nil
+#+end_src
+
+*** Org Keywords and Faces
+ * I know it sounds silly but the little "|" is acutally really important. It
+   seperates todo from done (or cancelled would be the *only* done state)
+ * So after nearly pulling my hair out, I read thru the manual and discovered
+   that little fact
+ * It solved the agenda problem immediately 😐
+ * I was dissapointed in past me but atleast it's solved :)
+#+begin_src emacs-lisp
+  org-todo-keywords
+  '((sequence "TODO" "PROG" "|" "DONE" "WAITING" "CANCELLED"))
+
+  org-todo-keyword-faces
+  '(("PROG" . (:foreground "dark red" :weight bold))
+    ("DONE" . (:foreground "gray" :weight bold))
+    ("WAITING" . (:foreground "dark slate gray" :weight bold))
+    ("CANCELLED" . (:foreground "dark gray" :weight bold)))         
+  #+end_src
+
+*** Org Agenda Column Format
+  #+begin_src emacs-lisp
+    org-agenda-overriding-columns-format
+    "%TODO %ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM" 
+#+end_src
+
+*** Effort
+#+begin_src emacs-lisp
+    org-global-properties
+    (quote (("Effort_ALL" . "0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")))
+#+end_src
+
+*** Clocking
+#+begin_src emacs-lisp
+    org-clock-mode-line-total 'current ;; Show only timer from current clock session in modeline
+    org-clock-clocked-in-display 'both
+    org-clock-out-when-done t
+    org-clock-in-switch-to-state "PROG"
+#+end_src
+
+*** End of setq block
+#+begin_src emacs-lisp
+)
+#+end_src
+
+*** Org Capture Templates
+#+begin_src emacs-lisp
+  ;; Removes that annoying bookmark for most recent bookmark (hopefully) - IT WORKS YAYAYAA!!!!!!!!!
+  (setq org-bookmark-names-plist nil)
+
+  (setq org-capture-templates '(
+#+end_src
+
+**** To Refile
+***** Task
+#+begin_src emacs-lisp
+   ("t" "Todo" entry (file+headline "/home/undefined/Notes/refile.org" "Tasks")
+    "* TODO  %?\n ")
+#+end_src
+
+***** Today's Task
+#+begin_src emacs-lisp
+
+   ("T" "Todo for today" entry (file+headline "/home/undefined/Notes/refile.org" "Tasks")
+    "* TODO  %?\nDEADLINE: %<<%Y-%m-%d>>")
+#+end_src
+
+***** Notes
+#+begin_src emacs-lisp
+   ("n" "Notes" entry (file+headline "/home/undefined/Notes/refile.org" "Notes")
+  "* %?  \n ")
+#+end_src
+
+***** Email
+#+begin_src emacs-lisp
+("e" "Email" entry (file+headline "/home/undefined/Notes/refile.org" "Emails")
+   "* To: %? \n")
+#+end_src
+
+**** To Personal
+***** Errand
+#+begin_src emacs-lisp
+   ("E" "Errand" entry (file+headline "/home/undefined/Notes/personal.org" "Tasks")
+    "* TODO  %?\n ")
+#+end_src
+
+**** To Watchlist
+#+begin_src emacs-lisp
+  ("w" "To Watchlist")
+#+end_src
+
+***** Movie
+#+begin_src emacs-lisp
+   ("wm" "Movie" entry (file+headline "/home/undefined/Notes/watchlist.org" "Movies")
+    "* TODO  %?\n ")
+#+end_src
+
+***** Show/Anime
+#+begin_src emacs-lisp
+   ("ws" "Show / Anime" entry (file+headline "/home/undefined/Notes/watchlist.org" "Shows / Anime")
+    "* TODO  %?\n ")
+#+end_src
+
+***** Book
+#+begin_src emacs-lisp
+   ("wb" "Book" entry (file+headline "/home/undefined/Notes/watchlist.org" "Not Started")
+    "** TODO  %?\n ")
+#+end_src
+
+**** End of Org Capture Templates
+#+begin_src emacs-lisp
+   ))
+#+end_src
+
+*** Org Refile Targets
+#+begin_src emacs-lisp
+(setq org-refile-targets (quote ((org-agenda-files :maxlevel . 2))))
+(setq org-refile-use-outline-path nil)
+#+end_src
+
+*** Header Sizes
+#+begin_src emacs-lisp
+    (custom-set-faces
+     '(org-level-1 ((t (:inherit outline-1 :height 1.5))))
+     '(org-level-2 ((t (:inherit outline-2 :height 1.3))))
+     '(org-level-3 ((t (:inherit outline-3 :height 1.2))))
+     '(org-level-4 ((t (:inherit outline-4 :height 1.1))))
+     '(org-level-5 ((t (:inherit outline-5 :height 1.1))))
+     )
+#+end_src
+
+*** Pretty Symbols
+#+begin_src emacs-lisp
+  (setq-default prettify-symbols-alist '(("#+BEGIN_SRC" . "†")
+                                         ("#+END_SRC" . "†")
+                                         ("#+begin_src" . "†")
+                                         ("#+end_src" . "†")
+                                         ("=>" . "⇨")))
+
+  (setq prettify-symbols-unprettify-at-point 'right-edge)
+  (add-hook 'org-mode-hook 'prettify-symbols-mode)
+#+end_src
+
+*** End of Configuration
+#+begin_src emacs-lisp   
+ )
+#+end_src
+
+** Org Agenda
+*** Some Sane Defaults
+#+begin_src emacs-lisp
+  (setq org-deadline-warning-days 3)
+  (setq org-agenda-skip-deadline-if-done t)
+  (setq org-agenda-skip-scheduled-if-done t)
+  (setq org-agenda-skip-deadline-prewarning-if-scheduled t)
+  (setq org-agenda-timegrid-use-ampm t)
+  (setq org-agenda-block-separator ?-)
+#+end_src
+
+*** Custom Agenda Views
+ * I would like to remove the "DONE" keyword but it's whatever. I DID IT!! WAHOOOTTOTOTO!!
+#+begin_src emacs-lisp
+  (setq org-agenda-custom-commands
+        `(("d" "Agenda™"
+           ((tags-todo "*"
+                       ((org-agenda-skip-function '(org-agenda-skip-if nil '(timestamp)))
+                        (org-agenda-skip-function
+                         `(org-agenda-skip-entry-if
+                           'notregexp ,(format "\\[#%s\\]" (char-to-string org-priority-highest))))
+                        (org-agenda-block-separator nil)
+                        (org-agenda-overriding-header "Tasks without a date (Refile)")))
+
+            (agenda "" ((org-agenda-span 1)
+                        (org-deadline-warning-days 0)
+                        (org-agenda-block-separator nil)
+                        (org-scheduled-past-days 0)
+                        (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+                        (org-agenda-format-date "%A %-e %B %Y")
+                        (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                        (org-agenda-overriding-header "\nToday's agenda")))
+
+            (agenda "" ((org-agenda-start-on-weekday nil)
+                        (org-agenda-start-day "+1d")
+                        (org-agenda-span 3)
+                        (org-deadline-warning-days 0)
+                        (org-agenda-block-separator nil)
+                        (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                        (org-agenda-overriding-header "\nNext three days")))
+
+            (agenda "" ((org-agenda-time-grid nil)
+                        (org-agenda-start-on-weekday nil)
+                        (org-agenda-start-day "+4d")
+                        (org-agenda-span 14)
+                        (org-agenda-show-all-dates nil)
+                        (org-deadline-warning-days 0)
+                        (org-agenda-block-separator nil)
+                        (org-agenda-entry-types '(:deadline))
+                        (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                        (org-agenda-overriding-header "\nUpcoming deadlines (+14d)")))
+
+            ))
+
+          ("D" "Daily agenda"
+           ((agenda "" ((org-agenda-span 1)
+                        (org-deadline-warning-days 0)
+                        (org-agenda-block-separator nil)
+                        (org-scheduled-past-days 0)
+                        (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+                        (org-agenda-format-date "%A %-e %B %Y")
+                        (org-agenda-overriding-header "Today's agenda")))
+
+            ))
+          ))
+#+end_src
+
+*** Highlight Current Line
+#+begin_src emacs-lisp
+(add-hook 'org-agenda-mode-hook
+          '(lambda () (hl-line-mode 1))
+          'append)
+#+end_src
+
+* Latex
+** Latex
+#+begin_src emacs-lisp
+  (use-package auctex ;; This is a weird one. Package is auctex but needs to be managed like this.
+    :defer t
+    :init
+    (setq TeX-parse-self t ; parse on load
+          TeX-auto-save t  ; parse on save
+          ;; Use directories in a hidden away folder for AUCTeX files.
+          TeX-auto-local (concat user-emacs-directory "auctex/auto/")
+          TeX-style-local (concat user-emacs-directory "auctex/style/")
+
+          TeX-source-correlate-mode t
+          TeX-source-correlate-method 'synctex
+
+          TeX-show-compilation nil
+
+          ;; Don't start the Emacs server when correlating sources.
+          TeX-source-correlate-start-server nil
+
+          ;; Automatically insert braces after sub/superscript in `LaTeX-math-mode'.
+          TeX-electric-sub-and-superscript t
+          ;; Just save, don't ask before each compilation.
+          TeX-save-query nil)
+
+    :general
+    (general-define-key
+     :prefix "SPC m"
+     :states '(normal visual motion)
+     :keymaps 'LaTeX-mode-map
+     "" nil
+     "a" '(TeX-command-run-all :which-key "TeX run all")
+     "c" '(TeX-command-master :which-key "TeX-command-master")
+     "e" '(LaTeX-environment :which-key "Insert environment")
+     "s" '(LaTeX-section :which-key "Insert section")
+     "m" '(TeX-insert-macro :which-key "Insert macro")
+     )
+
+    )
+
+  (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer) ;; Standard way
+  (setq org-latex-listings 't) ;; Enable using listings for code highlighting in export
+
+#+end_src
+
+** Evil Latex!!
+#+begin_src emacs-lisp
+  (use-package evil-tex)
+  (add-hook 'LaTeX-mode-hook #'evil-tex-mode)
+#+end_src
+
+** Latex Preview
+ * This should allow for zahura being used as default pdf viewer. I /might/ change
+   to pdf-tools but its not working so whatever
+ * THIS iS AMAZING!! JAW DROPEED LIFE RESSURECTED. UNDEFINED NO MORE!! I'm
+   sticking with zathura and since a tiling window manager is soon it makes
+   sense instead of slowing emacs with pdf views
+#+begin_src emacs-lisp
+(with-eval-after-load 'tex
+  (setq TeX-source-correlate-method 'synctex)
+  (TeX-source-correlate-mode)
+  (setq TeX-source-correlate-start-server t)
+
+  (add-to-list 'TeX-view-program-selection
+               '(output-pdf "Zathura")))
+#+end_src
+
+** Plain Latex
+ * This will give us a class that won’t include all the default packages in the generated LaTeX file. Put this in your init file. You can then use it with #+LATEX_CLASS: org-plain-latex.
+#+begin_src emacs-lisp
+(with-eval-after-load 'ox-latex
+(add-to-list 'org-latex-classes
+             '("org-plain-latex"
+               "\\documentclass{article}
+           [NO-DEFAULT-PACKAGES]
+           [PACKAGES]
+           [EXTRA]"
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")
+               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
+#+end_src
+
+* You have now reached the end of the configuration.
+ * Do you cringe or are you enlightened? Have a great day either way :)
+#+begin_src 
+  _________________________________________
+ / Invent and fit; have fits and reinvent! \
+ | We toast the Lisp programmer who pens   |
+ | his thoughts within nests of            |
+ \\ parentheses.                           /
+   ---------------------------------------
+          \   ^__^ 
+           \  (oo)\_______
+              (__)\       )\/\\
+                  ||----w |
+                  ||     ||
+#+end_src

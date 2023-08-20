@@ -1,0 +1,94 @@
+#+STARTUP: showeverything
+
+* This is an "ideaboard" for future setups
+
+** No need for GRUB theme because I would only run one distro
+ * Arch/Artix: I don't care for other flavors since there isn't much of a difference 
+ * Debian: If I don't like/am excited about the AUR that much then I can switch over
+ * Gentoo: This is the end goal for true minimalism but this is for later (Kenny supremacy)
+
+** I don't care about systemd so either one I don't care :shrug:
+ * Achkusally, 🤓 I think I do *not* like systemd because I was recently
+   englightened by UNIX and realize many other solutions exsist and systemd
+   might be bloated (I know I sound like a whole ass nerd but #staywithme)
+
+** Rofi would be important
+ * Powermenu: Implement some icons (ctrl+alt or meta P)
+ * Shortcut Menu: List all shortcuts and put (if applicable) shortcuts aside (ctrl+alt or meta S)
+   * I have a lot of ideas for this one:
+     - record screen with ffmpeg (Luke Smith's video is good)
+     - take copied yt link and download (mpv of course)
+     - show recent clipboard items
+     - show output of recent program
+     - screenshot with scrot (or wayland's replacement snag)
+     - scratchpad terminal
+     - add copied link to newsboat url
+     - org-protocol 
+     - wifi menu
+     - calculator
+     - emoji picker
+     - download queued up newsboat videos (luke smith has a script)
+     - Pull up refile.org on emacs (would be for TODO)
+ * Application Menu: List all applications and put (if applicable) shortcuts
+   aside (ctrl+alt or meta A)
+
+** DWM or Sway (wayland)
+ * Four workspaces
+   * official browsing (work or school)
+    * nyxt or brave or librewolf
+    * vim bindings is a must (vimium_c)
+    * has to be a stable browser since school and/or work stuff will be on it
+    * might have to be chromium or close relative of firefox
+ * Emacs with other stuff
+   - In daemon mode, obviously
+   - I'm placing Emacs next since Emacs relates to school and its nice to have
+     it close
+ * fun browsing
+   * fun applications too
+   * gaming or stuff
+ * terminal
+   * foot terminal for wayland / st for X11
+
+ * Cycle each one with alt+n or alt+p or alt+#
+ * Obviously a terminal scrathpad (alt+s)
+   
+** Wallpaper _will_ sync up with pywal
+ * But gruvbox is simply beutiful
+ * Emacs + pywal
+ * LIbrewolf + pywal (pywalfox but should work on librewolf too)
+
+** Stylistic reqs
+ * Mild transperacny but add binding to toggle
+ * Colored border on focused window
+ * I've outgrown rounded corners
+ * Snappy feel (so not *too* much bloat just enough lol)
+ * coreboot pls?
+ * Stickers on laptop (I'll be so proud when you get a monitor)
+
+** What will become of this laptop
+ * Will become debian server for media (movies, shows, and music)
+ * Maybe a git server along the line
+ * Will use all resources towards the VM and enable it to run lid closed (easy fix)
+ * No need to masochist install linux. But it would be nice
+ * Jellyfin for media
+ * Torrent for shows and movies
+ * yt-dlp for music
+
+ * I think a 5tb usb drive would be more than enough. I don't have a lot of
+   movies and shows I plan to watch and even then I can use fmovies (if that is
+   still a viable option down the line)
+
+** Other ideas
+ * Minimal keyboards are the way I would like to go
+ * A split keyboards seems great but small hhkb keyboards are also cool (like
+   the plank ez)
+ * I have no desire to switch out the mouse. It is good :)
+ * A monitor + docked laptop or laptop end setup sounds nice
+ * One libre smartphone for outside stuff/work + flipphone/librephone(titan slim
+   looks cool, qwerty keebs are cool) with all important contacts
+   * GrapheneOS looks cool
+   * fliphone would be simple: talk, text, all music downloaded _(MAIN BAE THO)_
+ * A messenger bag to hold all this because I'm still a girlpop gorlie at heart
+   would also be nice.
+ * I AM PEAK AESTHETIC! NECKBEARDS BEWARE!
+ * I have put all I wanted into this. I am finished.

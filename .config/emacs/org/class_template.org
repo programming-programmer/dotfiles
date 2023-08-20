@@ -1,0 +1,13 @@
+#+STARTUP: content
+#+FILETAGS: :school:
+
+* %?
+** Properties
+ * Professor Name: %^{Professor}
+ * Syllabus: %^{Syllabus}
+ * Textbook: %^{Textbook}
+ * Location: %^{Locaton}
+
+** Meetings
+** Homework
+** Notes

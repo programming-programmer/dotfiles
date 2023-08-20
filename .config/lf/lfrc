@@ -1,0 +1,133 @@
+#Basic Settings
+set hidden true
+set scrolloff 10
+set cursorpreviewfmt "\033[7m"
+
+# Load file
+cmd load-config ${{
+    lf -remote "send $id source ~/.config/lf/lfrc"
+}}
+
+# Open file
+cmd open ${{
+    case $(file --mime-type "$(readlink -f $f)" -b) in
+    # Audio
+	audio/*|video/x-ms-asf) mpv --audio-display=no $f ;;
+
+    # Text
+    text/*|application/json|inode/x-empty|application/x-subrip) nvim $fx;;
+
+    # PDF, EPUB, VND
+   	application/pdf|application/vnd.djvu|application/epub*) setsid -f zathura $fx >/dev/null 2>&1 ;;
+
+    # Image
+   	image/vnd.djvu|application/pdf|application/octet-stream|application/postscript) setsid -f zathura $fx >/dev/null 2>&1 ;;
+
+    # Video
+	video/*) setsid -f mpv $f -quiet >/dev/null 2>&1 ;;
+    esac
+}}
+
+# Custom Functions
+cmd mkdir ${{
+  printf "Directory Name: "
+  read ans
+  mkdir $ans
+}}
+
+cmd mkfile ${{
+  printf "File Name: "
+  read ans
+  touch $ans
+}}
+
+cmd setbg ${{
+  set -f
+  swaybg -i $1
+}}
+
+# Dynamically set number of columns
+cmd column-reload ${{
+    w=$(tput cols)
+    if [ $w -le 80 ]; then
+        lf -remote "send $id set ratios 1:2"
+    elif [ $w -le 160 ]; then
+        lf -remote "send $id set ratios 1:2:3"
+    else
+        lf -remote "send $id set ratios 1:2:3:5"
+    fi
+}}
+
+# New Folder with selected items
+cmd newfolder ${{
+    set -f
+    read newd
+    printf "Directory name: "
+    mkdir -- "$newd"
+    mv -- $fx "$newd"
+}}
+
+cmd unarchive ${{
+  case "$f" in
+      *.zip) unzip "$f" ;;
+      *.tar.gz) tar -xzvf "$f" ;;
+      *.tar.bz2) tar -xjvf "$f" ;;
+      *.tar) tar -xvf "$f" ;;
+      *) echo "Unsupported format" ;;
+  esac
+}}
+
+# compress current file or selected files with tar and gunzip
+cmd tar ${{
+    set -f
+    mkdir $1
+    cp -r $fx $1
+    tar czf $1.tar.gz $1
+    rm -rf $1
+}}
+
+# compress current file or selected files with zip
+cmd zip ${{
+    set -f
+    mkdir $1
+    cp -r $fx $1
+    zip -r $1.zip $1
+    rm -rf $1
+}}
+
+# Unbind some bindings
+map m
+map d
+map Z
+map T
+map C
+map N
+map y
+map R
+map A
+map b
+map B
+
+# Basic Functions
+map C load-config
+map . set hidden!
+map <enter> open
+map R column-reload
+map mf mkfile
+map md mkdir
+map N newfolder
+map Z zip
+map T tar
+map D delete
+map E unarchive
+map x cut
+map yy copy
+map p paste
+map <c-c> quit
+map q quit
+
+# Movement
+map gg top
+map gh cd ~
+map gc cd ~/.config
+map gl cd ~/.local/
