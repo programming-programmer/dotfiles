@@ -4,8 +4,6 @@
 * Preface
  * Install Noto Color Emoji (or another emoji font) and install source code pro
    font
- * For installing arch linux (🤓), check if a) you're connected to internet, b)
-   pacman-keyring is initialized and populated
 * Bash
  * In order to source bash at .config location, just link it. I don't know how I
    overlooked this smh
@@ -78,7 +76,7 @@ tmux source /path/to/tmux/config
 * Zathura
  * Install zathura
  * Not much besides that
-
+   
 * Programming Languages
 ** Rust
  * Install via rustup (requires curl)
@@ -99,3 +97,34 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
  * Install npm for nvim stuff
  * Comes by default
  * I may be forgetting something... nope. Oh wait! you gotta find out how to install npm urself lol >.<
+
+
+* Setup
+** Add username to sudoers file 
+** Install waybar
+** Install ly for diplay manager
+ * I like the big clock and the cmatrix animation
+** Install tmux
+** Link .bashrc and .profile
+** Install nix package management
+ * This is for the packages that aren't up to date
+** Install nix packages
+ * God bless those devs
+   
+ bemenu-0.6.15
+ brightnessctl-0.5.1
+ clipman-1.6.2
+ emacs-pgtk-29.1
+ gammastep-2.0.9
+ lf-30
+ neovim-0.9.1
+ nix-2.17.0
+ python3.11-browser-cookie3-0.19.1
+ python3.11-pynvim-0.4.3
+ yt-dlp-2023.7.6
+** Install rest of applications you see in .config
+ * A good ol sudo apt-get install ...
+** Install latex, language tool, and java
+** Try and set up dunst or mako for battery and org-pomodoro
+ * Not necessary but would be nice :)
+
