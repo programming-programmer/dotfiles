@@ -30,8 +30,7 @@
 		"battery": {
 			"bat": "BAT0",
 			"format": "Battery: {capacity}% |",
-			"interval": 30
-		},
+        },
 
 
 		"network": {

@@ -1,6 +1,6 @@
 #Basic Settings
 set hidden true
-set scrolloff 10
+set scrolloff 8
 set cursorpreviewfmt "\033[7m"
 
 # Load file
@@ -18,32 +18,30 @@ cmd open ${{
     text/*|application/json|inode/x-empty|application/x-subrip) nvim $fx;;
 
     # PDF, EPUB, VND
-   	application/pdf|application/vnd.djvu|application/epub*) setsid -f zathura $fx >/dev/null 2>&1 ;;
+   	application/pdf|application/vnd.djvu|application/epub*) zathura $fx ;;
 
     # Image
-   	image/vnd.djvu|application/pdf|application/octet-stream|application/postscript) setsid -f zathura $fx >/dev/null 2>&1 ;;
+   	image/vnd.djvu|application/pdf|application/octet-stream|application/postscript) imv $fx ;;
 
     # Video
-	video/*) setsid -f mpv $f -quiet >/dev/null 2>&1 ;;
+	video/*) setsid -f mpv $f -quiet ;;
     esac
 }}
 
-# Custom Functions
+# Custom Functions ---
+
+# Make Directory
 cmd mkdir ${{
   printf "Directory Name: "
   read ans
   mkdir $ans
 }}
 
+# Make File
 cmd mkfile ${{
   printf "File Name: "
   read ans
   touch $ans
-}}
-
-cmd setbg ${{
-  set -f
-  swaybg -i $1
 }}
 
 # Dynamically set number of columns
@@ -67,6 +65,7 @@ cmd newfolder ${{
     mv -- $fx "$newd"
 }}
 
+# Unzip/untar based on extension
 cmd unarchive ${{
   case "$f" in
       *.zip) unzip "$f" ;;
@@ -111,7 +110,6 @@ map B
 # Basic Functions
 map C load-config
 map . set hidden!
-map <enter> open
 map R column-reload
 map mf mkfile
 map md mkdir

@@ -7,8 +7,8 @@ c.url.searchengines = {
 }
 
 # Start and Def pages
-c.url.default_page = "https://search.brave.com/"
-c.url.start_pages = "https://search.brave.com/"
+c.url.default_page = "about:blank"
+c.url.start_pages = "about:blank"
 
 # Theme
 config.source("nord-qutebrowser.py")
@@ -35,6 +35,7 @@ config.bind("tt", "config-cycle tabs.show always never")
 config.unbind("+")
 config.unbind("-")
 config.unbind("=")
+config.bind("<Ctrl-0>", "zoom")
 config.bind("<Ctrl-=>", "zoom-in")
 config.bind("<Ctrl-->", "zoom-out")
 config.bind("K", "tab-next")

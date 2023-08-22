@@ -84,7 +84,8 @@ default Happy hacking!!
    view-read-only t                                 ; Always open read only files in view mode
    display-time-default-load-average nil
    display-line-numbers-type 'visual
-   display-time-mail-string "")
+   display-time-mail-string ""
+   warning-minimum-level :emergency)
 
   (fset 'yes-or-no-p 'y-or-n-p)                     ; Replace yes/no prompts with y/n
   (set-default-coding-systems 'utf-8)               ; Default to utf-8 encoding
@@ -589,10 +590,16 @@ keybinding (evil mode of course 👻)
 #+begin_src emacs-lisp
   "i" '(nil :which-key "insert")
 
-  "ie" '(emojify-insert-emoji :which-key "emoji")
+  "ie" '(emoji-insert :which-key "emoji")
   "iu" '(counsel-unicode-char :which-key "unicode")
   "iy" '(counsel-yank-pop :which-key "from clipboard")
   "ij" '(point-to-register :which-key "insert register")
+  "ii" '(org-id-get-create :which-key "insert org-id")
+  "il" '(org-insert-link :which-key "insert link")
+  "is" '(nil :which-key "insert stamp")
+  "iss" '((lambda () (interactive) (call-interactively (org-time-stamp-inactive))) :which-key "org-time-stamp-inactive")
+  "isS" '((lambda () (interactive) (call-interactively (org-time-stamp nil))) :which-key "org-time-stamp")
+
 #+end_src
 
 *** Toggles/Visuals
@@ -696,13 +703,6 @@ keybinding (evil mode of course 👻)
    "2" '(org-toggle-inline-images :which-key "toggle images")
    "6" '(org-sort :which-key "sort")
 
-   "i" '(nil :which-key "insert")
-   "ii" '(org-id-get-create :which-key "insert org-id")
-   "il" '(org-insert-link :which-key "insert link")
-   "is" '(nil :which-key "insert stamp")
-   "iss" '((lambda () (interactive) (call-interactively (org-time-stamp-inactive))) :which-key "org-time-stamp-inactive")
-   "isS" '((lambda () (interactive) (call-interactively (org-time-stamp nil))) :which-key "org-time-stamp")
-
    "T" '(nil :which-key "org-transclusion")
    "Ta" '(org-transclusion-add :which-key "add org-transclusion")
    "Tt" '(org-transclusion-mode :which-key "org-transclusion mode")
@@ -720,7 +720,7 @@ keybinding (evil mode of course 👻)
  "d" '(org-agenda-deadline :which-key "deadline")
  "s" '(org-agenda-schedule :which-key "schedule") 
  "t" '(org-agenda-set-tags :which-key "set tags")
- ;; clocking
+
  "c" '(nil :which-key "clocking")
  "ci" '(org-agenda-clock-in :which-key "clock in")
  "co" '(org-agenda-clock-out :which-key "clock out")
