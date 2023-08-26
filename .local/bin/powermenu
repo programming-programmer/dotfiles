@@ -1,9 +1,9 @@
 #!/bin/bash
 
-entries="Shutdown\nRestart\nSuspend" 
-case "$(echo -e $entries | bemenu -b \ 
+entries="Shutdown\nRestart\nLock" 
+case "$(echo -e $entries | bemenu --bottom --hf "#285577" --tf "#285577" \  
     "Power:" )" in
         Shutdown) exec systemctl poweroff;;
         Restart) exec systemctl reboot;;
-        Suspend) exec systemctl suspend;;
+        Lock) exec swaylock -f -i ~/.local/share/backgrounds/wallhaven-4yoodl.jpg;
 esac

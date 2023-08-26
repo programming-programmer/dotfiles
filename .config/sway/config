@@ -1,14 +1,13 @@
-# Setup
 gaps inner 8
 gaps outer 4
 focus_follows_mouse no
-default_border pixel 3
+default_border pixel 2
 default_floating_border pixel 0
-font pango:monospace 5
 titlebar_padding 1
 titlebar_border_thickness 1
 bar swaybar_command waybar 
-exec wl-paste -t text --watch clipman store
+exec_always wl-paste -t text --watch clipman store
+exec_always swaynag-battery
 
 # Variables
 set $mod Mod4
@@ -17,10 +16,26 @@ set $down j
 set $up k
 set $right l
 set $term foot
-set $menu bemenu-run --no-exec --bottom | xargs swaymsg exec --
+set $menu bemenu-run --no-exec --bottom --hf "#285577" --tf "#285577" | xargs swaymsg exec --
 set $primary_browser qutebrowser
 set $secondary_browser firefox
+set $lockscreenbg ~/.local/share/backgrounds/wallhaven-4yoodl.jpg
 output * bg  ~/.local/share/backgrounds/shrimpCity.jpg fill
+
+floating_modifier $mod normal
+
+bindsym $mod+Shift+s exec warpd --normal
+
+# Idolatry
+exec swayidle -w \
+    timeout 600 'swaylock -f -i $lockscreenbg' \
+    timeout 900 'swaymsg "output * dpms off"' \
+    resume 'swaymsg "output * dpms on"' \
+    before-sleep 'swaylock -f -i $lockscreenbg'
+
+# Lock the screen
+bindsym $mod+Control_L+l exec "swaylock -f -i $lockscreenbg"
+bindswitch --reload --locked lid:on exec swaylock -c "#808080" -f -i $lockscreenbg
 
 # Touchpad
 input "1267:196:Elan_Touchpad" {
@@ -47,10 +62,8 @@ bindsym $mod+Shift+q kill
 bindsym control+mod1+space exec $menu
 bindsym $mod+b exec $primary_browser
 bindsym $mod+Shift+b exec $secondary_browser
-bindsym $mod+e exec emacs
 bindsym $mod+BackSpace exec ~/.local/bin/powermenu
-bindsym $mod+Shift+f exec clipman pick --tool=bemenu --tool-args="-b -l 0"
-floating_modifier $mod normal
+bindsym $mod+e exec clipman pick --tool=bemenu --tool-args="-l 0 --bottom --hf '#285577' --tf '#285577'"
 bindsym $mod+Shift+c reload
 
 ### Moving around:
@@ -58,23 +71,15 @@ bindsym $mod+$left focus left
 bindsym $mod+$down focus down
 bindsym $mod+$up focus up
 bindsym $mod+$right focus right
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
-
-bindsym $mod+bracketleft workspace prev
-bindsym $mod+bracketright workspace next
-
-# Move the focused window with the same, but add Shift
+# ---
 bindsym $mod+Shift+$left move left
 bindsym $mod+Shift+$down move down
 bindsym $mod+Shift+$up move up
 bindsym $mod+Shift+$right move right
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
+# ---
+bindsym $mod+bracketleft workspace prev
+bindsym $mod+bracketright workspace next
+
 
 # Workspaces
 bindsym $mod+1 workspace number 1
@@ -104,11 +109,9 @@ bindsym $mod+Shift+m move scratchpad
 bindsym $mod+m scratchpad show
 
 # Layout
-bindsym $mod+v splith
-bindsym $mod+s splitv
 bindsym $mod+f fullscreen
-bindsym $mod+period floating toggle
-bindsym $mod+Shift+period focus mode_toggle
+bindsym $mod+space floating toggle
+bindsym $mod+Shift+space focus mode_toggle
 mode "layout" {
     bindsym s layout stacking
     bindsym w layout tabbed
@@ -127,22 +130,18 @@ mode "resize" {
     bindsym minus resize shrink height 10px
     bindsym greater resize grow width 10px
 
-    bindsym Left resize shrink width 10px
-    bindsym Down resize grow height 10px
-    bindsym Up resize shrink height 10px
-    bindsym Right resize grow width 10px
-
     bindsym Return mode "default"
     bindsym Escape mode "default"
     bindsym Control+c mode "default"
+    bindsym $mod+r mode "default"
 }
 bindsym $mod+r mode "resize"
 
 # Audio
 bindsym $mod+Shift+minus exec amixer -D pulse sset Master 0%
-bindsym $mod+minus exec amixer -D pulse sset Master 5%-
-bindsym $mod+equal exec amixer -D pulse sset Master 5%+
+bindsym $mod+minus exec amixer -D pulse sset Master 1%-
+bindsym $mod+equal exec amixer -D pulse sset Master 1%+
 
 # Brightness
-bindsym $mod+Shift+z exec brightnessctl set +5%
-bindsym $mod+z exec brightnessctl set 5%-
+bindsym $mod+Shift+z exec brightnessctl set +1%
+bindsym $mod+z exec brightnessctl set 1%-

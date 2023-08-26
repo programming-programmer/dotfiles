@@ -17,11 +17,11 @@ vim.keymap.set("n", "N", "Nzzzv")
 
 -- CLIP DAT THING MRS> DJFKSFLJDSYAY@@
 vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
-vim.keymap.set({"n", "v"}, "<leader>p", [["+p]])
+vim.keymap.set({"n", "v"}, "<leader>P", [["+p]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
 
 -- greatest remap ever
-vim.keymap.set("x", "<leader>P", [["_dP]])
+vim.keymap.set("x", "<leader>p", [["_dP]])
 vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
 
 -- WOOW REPLACE AANNNNDD EXEC. it must be heaven :)

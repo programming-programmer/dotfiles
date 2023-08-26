@@ -2,7 +2,7 @@
 
 ;; File/directory locations --------
 (defvar mt/home (concat (getenv "HOME") "/") "My home directory.")
-(defvar mt/org-notes "/home/undefined/Notes" "Org Notes directory")
+(defvar mt/org-notes "/home/undefined_user/Notes" "Org Notes directory")
 
 (setq bookmark-default-file (concat mt/home ".cache/emacs/bookmarks"))
 

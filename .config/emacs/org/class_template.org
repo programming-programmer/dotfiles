@@ -1,10 +1,12 @@
 #+STARTUP: content
 #+FILETAGS: :school:
 
+ * Insert clocktable!! 🤪 
+
 * %?
 ** Properties
  * Syllabus: %^{Syllabus}
- * Textbook: %^{Textbook}
+ * Textbook(s): %^{Textbook}
 ** Meetings
 ** Homework
 ** Notes

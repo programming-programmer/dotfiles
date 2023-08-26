@@ -28,8 +28,12 @@
 
 
 		"battery": {
-			"bat": "BAT0",
-			"format": "Battery: {capacity}% |",
+            "bat": "BAT0",
+            "format": "Battery: {capacity}% |",
+            "states": {
+                "warning": 30,
+                "critical": 15
+            },
         },
 
 

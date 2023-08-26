@@ -26,10 +26,12 @@ c.window.hide_decoration = False
 c.bindings.key_mappings = {"<Ctrl-c>": "<Escape>"}
 c.content.autoplay = False
 c.window.transparent = True
+c.statusbar.widgets = ['keypress', 'history', 'tabs']
 
 # General Bindings
-config.bind("M", "hint links spawn --verbose --detach mpv '{hint-url}'") 
-config.bind("gF", "hint links spawn firefox {hint-url}")
+config.bind("M", "hint links spawn -v --verbose --detach mpv '{hint-url}'") 
+config.bind(",F", "hint links spawn firefox {hint-url}")
+config.bind(',a', 'adblock-update')
 config.bind("tb", "config-cycle statusbar.show always never")
 config.bind("tt", "config-cycle tabs.show always never")
 config.unbind("+")
@@ -110,4 +112,4 @@ config.bind("n", "prompt-accept no", mode="yesno")
 config.bind("y", "prompt-accept yes", mode="yesno")
 
 config.bind("<Escape>", "mode-leave", mode="hint")
-config.load_autoconfig(False)
+config.load_autoconfig()
