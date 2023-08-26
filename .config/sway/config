@@ -16,9 +16,8 @@ set $down j
 set $up k
 set $right l
 set $term foot
-set $menu bemenu-run --no-exec --bottom --hf "#285577" --tf "#285577" | xargs swaymsg exec --
+set $menu bemenu-run --no-exec --line-height 20 -l 0 --hb '#285577' --hf '#ffffff' --tf '#ffffff' | xargs swaymsg exec --
 set $primary_browser qutebrowser
-set $secondary_browser firefox
 set $lockscreenbg ~/.local/share/backgrounds/wallhaven-4yoodl.jpg
 output * bg  ~/.local/share/backgrounds/shrimpCity.jpg fill
 
@@ -28,13 +27,12 @@ bindsym $mod+Shift+s exec warpd --normal
 
 # Idolatry
 exec swayidle -w \
-    timeout 600 'swaylock -f -i $lockscreenbg' \
-    timeout 900 'swaymsg "output * dpms off"' \
+    timeout 60 'swaylock -f -i $lockscreenbg' \
+    timeout 90 'swaymsg "output * dpms off"' \
     resume 'swaymsg "output * dpms on"' \
     before-sleep 'swaylock -f -i $lockscreenbg'
 
 # Lock the screen
-bindsym $mod+Control_L+l exec "swaylock -f -i $lockscreenbg"
 bindswitch --reload --locked lid:on exec swaylock -c "#808080" -f -i $lockscreenbg
 
 # Touchpad
@@ -61,10 +59,11 @@ bindsym $mod+t exec $term
 bindsym $mod+Shift+q kill
 bindsym control+mod1+space exec $menu
 bindsym $mod+b exec $primary_browser
-bindsym $mod+Shift+b exec $secondary_browser
+bindsym $mod+Shift+b exec qutebrowser ":open -p"
 bindsym $mod+BackSpace exec ~/.local/bin/powermenu
-bindsym $mod+e exec clipman pick --tool=bemenu --tool-args="-l 0 --bottom --hf '#285577' --tf '#285577'"
+bindsym $mod+e exec clipman pick --tool=bemenu --tool-args="--line-height 20 -l 0 --hb '#285577' --hf '#ffffff' --tf '#ffffff'"
 bindsym $mod+Shift+c reload
+bindsym $mod+d exec ~/.local/bin/window_switch
 
 ### Moving around:
 bindsym $mod+$left focus left
@@ -112,7 +111,16 @@ bindsym $mod+m scratchpad show
 bindsym $mod+f fullscreen
 bindsym $mod+space floating toggle
 bindsym $mod+Shift+space focus mode_toggle
-mode "layout" {
+
+# Resizing
+mode "resize/layout" {
+    # Resize
+    bindsym less resize shrink width 10px
+    bindsym plus resize grow height 10px
+    bindsym minus resize shrink height 10px
+    bindsym greater resize grow width 10px
+
+    # Layout
     bindsym s layout stacking
     bindsym w layout tabbed
     bindsym e layout toggle split
@@ -120,22 +128,9 @@ mode "layout" {
     bindsym Return mode "default"
     bindsym Escape mode "default"
     bindsym Control+c mode "default"
-}
-bindsym $mod+c mode "layout"
-
-# Resizing
-mode "resize" {
-    bindsym less resize shrink width 10px
-    bindsym plus resize grow height 10px
-    bindsym minus resize shrink height 10px
-    bindsym greater resize grow width 10px
-
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-    bindsym Control+c mode "default"
     bindsym $mod+r mode "default"
 }
-bindsym $mod+r mode "resize"
+bindsym $mod+r mode "resize/layout"
 
 # Audio
 bindsym $mod+Shift+minus exec amixer -D pulse sset Master 0%

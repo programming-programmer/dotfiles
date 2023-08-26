@@ -1,11 +1,12 @@
 {
-	"layer": "top",	
-		"position": "top",
+    "layer": "bottom",	
+        "position": "top",
+        "padding": 0,
+        "margin": 0,
 
-
-		"modules-left": ["sway/workspaces", "sway/mode"],
-		"modules-center": ["clock"],
-		"modules-right": ["network", "pulseaudio", "battery", "sway/language"],
+        "modules-left": ["sway/workspaces", "sway/mode"],
+        "modules-center": ["clock"],
+        "modules-right": ["network", "pulseaudio", "battery", "sway/language"],
 
         "sway/language": {
             "format": "{shortDescription}",
@@ -15,19 +16,19 @@
             "disable-scroll": true,
             "disable-markup": true,
             "format": "{index}" 
-		},
+        },
 
-		"sway/mode": {
-			"format": "<span style=\"italic\">{}</span>"
-		},
+        "sway/mode": {
+            "format": "<span style=\"italic\">{}</span>"
+        },
 
-		"clock": {
-			"format": "{:%a %b %e %I:%M %p}",
-			"interval": 30
-		},
+        "clock": {
+            "format": "{:%a %b %e %I:%M %p}",
+            "interval": 30
+        },
 
 
-		"battery": {
+        "battery": {
             "bat": "BAT0",
             "format": "Battery: {capacity}% |",
             "states": {
@@ -37,18 +38,18 @@
         },
 
 
-		"network": {
-			"interface": "wlp1s0", 
-			"format-wifi": "Connected: {essid}",
-			"format-disconnected": "Disconnected",
-			"interval": 60
-		},
+        "network": {
+            "interface": "wlp1s0", 
+            "format-wifi": "Connected: {essid}",
+            "format-disconnected": "Disconnected",
+            "interval": 60
+        },
 
-		"pulseaudio": {
-			"format": "| Volume: {volume}% |",
-			"format-muted":"Muted",
-			"interval": 60,
-			"on-click": "blueman-manager"
-		}
+        "pulseaudio": {
+            "format": "| Volume: {volume}% |",
+            "format-muted":"Muted",
+            "interval": 60,
+            "on-click": "blueman-manager"
+        }
 
 }
