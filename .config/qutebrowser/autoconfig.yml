@@ -11,3 +11,5 @@ settings:
   content.register_protocol_handler:
     https://mail.google.com?extsrc=mailto&url=%25s: false
     https://outlook.office365.com?mailtouri=%25s: false
+  tabs.show:
+    global: always
