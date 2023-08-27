@@ -18,10 +18,8 @@
    * I have a lot of ideas for this one:
      - record screen with ffmpeg (Luke Smith's video is good)
      - take copied yt link and download (mpv of course)
-     - show recent clipboard items
      - show output of recent program
      - screenshot with scrot (or wayland's replacement snag)
-     - scratchpad terminal
      - add copied link to newsboat url
      - org-protocol 
      - wifi menu
@@ -52,11 +50,6 @@
  * Cycle each one with alt+n or alt+p or alt+#
  * Obviously a terminal scrathpad (alt+s)
    
-** Wallpaper _will_ sync up with pywal
- * But gruvbox is simply beutiful
- * Emacs + pywal
- * LIbrewolf + pywal (pywalfox but should work on librewolf too)
-
 ** Stylistic reqs
  * Mild transperacny but add binding to toggle
  * Colored border on focused window

@@ -13,19 +13,19 @@
 
  * Install Noto Color Emoji or another emoji font to use emojis in Emacs
   * Also! Install Source Code Pro
-
-   * For email and such there is an HTML addon for outlook and gmail has it by
-default Happy hacking!!
-
  * Download ispell (via package manager) for flyspell
  * Also download java and languagetool.jar for langtool
  * Not that hard once you get to it. Java is getting easier each install 
-* System
-** Server
+** Variables
+ * It's a bit much too have a seperate file for this
 #+begin_src emacs-lisp
-(server-start)
+(defvar mt/home (concat (getenv "HOME") "/") "My home directory.")
+(defvar mt/org-notes "/home/undefined_user/Notes" "Org Notes directory")
+
+(setq bookmark-default-file (concat mt/home ".cache/emacs/bookmarks"))
 #+end_src
 
+* System
 ** Garbage Collection
  * Make startup faster by reducing the frequency of garbage collection and then use a hook to measure Emacs startup time. The default is 800 kilobytes. Measured in bytes. Garbage collection off during initialization (focus all memory on initialize)
 #+begin_src emacs-lisp
@@ -89,8 +89,7 @@ default Happy hacking!!
    view-read-only t                                 ; Always open read only files in view mode
    display-time-default-load-average nil
    display-line-numbers-type 'visual
-   display-time-mail-string ""
-   warning-minimum-level :emergency)
+   display-time-mail-string "")
 
   (fset 'yes-or-no-p 'y-or-n-p)                     ; Replace yes/no prompts with y/n
   (set-default-coding-systems 'utf-8)               ; Default to utf-8 encoding
@@ -160,7 +159,6 @@ before loading the ACUTAL❗? files causes eror that gives mer BIG!!! headache
  * Point is, don't do dumb programming :)
 #+begin_src emacs-lisp
   (load "/home/undefined_user/.config/emacs/lisp/funcs.el")
-  (load "/home/undefined_user/.config/emacs/lisp/var.el")
 #+end_src
 
 ** PATH Variables

@@ -1,18 +1,15 @@
 #+TITLE: Previous Configuration
 #+STARTUP: content
 
-* Preface
- * Install Noto Color Emoji (or another emoji font) and install source code pro
+* Fonts
+ * Install Noto Color Emoji and install source code pro
    font
 * Bash
  * In order to source bash at .config location, just link it. I don't know how I
    overlooked this smh
-
  * profile has environment variables (stuff to add to $PATH and default editor)
   * This has to be linked as the .profile in the home directory in order for it to actually be sourced
-
 * Latex
-** Installation: TL;DR Unix(ish)
 #+begin_src sh
 cd /tmp # working directory of your choice
 curl https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz 
@@ -34,53 +31,19 @@ e.g., /usr/local/texlive/2023/bin/x86_64-linux
    * To change the main installation directories (rarely needed), add --texdir=/install/dir to the install-tl command. To change the location of the per-user directories (where TEXMFHOME and others will be found), specify --texuserdir=/your/dir.
    * To change anything and everything else, omit the --no-interaction. Then you
      are dropped into an interactive installation menu.
-* NVIM
+* Neovim
  * Install packer from the website before because it needs it
+   #+begin_src sh
+git clone --depth 1 https://github.com/wbthomason/packer.nvim\
+ ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+   #+end_src
+
  * write and source init.lua first then install packers stuff
  * For pyright and clangd (python and c++ respectively) install npm and node
    (I'm not a fulltime c++ coder so no biggie)
-
-* Emacs
- * Make sure init.el's path to config.org is installed
- * use-package making sure is installed doesn't work either so install before
-
- * If there is an error with org, start emacs with "emacs -q" and install org
-   9.x. Then reload emacs
-
- * To run emacs as daemon, it needs to run with either systemd or an init
-   script. OR OR OR!!!... you can add "emacs --daemon" to login when on full linux. Because systemd is unusable on chrombook and not first priority, I
-   did not added the init script:
-
- * The Emacs (Client) .desktop file
-   #+begin_src sh
-[Desktop Entry]
-Name=Emacs (Client)
-GenericName=Text Editor
-Comment=Edit text
-MimeType=text/english;text/plain;text/x-makefile;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-csrc;text/x-java;text/x-moc;text/x-pascal;text/x-tcl;text/x-tex;application/x-shellscript;text/x-c;text/x-c++;
-Exec=emacsclient -c -a "emacs" %F
-Icon=emacs
-Type=Application
-Terminal=false
-Categories=Development;TextEditor;Utility;
-StartupWMClass=Emacs
-   #+end_src
-   
-* Tmux
- * Install tmux
-   #+begin_src sh
-tmux source /path/to/tmux/config
-   #+end_src
- * Suffer from success
-   
-* Zathura
- * Install zathura
- * Not much besides that
-   
 * Programming Languages
 ** Rust
  * Install via rustup (requires curl)
-
    #+begin_src sh
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
    #+end_src
@@ -89,42 +52,43 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
  * Download JDK from reputable source
  * untar/unzip in some direcotry (ex. /usr or /opt)
  * Add to path (should already be in /bash/profile)
-
 ** Python
  * Install python3 from package manager
-
 ** C/C++
  * Install npm for nvim stuff
  * Comes by default
  * I may be forgetting something... nope. Oh wait! you gotta find out how to install npm urself lol >.<
-
-
-* Setup
-** Add username to sudoers file 
-** Install waybar
-** Install ly for diplay manager
- * I like the big clock and the cmatrix animation
-** Install tmux
-** Link .bashrc and .profile
-** Install nix package management
- * This is for the packages that aren't up to date
-** Install nix packages
- * God bless those devs
-   
- bemenu-0.6.15
- brightnessctl-0.5.1
- clipman-1.6.2
- emacs-pgtk-29.1
- gammastep-2.0.9
- lf-30
- neovim-0.9.1
- nix-2.17.0
- python3.11-browser-cookie3-0.19.1
- python3.11-pynvim-0.4.3
- yt-dlp-2023.7.6
-** Install rest of applications you see in .config
- * A good ol sudo apt-get install ...
-** Install latex, language tool, and java
-** Try and set up dunst or mako for battery and org-pomodoro
- * Not necessary but would be nice :)
-
+* Nix packages
+#+begin_src sh
+sh <(curl -L https://nixos.org/nix/install) --daemon
+#+end_src
+ * bemenu-0.6.15
+ * brightnessctl-0.5.1
+ * clipman-1.6.2
+ * emacs-pgtk-29.1
+ * gammastep-2.0.9
+ * keyd-2.4.2
+ * lf-30
+ * neovim-0.9.1
+ * swaynag-battery-0.2.0
+ * swayr-0.26.1
+ * warpd-1.3.5
+ * yt-dlp-2023.7.6
+ * *keyd* - this isn't configured but will be :)
+* Debian packages
+ * imv (image viewer)
+ * tmux
+ * latex
+ * foot
+ * i3status
+ * mpv
+ * qutebrowser
+ * pulse audio
+ * sway
+ * swaylock
+ * swaynag
+ * zathura
+ * wl-clipboard
+ * ly
+   * Enable cmatrix and big clock
+ * languagetool

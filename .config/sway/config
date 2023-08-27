@@ -8,7 +8,6 @@ titlebar_border_thickness 1
 exec_always wl-paste -t text --watch clipman store
 exec_always swaynag-battery
 exec_always emacs --daemon
-exec_always  swaymsg input "1267:196:Elan_Touchpad" events disabled
 
 # Variables
 set $mod Mod4
@@ -24,7 +23,7 @@ output * bg $lockscreenbg fill
 
 floating_modifier $mod normal
 bindsym $mod+Shift+s exec warpd --normal
-bindsym $mod+Shift+t exec swaymsg input "1267:196:Elan_Touchpad" events enabled
+bindsym $mod+Shift+t exec swaymsg input "1267:196:Elan_Touchpad" events disabled
 
 bar {
     position top
