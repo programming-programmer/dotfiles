@@ -7,6 +7,8 @@ titlebar_padding 1
 titlebar_border_thickness 1
 exec_always wl-paste -t text --watch clipman store
 exec_always swaynag-battery
+exec_always emacs --daemon
+exec_always  swaymsg input "1267:196:Elan_Touchpad" events disabled
 
 # Variables
 set $mod Mod4
@@ -15,13 +17,14 @@ set $down j
 set $up k
 set $right l
 set $term foot
-set $menu bemenu-run --no-exec --prompt "Launch Application:" --bottom --line-height 20 -l 0 --hb '#285577' --hf '#ffffff' --tf '#ffffff' | xargs swaymsg exec --
+set $menu bemenu-run --no-exec --prompt "Launch Application:" --line-height 20 -l 0 --hb '#285577' --hf '#ffffff' --tf '#ffffff' | xargs swaymsg exec --
 set $primary_browser qutebrowser
 set $lockscreenbg ~/.local/share/backgrounds/shrimpCity.jpg
 output * bg $lockscreenbg fill
 
 floating_modifier $mod normal
 bindsym $mod+Shift+s exec warpd --normal
+bindsym $mod+Shift+t exec swaymsg input "1267:196:Elan_Touchpad" events enabled
 
 bar {
     position top
@@ -70,7 +73,7 @@ bindswitch --reload --locked lid:on exec swaylock -c "#808080" -f -i $lockscreen
         bindsym $mod+b exec $primary_browser
         bindsym $mod+Shift+b exec qutebrowser ":open -p"
         bindsym $mod+BackSpace exec ~/.local/bin/powermenu
-        bindsym $mod+e exec clipman pick --tool=bemenu --tool-args="--bottom --line-height 20 -l 0 --hb '#285577' --hf '#ffffff' --tf '#ffffff'"
+        bindsym $mod+e exec clipman pick --tool=bemenu --tool-args="--line-height 20 -l 0 --hb '#285577' --hf '#ffffff' --tf '#ffffff'"
         bindsym $mod+Shift+c reload
         bindsym $mod+d exec ~/.local/bin/window_switch
 

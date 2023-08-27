@@ -76,7 +76,7 @@ default Happy hacking!!
    inhibit-splash-screen t                          ; No splash screen
    sentence-end-double-space nil                    ; Double space after a period!? Inhumane!
    cursor-in-non-selected-windows t                 ; Hide the cursor in inactive windows
-   initial-scratch-message "Welcome to the Church of Emacs!!\n     ^\nʕ•́ᴥ•̀ʔっ"                ; Remove pesky scratch message
+   initial-scratch-message "Welcome to the Church of Emacs!!\n     ^\nʕ•́ᴥ•̀ʔっ"
    fill-column 100                                  ; Set width for automatic line breaks
    help-window-select t                             ; Focus new help windows when opened
    indent-tabs-mode t                               ; Prefer tabs over inferior spaces
@@ -124,6 +124,7 @@ default Happy hacking!!
 ** Version Control
 #+begin_src emacs-lisp
   (use-package git-auto-commit-mode
+    :defer t
     :config
     (setq
      gac-ask-for-summary-p nil
@@ -190,6 +191,7 @@ google™ we must *not* rely on such things
 #+begin_src emacs-lisp
   (use-package which-key
     :init (which-key-mode)
+    :defer 2
     :config
     (setq which-key-idle-delay 0.4))
 #+end_src
@@ -237,6 +239,7 @@ google™ we must *not* rely on such things
  * See the nested parentheses (God send) but only in programming-mode
 #+begin_src emacs-lisp
   (use-package rainbow-delimiters
+    :defer t
     :hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
 
@@ -249,46 +252,15 @@ google™ we must *not* rely on such things
     (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 #+end_src
 
-** Email
- * To say I gave up on mu4e would be lying.
- * I don't need the bloat of gmail/outlook in my wonderful emacs. It's bloated enough.
- * Also setting mu4whatever gave me brainshits. I think this is the best of
-both: Editing in emacs and email yay.
- * Stolen from [[https://coredumped.dev/2019/02/08/using-org-mode-to-write-email-for-outlook/][here]]
- * So... after writing email, convert to html in clipboard and past in
-addon(outlook) or editor(gmail). Suffer from sucsess :)
-#+begin_src emacs-lisp
-  (defun org-email-html-head ()
-    "Create the header with CSS for use with email"
-    (concat
-     "<style type=\"text/css\">\n"
-     "<!--/*--><![CDATA[/*><!--*/\n"
-     (with-temp-buffer
-       (insert-file-contents
-        "/home/undefined_user/.config/emacs/org/outlook_email.css")
-       (buffer-string))
-     "/*]]>*/-->\n"
-     "</style>\n"))
-
-  (defun export-org-email ()
-    "Export the current email org buffer and copy it to the
-  clipboard"
-    (interactive)
-    (let ((org-export-show-temporary-export-buffer nil)
-          (org-html-head (org-email-html-head)))
-      (org-html-export-as-html)
-      (with-current-buffer "*Org HTML Export*"
-        (kill-new (buffer-string)))
-      (message "HTML copied to clipboard")))
-#+end_src 
-
 ** Flyspell
 #+begin_src emacs-lisp
   (use-package flyspell-correct
+    :disabled
     :after flyspell
     :bind (:map flyspell-mode-map ("C-;" . flyspell-correct-wrapper)))
 
   (use-package flyspell-correct-ivy
+    :disabled
     :after flyspell-correct)
 #+end_src
 
@@ -297,7 +269,8 @@ addon(outlook) or editor(gmail). Suffer from sucsess :)
 incredibly sleep-deprived lol
 #+begin_src emacs-lisp
   (setq langtool-language-tool-jar "/opt/LanguageTool-6.2/languagetool-commandline.jar")
-  (use-package langtool)
+  (use-package langtool
+    :disabled)
 #+end_src
 
 ** OpenWith
@@ -306,6 +279,7 @@ external program. For more extensions see David's config.daviwil
  * Maybe add an image viewer later??
 #+begin_src emacs-lisp
   (use-package openwith
+    :defer t
     :config
     (setq openwith-associations
           (list
@@ -344,7 +318,7 @@ external program. For more extensions see David's config.daviwil
     (load-theme 'doom-tomorrow-night t))
 #+end_src
 
-** Writeroom
+** Writeroom (Olivetti)
  * Might change to olivetti but I think I'm fine for now
 #+begin_src emacs-lisp
   (use-package visual-fill-column
@@ -394,6 +368,7 @@ external program. For more extensions see David's config.daviwil
 keybinding (evil mode of course 👻)
 #+begin_src emacs-lisp
   (use-package hide-mode-line
+    :defer t
     :commands (hide-mode-line-mode))
 #+end_src
 
@@ -421,7 +396,7 @@ keybinding (evil mode of course 👻)
     (setq evil-want-Y-yank-to-eol t)
     (setq evil-mode-line-format nil)
     (setq evil-disable-insert-state-bindings t)
-  
+
     :config
     (define-key evil-motion-state-map "/" 'swiper)
     (evil-global-set-key 'motion "j" 'evil-next-visual-line)
@@ -792,14 +767,14 @@ keybinding (evil mode of course 👻)
  * Make sure org-indent face is avaliable
  * Makes it so that the headers indent
 #+begin_src emacs-lisp
-  (require 'org-indent)
+    (require 'org-indent)
 #+end_src
 
 *** Org-habit
 #+begin_src emacs-lisp
   (require 'org-habit)
-  (add-to-list 'org-modules 'org-habit)
   (setq org-habit-graph-column 60)
+  (add-to-list 'org-modules 'org-habit)
 #+end_src
 
 *** Org-roam
@@ -853,56 +828,60 @@ keybinding (evil mode of course 👻)
 
 **** Org-roam-ui
 #+begin_src emacs-lisp
-(use-package org-roam-ui)
+  (use-package org-roam-ui
+    :defer t
+    )
 #+end_src
 
 *** Org-superstar
  * Nice header bullet points
 #+begin_src emacs-lisp
-    (use-package org-superstar
-      :after org
-      :hook (org-mode . org-superstar-mode)
-      :custom
-      (org-superstar-remove-leading-stars t)
-      (org-superstar-headline-bullets-list '("◈" "○" "◉" "○" "◆" "○")))
+  (use-package org-superstar
+    :defer t
+    :after org
+    :hook (org-mode . org-superstar-mode)
+    :custom
+    (org-superstar-remove-leading-stars t)
+    (org-superstar-headline-bullets-list '("◈" "○" "◉" "○" "◆" "○")))
 #+end_src
 
 *** Org-tempo
  * Type "<el" then hit Tab to expand template. This is needed as of Org 9.2
 #+begin_src emacs-lisp
-  (use-package org-tempo
-    :after org)
-
+  (require 'org-tempo)
   (add-to-list 'org-structure-template-alist '("sh" . "src sh"))
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
 #+end_src
 
 *** Org-transclusion
 #+begin_src emacs-lisp
-(use-package org-transclusion
-  :after org)
+  (use-package org-transclusion
+    :defer t
+    :after org)
 #+end_src
 
 *** Org-appear
- * Toggle visibility of hidden elements such as emphasis markers, links, etc.
-   #+begin_src emacs-lisp
-     (use-package org-appear
-       :after org)
-     (add-hook 'org-mode-hook 'org-appear-mode)
-   #+end_src
+    * Toggle visibility of hidden elements such as emphasis markers, links, etc.
+      #+begin_src emacs-lisp
+        (use-package org-appear
+          :defer t
+          :after org)
+        (add-hook 'org-mode-hook 'org-appear-mode)
+      #+end_src
 
 *** Evil-org
 #+begin_src emacs-lisp
-(use-package evil-org
-  :diminish evil-org-mode
-  :after org
-  :config
-  (add-hook 'org-mode-hook 'evil-org-mode)
-  (add-hook 'evil-org-mode-hook
-            (lambda () (evil-org-set-key-theme))))
+  (use-package evil-org
+    :diminish evil-org-mode
+    :defer t
+    :after org
+    :config
+    (add-hook 'org-mode-hook 'evil-org-mode)
+    (add-hook 'evil-org-mode-hook
+              (lambda () (evil-org-set-key-theme))))
 
-(require 'evil-org-agenda)
-(evil-org-agenda-set-keys)
+  (require 'evil-org-agenda)
+  (evil-org-agenda-set-keys)
 #+end_src
 
 ** Setup Function
@@ -935,6 +914,7 @@ keybinding (evil mode of course 👻)
      org-tags-column 0
      org-adapt-indentation nil
      org-indent-indentation-per-level 0
+     prettify-symbols-unprettify-at-point 'right-edge
 #+end_src
 
 *** Org Keywords and Faces
@@ -1008,12 +988,6 @@ keybinding (evil mode of course 👻)
   "* %?  \n ")
 #+end_src
 
-***** Email
-#+begin_src emacs-lisp
-("e" "Email" entry (file+headline "/home/undefined_user/Notes/refile.org" "Emails")
-   "* To: %? \n")
-#+end_src
-
 **** To Personal
 ***** Errand
 #+begin_src emacs-lisp
@@ -1074,7 +1048,6 @@ keybinding (evil mode of course 👻)
                                          ("#+end_src" . "†")
                                          ("=>" . "⇨")))
 
-  (setq prettify-symbols-unprettify-at-point 'right-edge)
   (add-hook 'org-mode-hook 'prettify-symbols-mode)
 #+end_src
 
@@ -1092,62 +1065,6 @@ keybinding (evil mode of course 👻)
   (setq org-agenda-skip-deadline-prewarning-if-scheduled t)
   (setq org-agenda-timegrid-use-ampm t)
   (setq org-agenda-block-separator ?-)
-#+end_src
-
-*** Custom Agenda Views
- * I would like to remove the "DONE" keyword but it's whatever. I DID IT!! WAHOOOTTOTOTO!!
-#+begin_src emacs-lisp
-  (setq org-agenda-custom-commands
-        `(("d" "Agenda™"
-           ((tags-todo "*"
-                       ((org-agenda-skip-function '(org-agenda-skip-if nil '(timestamp)))
-                        (org-agenda-skip-function
-                         `(org-agenda-skip-entry-if
-                           'notregexp ,(format "\\[#%s\\]" (char-to-string org-priority-highest))))
-                        (org-agenda-block-separator nil)
-                        (org-agenda-overriding-header "Tasks without a date (Refile)")))
-
-            (agenda "" ((org-agenda-span 1)
-                        (org-deadline-warning-days 0)
-                        (org-agenda-block-separator nil)
-                        (org-scheduled-past-days 0)
-                        (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
-                        (org-agenda-format-date "%A %-e %B %Y")
-                        (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-                        (org-agenda-overriding-header "\nToday's agenda")))
-
-            (agenda "" ((org-agenda-start-on-weekday nil)
-                        (org-agenda-start-day "+1d")
-                        (org-agenda-span 3)
-                        (org-deadline-warning-days 0)
-                        (org-agenda-block-separator nil)
-                        (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-                        (org-agenda-overriding-header "\nNext three days")))
-
-            (agenda "" ((org-agenda-time-grid nil)
-                        (org-agenda-start-on-weekday nil)
-                        (org-agenda-start-day "+4d")
-                        (org-agenda-span 14)
-                        (org-agenda-show-all-dates nil)
-                        (org-deadline-warning-days 0)
-                        (org-agenda-block-separator nil)
-                        (org-agenda-entry-types '(:deadline))
-                        (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-                        (org-agenda-overriding-header "\nUpcoming deadlines (+14d)")))
-
-            ))
-
-          ("D" "Daily agenda"
-           ((agenda "" ((org-agenda-span 1)
-                        (org-deadline-warning-days 0)
-                        (org-agenda-block-separator nil)
-                        (org-scheduled-past-days 0)
-                        (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
-                        (org-agenda-format-date "%A %-e %B %Y")
-                        (org-agenda-overriding-header "Today's agenda")))
-
-            ))
-          ))
 #+end_src
 
 *** Highlight Current Line
@@ -1205,9 +1122,6 @@ keybinding (evil mode of course 👻)
 ** Latex Preview
  * This should allow for zahura being used as default pdf viewer. I /might/ change
    to pdf-tools but its not working so whatever
- * THIS iS AMAZING!! JAW DROPEED LIFE RESSURECTED. UNDEFINED NO MORE!! I'm
-   sticking with zathura and since a tiling window manager is soon it makes
-   sense instead of slowing emacs with pdf views
 #+begin_src emacs-lisp
 (with-eval-after-load 'tex
   (setq TeX-source-correlate-method 'synctex)

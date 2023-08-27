@@ -4,6 +4,8 @@
 general {
         interval = 5
         colors = false
+        output_format = none
+        separator = " | "
 }
 
 order += "tztime local"
@@ -28,6 +30,6 @@ tztime local {
 }
 
 volume master {
-    format = "Volume: %volume"
+    format = "Volume: %volume "
     device = "default"
 }
