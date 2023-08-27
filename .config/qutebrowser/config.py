@@ -29,7 +29,8 @@ c.window.transparent = True
 c.statusbar.widgets = ['keypress', 'history', 'tabs']
 
 # General Bindings
-config.bind("M", "hint links spawn -v --verbose --detach mpv '{hint-url}'") 
+config.bind(",m", "hint links spawn -v --verbose --detach mpv '{hint-url}'") 
+config.bind(",M", "spawn -v --verbose --detach mpv '{url}'") 
 config.bind(",F", "hint links spawn firefox {hint-url}")
 config.bind(',a', 'adblock-update')
 config.bind("tb", "config-cycle statusbar.show always never")

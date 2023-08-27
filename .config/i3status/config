@@ -1,0 +1,33 @@
+# i3status configuration file.
+# see "man i3status" for documentation.
+
+general {
+        interval = 5
+        colors = false
+        separator = "  "
+}
+
+order += "tztime local"
+order += "wireless _first_"
+order += "battery 0"
+order += "volume master"
+
+wireless _first_ {
+        format_up = "Connected: %essid"
+        format_down = "Disconnected"
+}
+
+battery 0 {
+        format = "Battery: %percentage"
+        last_full_capacity = true
+}
+
+tztime local {
+        format = "%a %b %e %I:%M %p"
+        align = "center"
+}
+
+volume master {
+    format = "Volume: %volume"
+    device = "default"
+}

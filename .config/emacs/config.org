@@ -934,6 +934,7 @@ keybinding (evil mode of course 👻)
      org-hide-emphasis-markers t
      org-tags-column 0
      org-adapt-indentation nil
+     org-indent-indentation-per-level 0
 #+end_src
 
 *** Org Keywords and Faces

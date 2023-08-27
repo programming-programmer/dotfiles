@@ -6,6 +6,7 @@ if [ -d "$HOME/.local/bin" ] ; then
 fi
 
 JAVA_HOME='/opt/jdk-20.0.2/'
+GTK_USE_PORTAL=0
 export PATH=/opt/jdk-20.0.2/bin:$PATH
 
 export PATH=/usr/local/texlive/2023/bin/x86_64-linux:$PATH

@@ -5,7 +5,6 @@ default_border pixel 2
 default_floating_border pixel 0
 titlebar_padding 1
 titlebar_border_thickness 1
-bar swaybar_command waybar 
 exec_always wl-paste -t text --watch clipman store
 exec_always swaynag-battery
 
@@ -16,14 +15,25 @@ set $down j
 set $up k
 set $right l
 set $term foot
-set $menu bemenu-run --no-exec --line-height 20 -l 0 --hb '#285577' --hf '#ffffff' --tf '#ffffff' | xargs swaymsg exec --
+set $menu bemenu-run --no-exec --bottom --line-height 20 -l 0 --hb '#285577' --hf '#ffffff' --tf '#ffffff' | xargs swaymsg exec --
 set $primary_browser qutebrowser
-set $lockscreenbg ~/.local/share/backgrounds/wallhaven-4yoodl.jpg
-output * bg  ~/.local/share/backgrounds/shrimpCity.jpg fill
+set $lockscreenbg ~/.local/share/backgrounds/shrimpCity.jpg
+output * bg $lockscreenbg fill
 
 floating_modifier $mod normal
-
 bindsym $mod+Shift+s exec warpd --normal
+
+bar {
+    position top
+    status_command i3status 
+    colors {
+
+        statusline #ffffff
+        background #323232
+        }
+    font pango:Source Code Pro 10
+}
+
 
 # Idolatry
 exec swayidle -w \
@@ -61,7 +71,7 @@ bindsym control+mod1+space exec $menu
 bindsym $mod+b exec $primary_browser
 bindsym $mod+Shift+b exec qutebrowser ":open -p"
 bindsym $mod+BackSpace exec ~/.local/bin/powermenu
-bindsym $mod+e exec clipman pick --tool=bemenu --tool-args="--line-height 20 -l 0 --hb '#285577' --hf '#ffffff' --tf '#ffffff'"
+bindsym $mod+e exec clipman pick --tool=bemenu --tool-args="--bottom --line-height 20 -l 0 --hb '#285577' --hf '#ffffff' --tf '#ffffff'"
 bindsym $mod+Shift+c reload
 bindsym $mod+d exec ~/.local/bin/window_switch
 
@@ -140,3 +150,6 @@ bindsym $mod+equal exec amixer -D pulse sset Master 1%+
 # Brightness
 bindsym $mod+Shift+z exec brightnessctl set +1%
 bindsym $mod+z exec brightnessctl set 1%-
+
+# Gammastep
+bindsym $mod+x exec gammastep -O 4000K
