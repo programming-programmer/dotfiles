@@ -89,7 +89,8 @@
    view-read-only t                                 ; Always open read only files in view mode
    display-time-default-load-average nil
    display-line-numbers-type 'visual
-   display-time-mail-string "")
+   display-time-mail-string ""
+   warning-minimum-level :emergency)
 
   (fset 'yes-or-no-p 'y-or-n-p)                     ; Replace yes/no prompts with y/n
   (set-default-coding-systems 'utf-8)               ; Default to utf-8 encoding

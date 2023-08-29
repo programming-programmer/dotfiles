@@ -16,10 +16,10 @@ HISTSIZE=100
 HISTFILESIZE=200
 HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/bash/history"
 
-alias em="emacsclient -nw"
 alias ls="ls --color=auto"
+alias em="emacsclient -nw"
+alias sudo="doas"
 alias vim="nvim"
-alias tm="tmux new-session -s 0 -n main"
 alias imv="imv-wayland"
 
 # enable programmable completion features 

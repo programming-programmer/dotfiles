@@ -83,7 +83,8 @@ sh <(curl -L https://nixos.org/nix/install) --daemon
  * i3status
  * mpv
  * qutebrowser
- * pulse audio
+ * pulseaudio
+ * alsa-utils
  * sway
  * swaylock
  * swaynag
@@ -92,3 +93,4 @@ sh <(curl -L https://nixos.org/nix/install) --daemon
  * ly
    * Enable cmatrix and big clock
  * languagetool
+ * jq

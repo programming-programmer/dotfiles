@@ -120,8 +120,8 @@ bindswitch --reload --locked lid:on exec swaylock -c "#808080" -f -i $lockscreen
 
 # Layout
         bindsym $mod+f fullscreen
-        bindsym $mod+space floating toggle
-        bindsym $mod+Shift+space focus mode_toggle
+        bindsym $mod+Shift+space floating toggle
+        bindsym $mod+space focus mode_toggle
 
 # Resizing
         mode "resize/layout" {
