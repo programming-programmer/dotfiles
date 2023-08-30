@@ -6,23 +6,23 @@
 * Preface
  * This is copied from what_it_was.txt
  * Make sure init.el's path to config.org is there
-  * use-package making sure is installed doesn't work either so install before
+ * use-package making sure is installed doesn't work either so install before
 
-   * If there is an error with org, start emacs with "emacs -q" and install org
+ * If there is an error with org, start emacs with "emacs -q" and install org
 9.x. Then reload emacs
 
  * Install Noto Color Emoji or another emoji font to use emojis in Emacs
-  * Also! Install Source Code Pro
+ * Also! Install Source Code Pro
  * Download ispell (via package manager) for flyspell
  * Also download java and languagetool.jar for langtool
  * Not that hard once you get to it. Java is getting easier each install 
-** Variables
+* Variables
  * It's a bit much too have a seperate file for this
 #+begin_src emacs-lisp
-(defvar mt/home (concat (getenv "HOME") "/") "My home directory.")
-(defvar mt/org-notes "/home/undefined_user/Notes" "Org Notes directory")
+  (defvar mt/home (concat (getenv "HOME") "/") "My home directory.")
+  (defvar mt/org-notes "/home/undefined_user/Notes" "Org Notes directory")
 
-(setq bookmark-default-file (concat mt/home ".cache/emacs/bookmarks"))
+  (setq bookmark-default-file (concat mt/home ".cache/emacs/bookmarks"))
 #+end_src
 
 * System
@@ -90,7 +90,8 @@
    display-time-default-load-average nil
    display-line-numbers-type 'visual
    display-time-mail-string ""
-   warning-minimum-level :emergency)
+   warning-minimum-level :emergency
+   browse-url-default-browser "qutebrowser")
 
   (fset 'yes-or-no-p 'y-or-n-p)                     ; Replace yes/no prompts with y/n
   (set-default-coding-systems 'utf-8)               ; Default to utf-8 encoding
@@ -115,11 +116,11 @@
 
 ** Transparency
  * If this works, I'll cry from happiness
- #+begin_src emacs-lisp
-(set-frame-parameter nil 'alpha-background 85)
+#+begin_src emacs-lisp
+  (set-frame-parameter nil 'alpha-background 85)
 
-(add-to-list 'default-frame-alist '(alpha-background . 85))
- #+end_src
+  (add-to-list 'default-frame-alist '(alpha-background . 85))
+#+end_src
  
 ** Version Control
 #+begin_src emacs-lisp
@@ -341,7 +342,7 @@ external program. For more extensions see David's config.daviwil
 ** Modeline
 *** DOOM Modeline
  * With the defined segements, there is no need for the diminish package and it
-   is _exactly_ how I want :)
+is _exactly_ how I want :)
 #+begin_src emacs-lisp
   (use-package doom-modeline
     :config
@@ -591,7 +592,7 @@ keybinding (evil mode of course 👻)
     :states '(insert)
 
     "C-c" 'evil-normal-state
-  
+
     ;; Emacs ---
     "C-x C-m" 'counsel-M-x
 
@@ -621,6 +622,8 @@ keybinding (evil mode of course 👻)
     :states '(normal)
     "$" 'evil-end-of-visual-line
     "0" 'evil-beginning-of-visual-line
+
+    "gf" 'org-open-at-point
 
     ;;Windows
     "C-w m" '(jib/toggle-maximize-buffer :which-key "maximize window")
@@ -715,21 +718,6 @@ keybinding (evil mode of course 👻)
     :config
     (setq ivy-extra-directories nil) ;; Hides . and .. directories
     (setq ivy-initial-inputs-alist nil) ;; Removes the ^ in ivy searches
-    :bind (("C-s" . swiper)
-           :map ivy-minibuffer-map
-           ("TAB" . ivy-alt-done)
-           ("C-j" . ivy-next-line)
-           ("C-k" . ivy-previous-line)
-           ("C-SPC" . ivy-restrict-to-matches)
-           :map ivy-switch-buffer-map
-           ("C-k" . ivy-previous-line)
-           ("C-l" . ivy-done)
-           ("C-d" . ivy-switch-buffer-kill)
-           ("C-SPC" . ivy-restrict-to-matches)
-           :map ivy-reverse-i-search-map
-           ("C-k" . ivy-previous-line)
-           ("C-d" . ivy-reverse-i-search-kill)
-           )
     :config
     (setq ivy-use-virtual-buffers t)
     (setq ivy-wrap t)
@@ -912,7 +900,7 @@ keybinding (evil mode of course 👻)
      org-hide-emphasis-markers t
      org-tags-column 0
      org-adapt-indentation nil
-     org-indent-indentation-per-level 0
+     org-indent-indentation-per-level 3
      prettify-symbols-unprettify-at-point 'right-edge
 #+end_src
 
