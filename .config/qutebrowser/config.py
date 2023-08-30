@@ -2,8 +2,8 @@
 c.url.searchengines = {
         "DEFAULT": "https://search.brave.com/search?q={}", 
         "g": "https://www.google.com/search?q={}", 
-        "yt": "https://yewtu.be/search?q={}", 
-        "YT": "https://www.youtube.com/results?search_query={}"
+        "inv": "https://yewtu.be/search?q={}", 
+        "yt": "https://www.youtube.com/results?search_query={}"
 }
 
 # Start and Def pages
@@ -29,8 +29,8 @@ c.window.transparent = True
 c.statusbar.widgets = ['keypress', 'history', 'tabs']
 
 # General Bindings
-config.bind(",m", "hint links spawn -v --verbose --detach umpv '{hint-url}'") 
-config.bind(",M", "spawn -v --verbose --detach umpv '{url}'") 
+config.bind(",m", "hint links spawn -v --detach ~/.local/bin/umpv '{hint-url}'") 
+config.bind(",M", "spawn -v --detach ~/.local/bin/umpv '{url}'") 
 config.bind(",F", "hint links spawn firefox {hint-url}")
 config.bind(',a', 'adblock-update')
 config.bind("tb", "config-cycle statusbar.show always never")

@@ -68,13 +68,13 @@ bindswitch --reload --locked lid:on exec swaylock -c "#808080" -f -i $lockscreen
 # Key bindings -- Applications&Scipts
         bindsym $mod+t exec $term
         bindsym $mod+Shift+q kill
-        bindsym control+mod1+space exec $menu
+        bindsym $mod+d exec $menu
         bindsym $mod+b exec $primary_browser
         bindsym $mod+Shift+b exec qutebrowser ":open -p"
         bindsym $mod+BackSpace exec ~/.local/bin/powermenu
         bindsym $mod+e exec clipman pick --tool=bemenu --tool-args="--line-height 20 -l 0 --hb '#285577' --hf '#ffffff' --tf '#ffffff'"
         bindsym $mod+Shift+c reload
-        bindsym $mod+d exec ~/.local/bin/window_switch
+        bindsym $mod+a exec ~/.local/bin/window_switch
 
 ### Moving around:
         bindsym $mod+$left focus left
