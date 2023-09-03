@@ -86,6 +86,8 @@ bindswitch --reload --locked lid:on exec swaylock -c "#808080" -f -i $lockscreen
         bindsym $mod+Shift+$down move down
         bindsym $mod+Shift+$up move up
         bindsym $mod+Shift+$right move right
+
+        bindsym $mod+c move position center
 # ---
         bindsym $mod+bracketleft workspace prev
         bindsym $mod+bracketright workspace next
