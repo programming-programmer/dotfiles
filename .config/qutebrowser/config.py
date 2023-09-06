@@ -2,7 +2,6 @@
 c.url.searchengines = {
         "DEFAULT": "https://search.brave.com/search?q={}", 
         "g": "https://www.google.com/search?q={}", 
-        "inv": "https://yewtu.be/search?q={}", 
         "yt": "https://www.youtube.com/results?search_query={}"
 }
 
@@ -29,8 +28,10 @@ c.window.transparent = True
 c.statusbar.widgets = ['keypress', 'history', 'tabs']
 
 # General Bindings
-config.bind(",m", "hint links spawn -v --detach ~/.local/bin/umpv '{hint-url}'") 
-config.bind(",M", "spawn -v --detach ~/.local/bin/umpv '{url}'") 
+config.bind(",m", "hint links spawn -v --detach umpv '{hint-url}'") 
+config.bind(";M", "hint --rapid links spawn -v umpv {hint-url}")
+config.bind(",M", "spawn -v --detach umpv '{url}'") 
+config.bind(",c", "clear-messages")
 config.bind(",F", "hint links spawn -v firefox {hint-url}")
 config.bind(",a", "adblock-update")
 config.bind("tb", "config-cycle statusbar.show always never")
@@ -113,4 +114,4 @@ config.bind("n", "prompt-accept no", mode="yesno")
 config.bind("y", "prompt-accept yes", mode="yesno")
 
 config.bind("<Escape>", "mode-leave", mode="hint")
-config.load_autoconfig()
+config.load_autoconfig(False)

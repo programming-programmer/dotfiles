@@ -546,7 +546,7 @@ keybinding (evil mode of course 👻)
 #+begin_src emacs-lisp
   "i" '(nil :which-key "insert")
 
-  "ie" '(emoji-insert :which-key "emoji")
+  "ie" '(emoji-search :which-key "emoji")
   "iu" '(counsel-unicode-char :which-key "unicode")
   "iy" '(counsel-yank-pop :which-key "from clipboard")
   "ij" '(point-to-register :which-key "insert register")

@@ -1,8 +1,8 @@
 gaps inner 8
 gaps outer 4
 focus_follows_mouse no
-default_border pixel 2
-default_floating_border pixel 0
+default_border pixel 4
+default_floating_border pixel 2
 titlebar_padding 1
 titlebar_border_thickness 1
 exec_always wl-paste -t text --watch clipman store
@@ -18,7 +18,7 @@ set $right l
 set $term foot
 set $menu bemenu-run --no-exec --prompt "Launch Application:" --line-height 20 -l 0 --hb '#285577' --hf '#ffffff' --tf '#ffffff' | xargs swaymsg exec --
 set $primary_browser qutebrowser
-set $lockscreenbg ~/.local/share/backgrounds/shrimpCity.jpg
+set $lockscreenbg ~/.local/share/backgrounds/mojave.jpg
 output * bg $lockscreenbg fill
 
 floating_modifier $mod normal
@@ -71,10 +71,10 @@ bindswitch --reload --locked lid:on exec swaylock -c "#808080" -f -i $lockscreen
         bindsym $mod+d exec $menu
         bindsym $mod+b exec $primary_browser
         bindsym $mod+Shift+b exec qutebrowser ":open -p"
-        bindsym $mod+BackSpace exec ~/.local/bin/powermenu
-        bindsym $mod+e exec clipman pick --tool=bemenu --tool-args="--line-height 20 -l 0 --hb '#285577' --hf '#ffffff' --tf '#ffffff'"
-        bindsym $mod+Shift+c reload
-        bindsym $mod+a exec ~/.local/bin/window_switch
+        bindsym $mod+BackSpace exec ~/.config/sway/scripts/powermenu
+        bindsym $mod+c exec clipman pick --tool=bemenu --tool-args="--line-height 20 -l 0 --hb '#285577' --hf '#ffffff' --tf '#ffffff'"
+        bindsym $mod+Shift+r reload
+        bindsym $mod+a exec ~/.config/sway/scripts/window_switch
 
 ### Moving around:
         bindsym $mod+$left focus left
@@ -87,7 +87,7 @@ bindswitch --reload --locked lid:on exec swaylock -c "#808080" -f -i $lockscreen
         bindsym $mod+Shift+$up move up
         bindsym $mod+Shift+$right move right
 
-        bindsym $mod+c move position center
+        bindsym $mod+Shift+c move position center
 # ---
         bindsym $mod+bracketleft workspace prev
         bindsym $mod+bracketright workspace next
@@ -141,7 +141,6 @@ bindswitch --reload --locked lid:on exec swaylock -c "#808080" -f -i $lockscreen
                 bindsym Return mode "default"
                 bindsym Escape mode "default"
                 bindsym Control+c mode "default"
-                bindsym $mod+r mode "default"
         }
     bindsym $mod+r mode "resize/layout"
 
