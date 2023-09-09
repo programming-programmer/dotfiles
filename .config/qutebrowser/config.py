@@ -20,20 +20,26 @@ c.hints.chars = "aoeuhtns"
 c.hints.uppercase = True
 c.tabs.last_close = "startpage"
 c.tabs.mode_on_change = "normal"
-c.tabs.title.format = "{index}: {current_title}"
+c.tabs.title.format = "{audio}{relative_index}: {current_title} {private}"
 c.window.hide_decoration = False
 c.bindings.key_mappings = {"<Ctrl-c>": "<Escape>"}
 c.content.autoplay = False
 c.window.transparent = True
 c.statusbar.widgets = ['keypress', 'history', 'tabs']
+c.statusbar.show = "in-mode"
+c.content.tls.certificate_errors = "load-insecurely"
+c.scrolling.bar = "never"
 
 # General Bindings
-config.bind(",m", "hint links spawn -v --detach umpv '{hint-url}'") 
 config.bind(";M", "hint --rapid links spawn -v umpv {hint-url}")
+config.bind(",m", "hint links spawn -v --detach umpv '{hint-url}'") 
 config.bind(",M", "spawn -v --detach umpv '{url}'") 
+config.bind(",s", "hint links spawn -v --detach streamlink --player mpv '{hint-url}' 720p") 
+config.bind(",S", "spawn -v --detach streamlink --player mpv '{url}' 720p") 
 config.bind(",c", "clear-messages")
 config.bind(",F", "hint links spawn -v firefox {hint-url}")
 config.bind(",a", "adblock-update")
+
 config.bind("tb", "config-cycle statusbar.show always never")
 config.bind("tt", "config-cycle tabs.show always never")
 config.unbind("+")
