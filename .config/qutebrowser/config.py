@@ -36,7 +36,7 @@ config.bind(",m", "hint links spawn -v --detach umpv '{hint-url}'")
 config.bind(",M", "spawn -v --detach umpv '{url}'") 
 config.bind(",s", "hint links spawn -v --detach streamlink --player mpv '{hint-url}' 720p") 
 config.bind(",S", "spawn -v --detach streamlink --player mpv '{url}' 720p") 
-config.bind(",c", "clear-messages")
+config.bind("C", "clear-messages")
 config.bind(",F", "hint links spawn -v firefox {hint-url}")
 config.bind(",a", "adblock-update")
 
@@ -120,4 +120,7 @@ config.bind("n", "prompt-accept no", mode="yesno")
 config.bind("y", "prompt-accept yes", mode="yesno")
 
 config.bind("<Escape>", "mode-leave", mode="hint")
-config.load_autoconfig(False)
+config.bind("<Escape>", "mode-leave", mode="passthrough")
+
+# Load Autoconfig
+config.load_autoconfig(True)

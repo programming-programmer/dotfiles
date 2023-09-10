@@ -2,7 +2,7 @@ gaps inner 8
 gaps outer 4
 focus_follows_mouse no
 default_border pixel 4
-default_floating_border pixel 2
+default_floating_border pixel 0
 titlebar_padding 1
 titlebar_border_thickness 1
 exec_always wl-paste -t text --watch clipman store
@@ -23,7 +23,6 @@ set $lockscreenbg ~/.local/share/backgrounds/mojave.jpg
 output * bg $lockscreenbg fill
 
 floating_modifier $mod normal
-bindsym $mod+Shift+t exec swaymsg input "1267:196:Elan_Touchpad" events disabled
 
 bar {
     position top
@@ -36,119 +35,107 @@ bar {
 }
 bindsym $mod+n bar mode toggle
 
-set $lockcmd swaylock -f
-exec swayidle -w \
-        timeout 300 'imv-wayland -x -t 1 -f $lockscreenbg & sleep 0.25 ; swaymsg "output * dpms off"' \
-                resume 'swaymsg "output * dpms on"' \
-        timeout 315 '$lockcmd' \
-        before-sleep '$lockcmd ; sleep 1'
-
 # Lock the screen
 bindswitch --reload --locked lid:on exec swaylock -c "#808080" -f -i $lockscreenbg
 
 # Touchpad
-    input "1267:196:Elan_Touchpad" {
-        tap enabled
-            natural_scroll enabled
-            click_method clickfinger
-            middle_emulation disabled
-            scroll_method two_finger
-            dwt enabled
-            scroll_factor 0.5
-    }
+input "1267:196:Elan_Touchpad" {
+    tap enabled
+        natural_scroll enabled
+        click_method clickfinger
+        middle_emulation enabled
+        scroll_method two_finger
+        dwt enabled
+        scroll_factor 0.5
+}
+bindsym $mod+Shift+t exec swaymsg input "1267:196:Elan_Touchpad" events disabled
+bindsym $mod+Shift+s exec warpd --normal
 
 # Keyboard
-    input type:keyboard {
-        xkb_layout us,us
-            xkb_variant dvorak,
-            xkb_options ctrl:swap_lwin_lctl
-    }
-    bindsym $mod+Return input type:keyboard xkb_switch_layout next 
+input type:keyboard {
+    xkb_layout us,us
+        xkb_variant dvorak,
+        xkb_options ctrl:swap_lwin_lctl
+}
+bindsym $mod+Return input type:keyboard xkb_switch_layout next 
 
 # Key bindings -- Applications&Scipts
-        bindsym $mod+t exec $term
-        bindsym $mod+Shift+q kill
-        bindsym $mod+d exec $menu
-        bindsym $mod+b exec $primary_browser
-        bindsym $mod+Shift+b exec qutebrowser ":open -p"
-        bindsym $mod+BackSpace exec ~/.config/sway/scripts/powermenu
-        bindsym $mod+c exec clipman pick --tool=bemenu --tool-args="--line-height 20 -l 0 --hb '#285577' --hf '#ffffff' --tf '#ffffff'"
-        bindsym $mod+Shift+r reload
-        bindsym $mod+a exec ~/.config/sway/scripts/window_switch
+bindsym $mod+t exec $term
+bindsym $mod+Shift+q kill
+bindsym $mod+d exec $menu
+bindsym $mod+b exec $primary_browser
+bindsym $mod+Shift+b exec qutebrowser ":open -p"
+bindsym $mod+BackSpace exec ~/.config/sway/scripts/powermenu
+bindsym $mod+c exec clipman pick --tool=bemenu --tool-args="--line-height 20 -l 0 --hb '#285577' --hf '#ffffff' --tf '#ffffff'"
+bindsym $mod+Shift+r reload
+bindsym $mod+a exec ~/.config/sway/scripts/window_switch
 
-### Moving around:
-        bindsym $mod+$left focus left
-        bindsym $mod+$down focus down
-        bindsym $mod+$up focus up
-        bindsym $mod+$right focus right
+# Moving around:
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
 # ---
-        bindsym $mod+Shift+$left move left
-        bindsym $mod+Shift+$down move down
-        bindsym $mod+Shift+$up move up
-        bindsym $mod+Shift+$right move right
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
 
-        bindsym $mod+Shift+c move position center
-# ---
-        bindsym $mod+bracketleft workspace prev
-        bindsym $mod+bracketright workspace next
-
+bindsym $mod+Shift+c move position center
 
 # Workspaces
-        bindsym $mod+1 workspace number 1
-        bindsym $mod+2 workspace number 2
-        bindsym $mod+3 workspace number 3
-        bindsym $mod+4 workspace number 4
-        bindsym $mod+5 workspace number 5
-        bindsym $mod+6 workspace number 6
-        bindsym $mod+7 workspace number 7
-        bindsym $mod+8 workspace number 8
-        bindsym $mod+9 workspace number 9
-        bindsym $mod+0 workspace number 10
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
 # ---
-        bindsym $mod+Shift+1 move container to workspace number 1
-        bindsym $mod+Shift+2 move container to workspace number 2
-        bindsym $mod+Shift+3 move container to workspace number 3
-        bindsym $mod+Shift+4 move container to workspace number 4
-        bindsym $mod+Shift+5 move container to workspace number 5
-        bindsym $mod+Shift+6 move container to workspace number 6
-        bindsym $mod+Shift+7 move container to workspace number 7
-        bindsym $mod+Shift+8 move container to workspace number 8
-        bindsym $mod+Shift+9 move container to workspace number 9
-        bindsym $mod+Shift+0 move container to workspace number 10
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
 
 # Scratchpad
-        bindsym $mod+Shift+m move scratchpad
-        bindsym $mod+m scratchpad show
+bindsym $mod+Shift+m move scratchpad
+bindsym $mod+m scratchpad show
 
 # Layout
-        bindsym $mod+f fullscreen
-        bindsym $mod+Shift+space floating toggle
-        bindsym $mod+space focus mode_toggle
+bindsym $mod+f fullscreen
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
 
-# Resizing
-        mode "resize/layout" {
-# Resize
-            bindsym less resize shrink width 10px
-                bindsym plus resize grow height 10px
-                bindsym minus resize shrink height 10px
-                bindsym greater resize grow width 10px
+mode "resize/layout" {
+    bindsym less resize shrink width 10px
+    bindsym plus resize grow height 10px
+    bindsym minus resize shrink height 10px
+    bindsym greater resize grow width 10px
 
-# Layout
-                bindsym s layout stacking
-                bindsym w layout tabbed
-                bindsym e layout toggle split
+    bindsym s layout stacking
+    bindsym w layout tabbed
+    bindsym e layout toggle split
 
-                bindsym Return mode "default"
-                bindsym Escape mode "default"
-                bindsym Control+c mode "default"
-        }
-    bindsym $mod+r mode "resize/layout"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym Control+c mode "default"
+}
+bindsym $mod+r mode "resize/layout"
 
 # Audio
-        bindsym $mod+Shift+minus exec amixer -D pulse sset Master 0%
-        bindsym $mod+minus exec amixer -D pulse sset Master 1%-
-        bindsym $mod+equal exec amixer -D pulse sset Master 1%+
+bindsym $mod+Shift+minus exec amixer -D pulse sset Master 0%
+bindsym $mod+minus exec amixer -D pulse sset Master 1%-
+bindsym $mod+equal exec amixer -D pulse sset Master 1%+
 
 # Brightness
-        bindsym $mod+Shift+z exec brightnessctl set +1%
-        bindsym $mod+z exec brightnessctl set 1%-
+bindsym $mod+Shift+z exec brightnessctl set +3%
+bindsym $mod+z exec brightnessctl set 3%-
