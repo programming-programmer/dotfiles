@@ -35,8 +35,13 @@ bar {
 }
 bindsym $mod+n bar mode toggle
 
-# Lock the screen
-bindswitch --reload --locked lid:on exec swaylock -c "#808080" -f -i $lockscreenbg
+# Pop Drop and Locking
+bindswitch --reload --locked lid:on exec swaylock -f -i $lockscreenbg
+exec_always swayidle -w \
+      timeout 300 'swaylock -f -i $lockscreenbg' \
+      timeout 600 'swaymsg "output * dpms off"' \
+      resume 'swaymsg "output * dpms on"' \
+      before-sleep 'swaylock -f -i $lockscreenbg'
 
 # Touchpad
 input "1267:196:Elan_Touchpad" {
