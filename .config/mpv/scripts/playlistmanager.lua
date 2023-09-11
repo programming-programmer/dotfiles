@@ -25,7 +25,7 @@ local settings = {
   key_unselectfile = "",
   key_playfile = "ENTER",
   key_removefile = "BS",
-  key_closeplaylist = "SHIFT+ENTER",
+  key_closeplaylist = "SHIFT+ENTER o",
 
   -- extra functionality keys
   key_sortplaylist = "",

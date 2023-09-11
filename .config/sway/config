@@ -57,8 +57,8 @@ input "1267:196:Elan_Touchpad" {
 }
 bindsym $mod+Shift+grave exec swaymsg input "1267:196:Elan_Touchpad" events enabled
 bindsym $mod+grave exec swaymsg input "1267:196:Elan_Touchpad" events disabled
-bindsym $mod+slash exec warpd --hint
-bindsym $mod+Shift+slash exec pkill warpd
+bindsym $mod+slash exec warpd --normal
+bindsym $mod+shift+slash exec pkill warpd
 
 # Keyboard
 input type:keyboard {
