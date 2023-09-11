@@ -1,0 +1,32 @@
+#!/bin/bash
+
+[[ "$SWAYSOCK" ]] && {
+    TIMEOUT=600
+    BACKGROUND=~/.local/share/backgrounds/mojave.jpg
+    case "$1" in
+        lock-now)
+            BG='&'
+            [[ "$2" == "wait" ]] && BG=''
+            swaylock -f --image "$BACKGROUND" $BG
+            ;;
+
+        lock-off)
+            pkill swayidle
+            swayidle -w \
+                timeout $TIMEOUT  "swaymsg 'output * dpms off'" \
+                resume            "swaymsg 'output * dpms on'" \
+                before-sleep      "mylock lock-now wait; mylock enable-lock"
+            ;;
+
+        enable-lock|*)
+            pkill swayidle
+            swayidle -w \
+                timeout $TIMEOUT                "swaymsg 'output * dpms off'"  resume "swaymsg 'output * dpms on'" \
+                timeout $(( TIMEOUT * 2 ))      "swaymsg 'output * dpms on'; mylock lock-now" \
+                timeout $(( TIMEOUT * 3 ))      "swaymsg 'output * dpms off'" resume "swaymsg 'output * dpms on'" \
+                timeout $(( TIMEOUT * 4 ))      "sudo systemctl suspend" \
+                before-sleep                    "mylock lock-now wait" &
+            ;;
+    esac
+
+    exit $?
