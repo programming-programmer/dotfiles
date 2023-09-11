@@ -11,7 +11,7 @@ c.url.start_pages = "about:blank"
 
 # Theme
 config.source("nord-qutebrowser.py")
-config.set("colors.webpage.darkmode.enabled", True)
+# config.set("colors.webpage.darkmode.enabled", True)
 
 c.input.insert_mode.auto_leave = True
 c.input.insert_mode.auto_load = True
@@ -29,6 +29,7 @@ c.statusbar.widgets = ['keypress', 'history', 'tabs']
 c.statusbar.show = "in-mode"
 c.content.tls.certificate_errors = "load-insecurely"
 c.scrolling.bar = "never"
+c.completion.quick = True
 
 # General Bindings
 config.bind(";M", "hint --rapid links spawn -v umpv {hint-url}")
@@ -42,7 +43,7 @@ config.bind(",a", "adblock-update")
 
 config.bind("tb", "config-cycle statusbar.show always never")
 config.bind("tt", "config-cycle tabs.show always never")
-config.bind("gD", "set-cmd-text :tab-give\ ")
+config.bind("gD", "set-cmd-text -s :tab-give")
 config.unbind("+")
 config.unbind("-")
 config.unbind("=")

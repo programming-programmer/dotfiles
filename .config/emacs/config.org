@@ -126,11 +126,10 @@
 ** Version Control
 #+begin_src emacs-lisp
   (use-package git-auto-commit-mode
-    :defer t
     :config
     (setq
      gac-ask-for-summary-p nil
-     gac-automatically-add-new-files-p nil
+     gac-automatically-add-new-files-p t
      gac-automatically-push-p t
      gac-silent-message-p t))
 #+end_src
@@ -860,7 +859,7 @@ keybinding (evil mode of course 👻)
      org-src-fontify-natively t
      org-fontify-quote-and-verse-blocks t
      org-src-tab-acts-natively t
-     org-edit-src-content-indentation 1
+     org-edit-src-content-indentation 3
      org-hide-block-startup nil
      org-src-preserve-indentation nil
      org-startup-folded 'content

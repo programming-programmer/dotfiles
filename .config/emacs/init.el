@@ -11,7 +11,8 @@
  '(org-agenda-files
    '("~/Notes/watchlist.org" "/home/undefined_user/Notes/work.org" "/home/undefined_user/Notes/personal.org" "/home/undefined_user/Notes/FALL_2023/POLS_C101/pols_c101.org" "/home/undefined_user/Notes/FALL_2023/MATH_C151/math_c151.org" "/home/undefined_user/Notes/FALL_2023/ENGL_C102/engl_c102.org" "/home/undefined_user/Notes/refile.org" "/home/undefined_user/Notes/FALL_2023/Drivers_ED/driver_s_education.org"))
  '(package-selected-packages
-   '(evil-tex auctex evil-org org-fragtog org-appear org-transclusion org-superstar org-roam-ui org-roam org-pomodoro counsel ivy-rich writeroom-mode which-key undo-fu super-save rainbow-delimiters openwith nyan-mode magit langtool hide-mode-line git-auto-commit-mode general flyspell-correct-ivy evil-collection doom-themes doom-modeline deft)))
+   '(evil-tex auctex evil-org org-fragtog org-appear org-transclusion org-superstar org-roam-ui org-roam org-pomodoro counsel ivy-rich writeroom-mode which-key undo-fu super-save rainbow-delimiters openwith nyan-mode magit langtool hide-mode-line git-auto-commit-mode general flyspell-correct-ivy evil-collection doom-themes doom-modeline deft))
+ '(safe-local-variable-values '((eval git-auto-commit-mode t))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
