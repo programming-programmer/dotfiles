@@ -20,7 +20,7 @@ c.hints.chars = "aoeuhtns"
 c.hints.uppercase = True
 c.tabs.last_close = "startpage"
 c.tabs.mode_on_change = "normal"
-c.tabs.title.format = "{audio}{relative_index}: {current_title} {private}"
+c.tabs.title.format = "{audio}{index}: {current_title}{private}"
 c.window.hide_decoration = False
 c.bindings.key_mappings = {"<Ctrl-c>": "<Escape>"}
 c.content.autoplay = False
@@ -42,6 +42,7 @@ config.bind(",a", "adblock-update")
 
 config.bind("tb", "config-cycle statusbar.show always never")
 config.bind("tt", "config-cycle tabs.show always never")
+config.bind("gD", "set-cmd-text :tab-give\ ")
 config.unbind("+")
 config.unbind("-")
 config.unbind("=")

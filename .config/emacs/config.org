@@ -91,7 +91,8 @@
    display-line-numbers-type 'visual
    display-time-mail-string ""
    warning-minimum-level :emergency
-   browse-url-default-browser "qutebrowser")
+   browse-url-browser-function 'browse-url-generic
+   browse-url-generic-program "/usr/bin/qutebrowser")
 
   (fset 'yes-or-no-p 'y-or-n-p)                     ; Replace yes/no prompts with y/n
   (set-default-coding-systems 'utf-8)               ; Default to utf-8 encoding
@@ -161,13 +162,6 @@ before loading the ACUTAL❗? files causes eror that gives mer BIG!!! headache
  * Point is, don't do dumb programming :)
 #+begin_src emacs-lisp
   (load "/home/undefined_user/.config/emacs/lisp/funcs.el")
-#+end_src
-
-** PATH Variables
- * Added because langtool requires java and for some reason?? java isn't with
-emacs's path as well
-#+begin_src emacs-lisp
-  (add-to-list 'exec-path "/opt/jdk-20.0.2/bin")
 #+end_src
 
 ** Use System Trash
@@ -252,27 +246,6 @@ google™ we must *not* rely on such things
     (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 #+end_src
 
-** Flyspell
-#+begin_src emacs-lisp
-  (use-package flyspell-correct
-    :disabled
-    :after flyspell
-    :bind (:map flyspell-mode-map ("C-;" . flyspell-correct-wrapper)))
-
-  (use-package flyspell-correct-ivy
-    :disabled
-    :after flyspell-correct)
-#+end_src
-
-** Langtool
- * Java and Langtool.jar required. Not much to setup. But what do I know I'm
-incredibly sleep-deprived lol
-#+begin_src emacs-lisp
-  (setq langtool-language-tool-jar "/opt/LanguageTool-6.2/languagetool-commandline.jar")
-  (use-package langtool
-    :disabled)
-#+end_src
-
 ** OpenWith
  * THE ANSWER I NEEDED!! Basically open files with a certain extension with an
 external program. For more extensions see David's config.daviwil
@@ -318,8 +291,7 @@ external program. For more extensions see David's config.daviwil
     (load-theme 'doom-tomorrow-night t))
 #+end_src
 
-** Writeroom (Olivetti)
- * Might change to olivetti but I think I'm fine for now
+** Writeroom
 #+begin_src emacs-lisp
   (use-package visual-fill-column
     :defer t
@@ -568,8 +540,6 @@ keybinding (evil mode of course 👻)
   "tR" '(read-only-mode :which-key "read only mode")
   "tw" '(writeroom-mode :which-key "writeroom mode")
   "tm" '(hide-mode-line-mode :which-key "hide modeline mode")
-  "tM" '(toggle-frame-maximized :which-key "toggle maximized")
-  "tF" '(toggle-frame-fullscreen :which-key "toggle fullscreen")
 #+end_src
 
 *** End SPC prefix block
@@ -581,7 +551,6 @@ keybinding (evil mode of course 👻)
 #+begin_src emacs-lisp
   (general-def
     :keymaps 'override
-    "C-;" 'flyspell-correct-wrapper
     )
 #+end_src
 
@@ -891,7 +860,7 @@ keybinding (evil mode of course 👻)
      org-src-fontify-natively t
      org-fontify-quote-and-verse-blocks t
      org-src-tab-acts-natively t
-     org-edit-src-content-indentation 2
+     org-edit-src-content-indentation 1
      org-hide-block-startup nil
      org-src-preserve-indentation nil
      org-startup-folded 'content
@@ -900,7 +869,7 @@ keybinding (evil mode of course 👻)
      org-hide-emphasis-markers t
      org-tags-column 0
      org-adapt-indentation nil
-     org-indent-indentation-per-level 3
+     org-indent-indentation-per-level 1
      prettify-symbols-unprettify-at-point 'right-edge
 #+end_src
 

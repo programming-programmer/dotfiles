@@ -73,6 +73,7 @@ cmd unarchive ${{
       *.tar.gz) tar -xzvf "$f" ;;
       *.tar.bz2) tar -xjvf "$f" ;;
       *.tar) tar -xvf "$f" ;;
+      *.tgz) tar -xvf "$f" ;;
       *) echo "Unsupported format" ;;
   esac
 }}
@@ -109,18 +110,17 @@ map b
 map B
 
 # Basic Functions
-map C load-config
+map R load-config ;; column-reload
 map . set hidden!
-map R column-reload
 map mf mkfile
 map md mkdir
 map N newfolder
-map Z zip
-map T tar
+map ez zip
+map et tar
 map D delete
-map E unarchive
+map ee unarchive
 map x cut
-map yy copy
+map y copy
 map p paste
 map <c-c> quit
 map q quit
@@ -130,3 +130,5 @@ map gg top
 map gh cd ~
 map gc cd ~/.config
 map gl cd ~/.local/
+map gd cd ~/Downloads/
+map gD cd ~/Desktop/
