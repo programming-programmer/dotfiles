@@ -153,7 +153,7 @@ local settings = {
   resolve_title_timeout = 30,
 
   -- how many url titles can be resolved at a time. Higher number might lead to stutters.
-  concurrent_title_resolve_limit = 10,
+  concurrent_title_resolve_limit = 15,
 
   --osd timeout on inactivity in seconds, use 0 for no timeout
   playlist_display_timeout = 5,
