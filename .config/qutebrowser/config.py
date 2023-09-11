@@ -20,7 +20,7 @@ c.hints.chars = "aoeuhtns"
 c.hints.uppercase = True
 c.tabs.last_close = "startpage"
 c.tabs.mode_on_change = "normal"
-c.tabs.title.format = "{audio}{index}: {current_title}{private}"
+c.tabs.title.format = "{index}: {current_title}{private}"
 c.window.hide_decoration = False
 c.bindings.key_mappings = {"<Ctrl-c>": "<Escape>"}
 c.content.autoplay = False
@@ -30,6 +30,8 @@ c.statusbar.show = "in-mode"
 c.content.tls.certificate_errors = "load-insecurely"
 c.scrolling.bar = "never"
 c.completion.quick = True
+c.content.mute = True
+c.content.notifications.presenter = "messages"
 
 # General Bindings
 config.bind(";M", "hint --rapid links spawn -v umpv {hint-url}")
@@ -41,6 +43,7 @@ config.bind("C", "clear-messages")
 config.bind(",F", "hint links spawn -v firefox {hint-url}")
 config.bind(",a", "adblock-update")
 
+config.bind("f", "hint all")
 config.bind("tb", "config-cycle statusbar.show always never")
 config.bind("tt", "config-cycle tabs.show always never")
 config.bind("gD", "set-cmd-text -s :tab-give")

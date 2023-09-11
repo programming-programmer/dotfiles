@@ -9,7 +9,7 @@ exec_always wl-paste -t text --watch clipman store
 exec_always swaynag-battery
 exec_always emacs --daemon
 exec_always autotiling
-exec_always swaymsg input "1267:196:Elan_Touchpad" events disabled
+exec swaymsg input "1267:196:Elan_Touchpad" events disabled
 exec gammastep -O 4500K
 
 # Variables
@@ -55,8 +55,10 @@ input "1267:196:Elan_Touchpad" {
         dwt enabled
         scroll_factor 0.5
 }
-bindsym $mod+Shift+t exec swaymsg input "1267:196:Elan_Touchpad" events enabled
-bindsym $mod+Shift+s exec warpd --normal
+bindsym $mod+Shift+grave exec swaymsg input "1267:196:Elan_Touchpad" events enabled
+bindsym $mod+grave exec swaymsg input "1267:196:Elan_Touchpad" events disabled
+bindsym $mod+slash exec warpd --hint
+bindsym $mod+Shift+slash exec pkill warpd
 
 # Keyboard
 input type:keyboard {

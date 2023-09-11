@@ -868,7 +868,7 @@ keybinding (evil mode of course 👻)
      org-hide-emphasis-markers t
      org-tags-column 0
      org-adapt-indentation nil
-     org-indent-indentation-per-level 1
+     org-indent-indentation-per-level 3
      prettify-symbols-unprettify-at-point 'right-edge
 #+end_src
 

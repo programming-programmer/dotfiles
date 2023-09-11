@@ -9,7 +9,7 @@ local settings = {
   -- to bind multiple keys separate them by a space
 
   -- main key to show playlist
-  key_showplaylist = "SHIFT+ENTER",
+  key_showplaylist = "SHIFT+ENTER o",
 
   -- display playlist while key is held down
   key_peek_at_playlist = "",
