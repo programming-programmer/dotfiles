@@ -9,8 +9,8 @@ exec_always wl-paste -t text --watch clipman store
 exec_always swaynag-battery
 exec_always emacs --daemon
 exec_always autotiling
-exec swaymsg input "1267:196:Elan_Touchpad" events disabled
-exec gammastep -O 4500K
+exec_always swaymsg input "1267:196:Elan_Touchpad" events disabled
+exec gammastep -P -O 4500K
 
 # Variables
 set $mod Mod4
@@ -19,7 +19,7 @@ set $down j
 set $up k
 set $right l
 set $term foot
-set $menu bemenu-run --no-exec --prompt "Launch Application:" --line-height 20 -l 0 --hb '#285577' --hf '#ffffff' --tf '#ffffff' | xargs swaymsg exec --
+set $menu ~/.config/sway/scripts/application
 set $primary_browser qutebrowser
 set $lockscreenbg ~/.local/share/backgrounds/mojave.jpg
 output * bg $lockscreenbg fill
@@ -27,11 +27,13 @@ output * bg $lockscreenbg fill
 floating_modifier $mod normal
 
 bar {
-    position top
-    status_command i3status 
-    colors {
+    position bottom
+        status_command i3status 
+        colors {
         statusline #ffffff
         background #000000
+        inactive_workspace #000000 #32323200 #ffffff
+        active_workspace #000000 #32323200 #ffffff
         }
     font pango:Source Code Pro 10
 }
@@ -58,7 +60,7 @@ input "1267:196:Elan_Touchpad" {
 bindsym $mod+Shift+grave exec swaymsg input "1267:196:Elan_Touchpad" events enabled
 bindsym $mod+grave exec swaymsg input "1267:196:Elan_Touchpad" events disabled
 bindsym $mod+slash exec warpd --normal
-bindsym $mod+shift+slash exec pkill warpd
+bindsym $mod+shift+slash exec pkill -n warpd
 
 # Keyboard
 input type:keyboard {
@@ -75,9 +77,9 @@ bindsym $mod+d exec $menu
 bindsym $mod+b exec $primary_browser
 bindsym $mod+Shift+b exec qutebrowser ":open -p"
 bindsym $mod+BackSpace exec ~/.config/sway/scripts/powermenu
-bindsym $mod+c exec clipman pick --tool=bemenu --tool-args="--line-height 20 -l 0 --hb '#285577' --hf '#ffffff' --tf '#ffffff'"
+bindsym $mod+c exec ~/.config/sway/scripts/clipboard
 bindsym $mod+Shift+r reload
-bindsym $mod+a exec ~/.config/sway/scripts/window_switch
+bindsym $mod+Shift+d exec ~/.config/sway/scripts/window_switch
 bindsym $mod+p exec ~/.config/sway/scripts/playlist
 
 # Moving around:
@@ -125,6 +127,7 @@ bindsym $mod+f fullscreen
 bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
 
+
 mode "resize/layout" {
     bindsym less resize shrink width 10px
     bindsym plus resize grow height 10px
@@ -134,6 +137,9 @@ mode "resize/layout" {
     bindsym s layout stacking
     bindsym w layout tabbed
     bindsym e layout toggle split
+
+    bindsym $mod+s splith
+    bindsym $mod+v splitv
 
     bindsym Return mode "default"
     bindsym Escape mode "default"

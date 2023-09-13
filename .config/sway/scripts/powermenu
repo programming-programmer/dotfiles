@@ -1,7 +1,7 @@
 #!/bin/bash
 
 entries="Shutdown\nRestart\nLock\nNon-Idle" 
-case "$(echo -e $entries | bemenu -p Power: --line-height 20 -l 0 --hb '#285577' --hf '#ffffff' --tf '#ffffff' \  
+case "$(echo -e $entries | bemenu -b -p Power: --line-height 20 -l 5 --hb '#285577' --hf '#ffffff' --tf '#ffffff' \  
     "Power:" )" in
         Shutdown) exec systemctl poweroff;;
         Restart) exec systemctl reboot;;
