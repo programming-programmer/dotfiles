@@ -32,8 +32,8 @@ bar {
         colors {
         statusline #ffffff
         background #000000
-        inactive_workspace #000000 #32323200 #ffffff
-        active_workspace #000000 #32323200 #ffffff
+        inactive_workspace #000000 #000000 #ffffff
+        active_workspace #000000 #000000 #ffffff
         }
     font pango:Source Code Pro 10
 }
