@@ -17,6 +17,9 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CACHE_HOME="$HOME/.cache"
 
+# bemenu
+export BEMENU_OPTS="-b --line-height 20 -l 0 --fb '#000000' --ff '#ffffff' --nb '#000000' --nf '#ffffff' --tb '#000000' --hb '#265577' --tf '#ffffff' --hf '#ffffff' --nf '#ffffff' --af '#ffffff' --ab '#000000'"
+
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists
