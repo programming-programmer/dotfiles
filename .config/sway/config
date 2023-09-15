@@ -28,24 +28,25 @@ floating_modifier $mod normal
 
 bar {
     position bottom
+    height 20
         status_command i3status 
         colors {
-        statusline #ffffff
-        background #000000
-        inactive_workspace #000000 #000000 #ffffff
-        active_workspace #000000 #000000 #ffffff
+            statusline #ffffff
+                background #000000
+                inactive_workspace #000000 #000000 #ffffff
+                active_workspace #000000 #000000 #ffffff
         }
     font pango:Source Code Pro 10
 }
 bindsym $mod+n bar mode toggle
 
 # Pop Drop and Locking
-bindswitch --reload --locked lid:on exec swaylock -f -i $lockscreenbg
+bindswitch --reload --locked lid:on exec swaylock
 exec_always swayidle -w \
       timeout 300 'swaylock -f -i $lockscreenbg' \
       timeout 600 'swaymsg "output * dpms off"' \
       resume 'swaymsg "output * dpms on"' \
-      before-sleep 'swaylock -f -i $lockscreenbg'
+      before-sleep 'swaylock'
 
 # Touchpad
 input "1267:196:Elan_Touchpad" {

@@ -1,4 +1,0 @@
-#!/bin/bash
-
-selected=$(find ~/.config/mpv/playlists/ -type f | bemenu -b -p "Pick Playlist:" --line-height 20 -l 5 --hb '#285577' --hf '#ffffff' --tf '#ffffff')
-umpv $selected

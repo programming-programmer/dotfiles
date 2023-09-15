@@ -7,7 +7,7 @@
         lock-now)
             BG='&'
             [[ "$2" == "wait" ]] && BG=''
-            swaylock -f --image "$BACKGROUND" $BG
+            swaylock -f $BG
             ;;
 
         lock-off)
