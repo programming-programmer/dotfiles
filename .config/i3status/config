@@ -10,8 +10,8 @@ general {
 
 order += "tztime local"
 order += "wireless _first_"
-order += "battery 0"
 order += "volume master"
+order += "battery 0"
 
 wireless _first_ {
         format_up = "Connected: %essid"
@@ -29,6 +29,7 @@ tztime local {
 }
 
 volume master {
-    format = "Volume: %volume "
+    format = "♪ %devicename: %volume"
+    format_muted = "♪: Muted "
     device = "default"
 }

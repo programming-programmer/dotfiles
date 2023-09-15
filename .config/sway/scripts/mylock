@@ -28,5 +28,4 @@
                 before-sleep                    "mylock lock-now wait" &
             ;;
     esac
-
     exit $?

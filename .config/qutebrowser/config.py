@@ -21,7 +21,7 @@ c.hints.uppercase = True
 c.tabs.last_close = "startpage"
 c.tabs.mode_on_change = "normal"
 c.tabs.title.format = "{index}: {current_title}{private}"
-c.window.hide_decoration = False
+c.window.hide_decoration = True
 c.bindings.key_mappings = {"<Ctrl-c>": "<Escape>"}
 c.content.autoplay = False
 c.window.transparent = True
@@ -126,7 +126,7 @@ config.bind("n", "prompt-accept no", mode="yesno")
 config.bind("y", "prompt-accept yes", mode="yesno")
 
 config.bind("<Escape>", "mode-leave", mode="hint")
-config.bind("<Escape>", "mode-leave", mode="passthrough")
+# config.bind("<Escape>", "mode-leave", mode="passthrough")
 
 # Load Autoconfig
 config.load_autoconfig(True)

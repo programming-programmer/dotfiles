@@ -127,7 +127,8 @@ bindsym $mod+m scratchpad show
 bindsym $mod+f fullscreen
 bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
-
+bindsym $mod+Shift+g gaps inner current set 0 ;; gaps outer current set 0
+bindsym $mod+g gaps inner current set 8 ;; gaps outer current set 4
 
 mode "resize/layout" {
     bindsym less resize shrink width 10px
@@ -139,8 +140,8 @@ mode "resize/layout" {
     bindsym w layout tabbed
     bindsym e layout toggle split
 
-    bindsym $mod+s splith
-    bindsym $mod+v splitv
+    bindsym $mod+s splitv
+    bindsym $mod+v splith
 
     bindsym Return mode "default"
     bindsym Escape mode "default"
