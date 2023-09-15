@@ -110,7 +110,7 @@ map b
 map B
 
 # Basic Functions
-map R load-config ;; column-reload
+map R load-config
 map . set hidden!
 map mf mkfile
 map md mkdir
@@ -128,7 +128,8 @@ map q quit
 # Movement
 map gg top
 map gh cd ~
-map gc cd ~/.config
+map gc cd ~/.config/
 map gl cd ~/.local/
 map gd cd ~/Downloads/
 map gD cd ~/Desktop/
+map gn cd ~/Notes/

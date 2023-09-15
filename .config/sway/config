@@ -27,18 +27,19 @@ output * bg $lockscreenbg fill
 floating_modifier $mod normal
 
 bar {
-    position bottom
     height 20
+    position bottom
         status_command i3status 
         colors {
             statusline #ffffff
-                background #000000
-                inactive_workspace #000000 #000000 #ffffff
-                active_workspace #000000 #000000 #ffffff
+            background #000000
+            inactive_workspace #000000 #000000 #ffffff
+            binding_mode #000000 #000000 #DC143C
         }
     font pango:Source Code Pro 10
 }
-bindsym $mod+n bar mode toggle
+bindsym $mod+n bar mode dock
+bindsym $mod+Shift+n bar mode invisible
 
 # Pop Drop and Locking
 bindswitch --reload --locked lid:on exec swaylock
@@ -61,7 +62,7 @@ input "1267:196:Elan_Touchpad" {
 bindsym $mod+Shift+grave exec swaymsg input "1267:196:Elan_Touchpad" events enabled
 bindsym $mod+grave exec swaymsg input "1267:196:Elan_Touchpad" events disabled
 bindsym $mod+slash exec warpd --normal
-bindsym $mod+shift+slash exec pkill -n warpd
+bindsym $mod+shift+slash exec pkill warpd
 
 # Keyboard
 input type:keyboard {
