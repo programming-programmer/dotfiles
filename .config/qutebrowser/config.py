@@ -2,10 +2,12 @@
 c.url.searchengines = {
         "DEFAULT": "https://search.brave.com/search?q={}", 
         "g": "https://www.google.com/search?q={}", 
-        "yt": "https://www.youtube.com/results?search_query={}"
+        "yt": "https://www.youtube.com/results?search_query={}",
+        "myt": "https://music.youtube.com/search?q={}",
+        "nix": "https://search.nixos.org/packages?channel=23.05&from=0&size=50&sort=relevance&type=packages&query={}"
 }
 
-# Start and Def pages
+# Start and Default pages
 c.url.default_page = "about:blank"
 c.url.start_pages = "about:blank"
 
