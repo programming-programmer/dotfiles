@@ -18,7 +18,7 @@ set $down j
 set $up k
 set $right l
 set $term foot
-set $menu ~/.config/sway/scripts/application
+set $menu application
 set $primary_browser qutebrowser
 set $lockscreenbg ~/.local/share/backgrounds/mojave.jpg
 output * bg $lockscreenbg fill
@@ -77,11 +77,11 @@ bindsym $mod+Shift+q kill
 bindsym $mod+d exec $menu
 bindsym $mod+b exec $primary_browser
 bindsym $mod+Shift+b exec qutebrowser ":open -p"
-bindsym $mod+BackSpace exec ~/.config/sway/scripts/powermenu
-bindsym $mod+c exec ~/.config/sway/scripts/clipboard
+bindsym $mod+BackSpace exec powermenu
+bindsym $mod+c exec clipboard
+bindsym $mod+Shift+d exec window_switch
+bindsym $mod+Shift+e exec bemoji
 bindsym $mod+Shift+r reload
-bindsym $mod+Shift+d exec ~/.config/sway/scripts/window_switch
-bindsym $mod+p exec ~/.config/sway/scripts/playlist
 
 # Moving around:
 bindsym $mod+$left focus left
@@ -153,6 +153,18 @@ bindsym $mod+r mode "resize/layout"
 bindsym $mod+Shift+minus exec amixer -D pulse sset Master 0%
 bindsym $mod+minus exec amixer -D pulse sset Master 1%-
 bindsym $mod+equal exec amixer -D pulse sset Master 1%+
+bindsym $mod+Shift+equal exec amixer -D pulse sset Master 5%+
+
+mode "music" {
+    bindsym p exec mpv_pause
+    bindsym greater exec mpv_playlist_next
+    bindsym less exec mpv_playlist_prev
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym Control+c mode "default"
+}
+bindsym $mod+p mode "music"
 
 # Brightness
 bindsym $mod+Shift+z exec brightnessctl set +3%

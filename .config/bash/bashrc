@@ -11,7 +11,6 @@ shopt -s expand_aliases
 [ -z "$PS1" ] && return
 
 # Bash History
-HISTCONTROL=ignoreboth
 HISTSIZE=100
 HISTFILESIZE=200
 HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/bash/history"

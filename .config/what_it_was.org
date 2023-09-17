@@ -85,6 +85,7 @@ sh <(curl -L https://nixos.org/nix/install) --daemon
  * qutebrowser
  * pulseaudio
  * alsa-utils
+ * wtype (for emoji picker)
  * sway
  * swaylock
  * swaynag
