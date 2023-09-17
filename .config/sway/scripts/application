@@ -1,0 +1,4 @@
+#!/bin/bash
+
+bemenu-run --no-exec -b --prompt "Launch Application:" --line-height 20 -l 0 --fb "#000000" --ff "#ffffff" --nb "#000000" --nf "#ffffff" --tb "#000000" --hb "#265577" --tf "#ffffff" --hf "#ffffff" --nf "#ffffff" --af "#ffffff" --ab "#000000" | xargs swaymsg exec --
+

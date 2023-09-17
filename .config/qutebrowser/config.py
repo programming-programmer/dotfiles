@@ -4,6 +4,8 @@ c.url.searchengines = {
         "g": "https://www.google.com/search?q={}", 
         "yt": "https://www.youtube.com/results?search_query={}",
         "myt": "https://music.youtube.com/search?q={}",
+        "dict": "https://www.merriam-webster.com/dictionary/{}",
+        "syn": "https://www.merriam-webster.com/thesaurus/{}",
         "nix": "https://search.nixos.org/packages?channel=23.05&from=0&size=50&sort=relevance&type=packages&query={}"
 }
 
@@ -34,6 +36,7 @@ c.scrolling.bar = "never"
 c.completion.quick = True
 c.content.mute = True
 c.content.notifications.presenter = "messages"
+c.messages.timeout = 1000
 
 # General Bindings
 config.bind(";M", "hint --rapid links spawn -v umpv {hint-url}")

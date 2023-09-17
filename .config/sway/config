@@ -7,10 +7,9 @@ titlebar_padding 1
 titlebar_border_thickness 1
 exec_always wl-paste -t text --watch clipman store
 exec_always swaynag-battery
-exec_always emacs --daemon
 exec_always autotiling
 exec_always swaymsg input "1267:196:Elan_Touchpad" events disabled
-exec gammastep -P -O 4500K
+exec_always gammastep -P -O 4500K
 
 # Variables
 set $mod Mod4

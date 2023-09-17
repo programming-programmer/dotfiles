@@ -5,7 +5,7 @@ case "$(echo -e $entries | bemenu -b -p "Power:" --line-height 20 -l 0 --fb '#00
     "Power:" )" in
         Shutdown) exec systemctl poweroff;;
         Restart) exec systemctl reboot;;
-        Lock) exec ~/.config/sway/scripts/mylock lock-now;;
+        Lock) exec swaylock;;
         Non-Idle) exec ~/.config/sway/scripts/mylock lock-off
 
 esac
