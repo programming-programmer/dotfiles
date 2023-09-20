@@ -5,7 +5,7 @@ general {
         interval = 5
         colors = false
         output_format = none
-        separator = " | "
+        separator = " ][ "
 }
 
 order += "tztime local"
@@ -13,23 +13,23 @@ order += "wireless _first_"
 order += "volume master"
 order += "battery 0"
 
+tztime local {
+    format = "[ %a %b %e %I:%M %p"
+}
+
 wireless _first_ {
         format_up = "Connected: %essid"
         format_down = "Disconnected"
 }
 
-battery 0 {
-        format = "Battery: %percentage"
-        last_full_capacity = true
-        format_percentage = "%.00f%s"
-}
-
-tztime local {
-        format = "%a %b %e %I:%M %p"
-}
-
 volume master {
     format = "%devicename: %volume"
-    device = "default"
-    mixer = "Master"
+        device = "default"
+        mixer = "Master"
+}
+
+battery 0 {
+        format = "Battery: %percentage ]"
+        last_full_capacity = true
+        format_percentage = "%.00f%s"
 }

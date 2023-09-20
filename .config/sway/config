@@ -8,6 +8,7 @@ titlebar_border_thickness 1
 exec_always wl-paste -t text --watch clipman store
 exec_always swaynag-battery
 exec_always autotiling
+exec emacs --daemon
 exec_always swaymsg input "1267:196:Elan_Touchpad" events disabled
 exec_always gammastep -P -O 4500K
 
@@ -41,12 +42,11 @@ bindsym $mod+n bar mode dock
 bindsym $mod+Shift+n bar mode invisible
 
 # Pop Drop and Locking
-bindswitch --reload --locked lid:on exec swaylock
+bindswitch --reload --locked lid:on exec swaylock & mpv_pause
 exec_always swayidle -w \
-      timeout 300 'swaylock -f -i $lockscreenbg' \
+      timeout 300 'swaylock -f -i $lockscreenbg & mpv_pause' \
       timeout 600 'swaymsg "output * dpms off"' \
       resume 'swaymsg "output * dpms on"' \
-      before-sleep 'swaylock'
 
 # Touchpad
 input "1267:196:Elan_Touchpad" {
@@ -60,9 +60,8 @@ input "1267:196:Elan_Touchpad" {
 }
 bindsym $mod+Shift+grave exec swaymsg input "1267:196:Elan_Touchpad" events enabled
 bindsym $mod+grave exec swaymsg input "1267:196:Elan_Touchpad" events disabled
-bindsym $mod+slash exec warpd --normal
-bindsym $mod+shift+slash exec pkill warpd
-
+bindsym $mod+s exec /usr/local/bin/warpd --normal
+bindsym $mod+shift+s exec pkill /usr/local/bin/warpd
 # Keyboard
 input type:keyboard {
     xkb_layout us,us
@@ -151,14 +150,18 @@ bindsym $mod+r mode "resize/layout"
 
 # Audio
 bindsym $mod+Shift+minus exec amixer -D pulse sset Master 0%
-bindsym $mod+minus exec amixer -D pulse sset Master 1%-
-bindsym $mod+equal exec amixer -D pulse sset Master 1%+
 bindsym $mod+Shift+equal exec amixer -D pulse sset Master 5%+
 
 mode "music" {
     bindsym p exec mpv_pause
     bindsym greater exec mpv_playlist_next
     bindsym less exec mpv_playlist_prev
+
+    bindsym 9 exec mpv_decrease
+    bindsym 0 exec mpv_increase
+
+    bindsym equal exec amixer -D pulse sset Master 1%+
+    bindsym minus exec amixer -D pulse sset Master 1%-
 
     bindsym Return mode "default"
     bindsym Escape mode "default"

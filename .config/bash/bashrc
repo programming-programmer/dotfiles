@@ -37,4 +37,3 @@ export PROMPT_DIRTRIM=4 # Trimming path to 4 directories
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
   exec tmux new-session -s 0 -n main
 fi
-

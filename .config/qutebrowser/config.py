@@ -1,12 +1,12 @@
 # Web Browsers:
 c.url.searchengines = {
-        "DEFAULT": "https://search.brave.com/search?q={}", 
-        "g": "https://www.google.com/search?q={}", 
-        "yt": "https://www.youtube.com/results?search_query={}",
-        "myt": "https://music.youtube.com/search?q={}",
-        "dict": "https://www.merriam-webster.com/dictionary/{}",
-        "syn": "https://www.merriam-webster.com/thesaurus/{}",
-        "nix": "https://search.nixos.org/packages?channel=23.05&from=0&size=50&sort=relevance&type=packages&query={}"
+    "DEFAULT": "https://search.brave.com/search?q={}", 
+    "g": "https://www.google.com/search?q={}", 
+    "yt": "https://www.youtube.com/results?search_query={}",
+    "myt": "https://music.youtube.com/search?q={}",
+    "dict": "https://www.merriam-webster.com/dictionary/{}",
+    "syn": "https://www.merriam-webster.com/thesaurus/{}",
+    "nix": "https://search.nixos.org/packages?channel=23.05&from=0&size=50&sort=relevance&type=packages&query={}"
 }
 
 # Start and Default pages
@@ -20,7 +20,7 @@ config.set("colors.webpage.darkmode.enabled", True)
 c.input.insert_mode.auto_leave = True
 c.input.insert_mode.auto_load = True
 c.input.insert_mode.leave_on_load = True
-c.hints.chars = "aoeuhtns"
+c.hints.chars = "dhtns"
 c.hints.uppercase = True
 c.tabs.last_close = "startpage"
 c.tabs.mode_on_change = "normal"
@@ -61,6 +61,7 @@ config.bind("<Ctrl-=>", "zoom-in")
 config.bind("<Ctrl-->", "zoom-out")
 config.bind("K", "tab-next")
 config.bind("J", "tab-prev")
+config.bind("D", "tab-close --force")
 
 # Insert Bindings
 config.bind("<Ctrl-f>", "fake-key <Right>", mode="insert")
@@ -75,7 +76,7 @@ config.bind("<Ctrl-d>", "fake-key <Delete>", mode="insert")
 config.bind("<Alt-d>", "fake-key <Ctrl-Delete>", mode="insert")
 config.bind("<Alt-backspace>", "fake-key <Ctrl-Backspace>", mode="insert")
 config.bind("<Ctrl-w>", "fake-key <Ctrl-backspace>", mode="insert")
-config.bind("<Ctrl-y>", "insert-text {primary}", mode="insert")
+config.bind("<Ctrl-y>", "insert-text {clipboard}", mode="insert")
 config.bind("<Escape>", "mode-leave", mode="insert")
 
 # Command Bindings

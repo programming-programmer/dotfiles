@@ -360,35 +360,37 @@ keybinding (evil mode of course 👻)
 
 ** Evil Mode
 #+begin_src emacs-lisp
-  (use-package evil
-    :init
-    (setq evil-want-keybinding nil) ;; load Evil keybindings in other modes
-    (setq evil-want-fine-undo t)
-    (setq evil-want-Y-yank-to-eol t)
-    (setq evil-mode-line-format nil)
-    (setq evil-disable-insert-state-bindings t)
+   (use-package evil
+     :init
+     (setq evil-want-keybinding nil) ;; load Evil keybindings in other modes
+     (setq evil-want-fine-undo t)
+     (setq evil-want-Y-yank-to-eol t)
+     (setq evil-mode-line-format nil)
+     (setq evil-disable-insert-state-bindings t)
 
-    :config
-    (define-key evil-motion-state-map "/" 'swiper)
-    (evil-global-set-key 'motion "j" 'evil-next-visual-line)
-    (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
-    (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
+     :config
+     (define-key evil-motion-state-map "/" 'swiper)
+     (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+     (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+     (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
+     (global-set-key [remap evil-quit] 'kill-buffer-and-window)
 
-    (setq evil-emacs-state-cursor    '("#649bce" box))
-    (setq evil-normal-state-cursor   '("#d9a871" box))
-    (setq evil-operator-state-cursor '("#ebcb8b" hollow))
-    (setq evil-visual-state-cursor   '("#677691" box))
-    (setq evil-insert-state-cursor   '("#eb998b" box))
-    (setq evil-replace-state-cursor  '("#eb998b" hbar))
-    (setq evil-motion-state-cursor   '("#ad8beb" box))
+     (setq evil-emacs-state-cursor    '("#649bce" box))
+     (setq evil-normal-state-cursor   '("#d9a871" box))
+     (setq evil-operator-state-cursor '("#ebcb8b" hollow))
+     (setq evil-visual-state-cursor   '("#677691" box))
+     (setq evil-insert-state-cursor   '("#eb998b" box))
+     (setq evil-replace-state-cursor  '("#eb998b" hbar))
+     (setq evil-motion-state-cursor   '("#ad8beb" box))
 
-    (evil-set-undo-system 'undo-fu)
-    (evil-mode 1))
+     (evil-set-undo-system 'undo-fu)
+     (evil-mode 1))
 
-  (use-package evil-collection
-    :after evil
-    :config
-    (evil-collection-init))
+   (use-package evil-collection
+     :after evil
+     :config
+     (evil-collection-init))
+
 #+end_src
 
 *** Undo/Redo Functionality (with undo-tree)
