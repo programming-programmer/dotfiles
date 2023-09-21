@@ -79,7 +79,7 @@ bindsym $mod+Shift+b exec qutebrowser ":open -p"
 bindsym $mod+BackSpace exec powermenu
 bindsym $mod+c exec clipboard
 bindsym $mod+Shift+d exec window_switch
-bindsym $mod+Shift+e exec bemoji
+bindsym $mod+Shift+e exec charpicker
 bindsym $mod+Shift+r reload
 
 # Moving around:
