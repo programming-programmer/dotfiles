@@ -34,7 +34,7 @@ bar {
             statusline #ffffff
             background #000000
             inactive_workspace #000000 #000000 #ffffff
-            binding_mode #000000 #000000 #DC143C
+            binding_mode #000000 #000000 #ffffff
         }
     font pango:Source Code Pro 10
 }
@@ -129,7 +129,7 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+Shift+g gaps inner current set 0 ;; gaps outer current set 0
 bindsym $mod+g gaps inner current set 8 ;; gaps outer current set 4
 
-mode "resize/layout" {
+mode "- resize/layout" {
     bindsym less resize shrink width 10px
     bindsym plus resize grow height 10px
     bindsym minus resize shrink height 10px
@@ -146,13 +146,13 @@ mode "resize/layout" {
     bindsym Escape mode "default"
     bindsym Control+c mode "default"
 }
-bindsym $mod+r mode "resize/layout"
+bindsym $mod+r mode "- resize/layout"
 
 # Audio
 bindsym $mod+Shift+minus exec amixer -D pulse sset Master 0%
 bindsym $mod+Shift+equal exec amixer -D pulse sset Master 5%+
 
-mode "music" {
+mode "- music" {
     bindsym p exec mpv_pause
     bindsym greater exec mpv_playlist_next
     bindsym less exec mpv_playlist_prev
@@ -167,7 +167,7 @@ mode "music" {
     bindsym Escape mode "default"
     bindsym Control+c mode "default"
 }
-bindsym $mod+p mode "music"
+bindsym $mod+p mode "- music"
 
 # Brightness
 bindsym $mod+Shift+z exec brightnessctl set +3%
