@@ -1,0 +1,15 @@
+#!/bin/bash
+
+chosen=$(cut -d ';' -f1 ~/.local/share/chars/* | bemenu -w -b --prompt "Pick Unicode/Emoji" --line-height 20 -l 0 | sed "s/ .*//")
+
+# Exit if none chosen.
+[ -z "$chosen" ] && exit
+
+# If you run this command with an argument, it will automatically insert the
+# character. Otherwise, show a message that the emoji has been copied.
+# wtype is required for the writing part but not really necessary
+if [ -n "$1" ]; then
+	wtype "$chosen"
+else
+	printf "%s" "$chosen" | wl-copy
+fi

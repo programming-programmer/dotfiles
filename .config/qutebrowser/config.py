@@ -34,12 +34,13 @@ c.statusbar.show = "in-mode"
 c.content.tls.certificate_errors = "load-insecurely"
 c.scrolling.bar = "never"
 c.completion.quick = True
+c.content.pdfjs = True
 c.content.mute = True
 c.content.notifications.presenter = "messages"
 c.messages.timeout = 1000
 
 # General Bindings
-config.bind(";M", "hint --rapid links spawn -v umpv {hint-url}")
+config.bind(";M", "hint --rapid links spawn umpv {hint-url}")
 config.bind(",m", "hint links spawn -v --detach umpv '{hint-url}'") 
 config.bind(",M", "spawn -v --detach umpv '{url}'") 
 config.bind(",s", "hint links spawn -v --detach streamlink --player mpv '{hint-url}' 720p") 

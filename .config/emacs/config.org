@@ -421,15 +421,15 @@ keybinding (evil mode of course 👻)
 
 *** Applications
 #+begin_src emacs-lisp
-  "a" '(nil :which-key "open")
+  "o" '(nil :which-key "open")
 
-  "aa" '(org-agenda :which-key "org-agenda")
-  "ac" '(calendar :which-key "calendar")
-  "aC" '(calc :which-key "calc")
-  "a-" '(dired :which-key "dired")
-  "ad" '(dired-jump :which-key "dired jump")
-  "af" '(make-frame :which-key "new frame")
-  "aF" '(select-frame-by-name :which-key "select frame")
+  "oa" '(org-agenda :which-key "org-agenda")
+  "oc" '(calendar :which-key "calendar")
+  "oC" '(calc :which-key "calc")
+  "o-" '(dired :which-key "dired")
+  "od" '(dired-jump :which-key "dired jump")
+  "of" '(make-frame :which-key "new frame")
+  "oF" '(select-frame-by-name :which-key "select frame")
 #+end_src
 
 *** Buffers
@@ -891,6 +891,11 @@ keybinding (evil mode of course 👻)
     ("WAITING" . (:foreground "dark slate gray" :weight bold))
     ("CANCELLED" . (:foreground "dark gray" :weight bold)))         
   #+end_src
+
+*** Archive Location
+#+begin_src emacs-lisp
+   (setq org-archive-location (concat mt/org-notes "archive.org"))
+#+end_src
 
 *** Org Agenda Column Format
   #+begin_src emacs-lisp

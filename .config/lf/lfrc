@@ -15,13 +15,13 @@ cmd open ${{
 	audio/*|video/x-ms-asf) mpv --audio-display=no $f ;;
 
     # Text
-    text/*|application/json|inode/x-empty|application/x-subrip) nvim $fx;;
+    text/*|application/json|inode/x-empty|application/x-subrip) nvim $fx ;;
 
     # PDF, EPUB, VND
    	application/pdf|application/vnd.djvu|application/epub*) zathura $fx ;;
 
     # Image
-   	image/vnd.djvu|application/pdf|application/octet-stream|application/postscript) imv $fx ;;
+   	image/vnd.djvu|application/pdf|application/octet-stream|application/postscript) imv-wayland $fx ;;
 
     # Video
 	video/*) setsid -f mpv $f -quiet ;;
