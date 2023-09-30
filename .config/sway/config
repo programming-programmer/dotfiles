@@ -17,7 +17,7 @@ set $left h
 set $down j
 set $up k
 set $right l
-set $term foot
+set $term swaymsg exec foot
 set $menu application
 set $primary_browser qutebrowser
 set $lockscreenbg ~/.local/share/backgrounds/mojave.jpg
@@ -43,8 +43,8 @@ bindsym $mod+Shift+n bar mode invisible
 # Pop Drop and Locking
 bindswitch --reload --locked lid:on exec mpv_pause
 exec_always swayidle -w \
-      timeout 300 'swaylock -f -i $lockscreenbg' \
-      timeout 600 'swaymsg "output * dpms off"' \
+      timeout 600 'swaylock -f -i $lockscreenbg' \
+      timeout 570 'swaymsg "output * dpms off"' \
       resume 'swaymsg "output * dpms on"' \
 
 # Touchpad

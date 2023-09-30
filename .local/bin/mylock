@@ -15,7 +15,7 @@
             swayidle -w \
                 timeout $TIMEOUT  "swaymsg 'output * dpms off'" \
                 resume            "swaymsg 'output * dpms on'" \
-                before-sleep      "mylock lock-now wait; mylock enable-lock"
+                before-sleep      "mylock enable-lock"
             ;;
 
         enable-lock|*)
@@ -25,7 +25,6 @@
                 timeout $(( TIMEOUT * 2 ))      "swaymsg 'output * dpms on'; mylock lock-now" \
                 timeout $(( TIMEOUT * 3 ))      "swaymsg 'output * dpms off'" resume "swaymsg 'output * dpms on'" \
                 timeout $(( TIMEOUT * 4 ))      "sudo systemctl suspend" \
-                before-sleep                    "mylock lock-now wait" &
             ;;
     esac
     exit $?

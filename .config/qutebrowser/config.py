@@ -15,7 +15,13 @@ c.url.start_pages = "about:blank"
 
 # Theme
 config.source("nord-qutebrowser.py")
-config.set("colors.webpage.darkmode.enabled", True)
+c.colors.webpage.preferred_color_scheme = 'dark'
+c.colors.webpage.darkmode.enabled = True
+c.colors.webpage.darkmode.algorithm = "lightness-cielab"
+c.colors.webpage.darkmode.threshold.text = 150
+c.colors.webpage.darkmode.threshold.background = 100
+c.colors.webpage.darkmode.policy.images = 'always'
+c.colors.webpage.darkmode.grayscale.images = 0.35
 
 c.input.insert_mode.auto_leave = True
 c.input.insert_mode.auto_load = True
@@ -60,6 +66,8 @@ config.unbind("=")
 config.bind("<Ctrl-0>", "zoom")
 config.bind("<Ctrl-=>", "zoom-in")
 config.bind("<Ctrl-->", "zoom-out")
+config.unbind("d")
+config.bind("X", "tab-close")
 config.bind("K", "tab-next")
 config.bind("J", "tab-prev")
 config.bind("D", "tab-close --force")

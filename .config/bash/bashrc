@@ -20,6 +20,7 @@ alias em="emacsclient -nw"
 alias sudo="doas"
 alias vim="nvim"
 alias imv="imv-wayland"
+alias tm="exec tmux new-session -s 0 -n main"
 
 # enable programmable completion features 
 if ! shopt -oq posix; then
@@ -33,7 +34,3 @@ fi
 # the beautiful bash prompt
 PS1="\[\033[1;37m\]\w $ \[\033[00m\]" # Setting PS1 to show full path
 export PROMPT_DIRTRIM=4 # Trimming path to 4 directories
-
-if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-  exec tmux new-session -s 0 -n main
-fi

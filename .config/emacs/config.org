@@ -853,7 +853,6 @@ keybinding (evil mode of course 👻)
 ** Configuration 
 #+begin_src emacs-lisp
   (use-package org
-    :defer t
     :hook (org-mode . dw/org-mode-setup)
     :config
     (setq
