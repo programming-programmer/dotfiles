@@ -8,7 +8,6 @@ titlebar_border_thickness 1
 exec_always wl-paste -t text --watch clipman store
 exec_always swaynag-battery
 exec_always autotiling
-exec emacs --daemon
 exec_always swaymsg input "1267:196:Elan_Touchpad" events disabled
 exec_always gammastep -P -O 4500K
 
@@ -42,9 +41,9 @@ bindsym $mod+n bar mode dock
 bindsym $mod+Shift+n bar mode invisible
 
 # Pop Drop and Locking
-bindswitch --reload --locked lid:on exec swaylock & mpv_pause
+bindswitch --reload --locked lid:on exec mpv_pause
 exec_always swayidle -w \
-      timeout 300 'swaylock -f -i $lockscreenbg & mpv_pause' \
+      timeout 300 'swaylock -f -i $lockscreenbg' \
       timeout 600 'swaymsg "output * dpms off"' \
       resume 'swaymsg "output * dpms on"' \
 
@@ -140,8 +139,8 @@ mode "- resize/layout" {
     bindsym w layout tabbed
     bindsym e layout toggle split
 
-    bindsym $mod+s splitv
-    bindsym $mod+v splith
+    bindsym Control+s splitv
+    bindsym Control+v splith
 
     bindsym Return mode "default"
     bindsym Escape mode "default"
