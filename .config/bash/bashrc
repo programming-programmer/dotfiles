@@ -20,7 +20,8 @@ alias em="emacsclient -nw"
 alias sudo="doas"
 alias vim="nvim"
 alias imv="imv-wayland"
-alias tm="exec tmux new-session -s 0 -n main"
+alias tmn="exec tmux new-session -s notes -n main"
+alias tmc="exec tmux new-session -s hack! -n main"
 
 # enable programmable completion features 
 if ! shopt -oq posix; then
