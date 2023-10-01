@@ -1,10 +1,11 @@
 ignore-empty-password
+disable-caps-lock-text
 hide-keyboard-layout
 font=Source Code Pro
 font-size=12
 image=~/.local/share/backgrounds/mojave.jpg
 
-key-hl-color=880033
+key-hl-color=4c7899
 
 separator-color=00000000
 
@@ -33,5 +34,4 @@ text-wrong-color=ee2e2400
 bs-hl-color=ee2e24FF
 caps-lock-key-hl-color=ffd204FF
 caps-lock-bs-hl-color=ee2e24FF
-disable-caps-lock-text
 text-caps-lock-color=009ddc

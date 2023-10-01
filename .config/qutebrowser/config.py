@@ -59,6 +59,7 @@ config.bind("f", "hint all")
 config.bind("tb", "config-cycle statusbar.show always never")
 config.bind("tt", "config-cycle tabs.show always never")
 config.bind("gD", "set-cmd-text -s :tab-give")
+config.bind("M", "set-cmd-text -s :bookmark-add {url}")
 config.bind(";f", "hint --rapid all current")
 config.unbind("+")
 config.unbind("-")
@@ -141,7 +142,7 @@ config.bind("n", "prompt-accept no", mode="yesno")
 config.bind("y", "prompt-accept yes", mode="yesno")
 
 config.bind("<Escape>", "mode-leave", mode="hint")
-# config.bind("<Escape>", "mode-leave", mode="passthrough")
+config.bind('<Ctrl-g>', 'leave-mode', mode='passthrough')
 
 # Load Autoconfig
 config.load_autoconfig(True)

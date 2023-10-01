@@ -4,7 +4,7 @@ org.setup_ts_grammar()
 org.setup({
     org_agenda_files = "~/Notes/**/*",
     org_default_notes_file = "~/Notes/refile.org",
-    win_split_mode = "horizontal",
+    win_split_mode = "tabnew",
     org_todo_keywords = { "TODO(t)", "PROG", "|", "DONE", "WAITING", "CANCELLED" },
     org_deadline_warning_days = 14,
     org_capture_templates = {

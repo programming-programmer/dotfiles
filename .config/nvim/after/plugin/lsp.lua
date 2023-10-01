@@ -6,8 +6,8 @@ lsp.preset("recommended")
 -- Which I'm too lazy to do
 lsp.ensure_installed({
   --'bashls',
-  'clangd',
-  'jdtls',
+  -- 'clangd',
+  -- 'jdtls',
   --'pyright',
 })
 
