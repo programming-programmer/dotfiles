@@ -20,7 +20,7 @@ alias em="emacsclient -nw"
 alias sudo="doas"
 alias vim="nvim"
 alias imv="imv-wayland"
-alias tmn="exec tmux new-session -s notes -n main"
+alias tmn="exec tmux new-session -c ~/Notes/ -s notes -n main"
 alias tmc="exec tmux new-session -s hack! -n main"
 
 # enable programmable completion features 
