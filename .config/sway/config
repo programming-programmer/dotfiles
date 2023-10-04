@@ -167,8 +167,19 @@ mode "- music" {
     bindsym Escape mode "default"
     bindsym Control+c mode "default"
 }
-bindsym $mod+p mode "- music"
+bindsym $mod+a mode "- music"
 
 # Brightness
 bindsym $mod+Shift+z exec brightnessctl set +3%
 bindsym $mod+z exec brightnessctl set 3%-
+
+# Screenshots
+# Super+P: Current window
+# Super+Shift+p: Select area
+# Super+Alt+p Current output
+# Super+Ctrl+p Select a window
+
+bindsym $mod+p       exec grimshot save active
+bindsym $mod+Shift+p exec grimshot save area
+bindsym $mod+Mod1+p  exec grimshot save output
+bindsym $mod+Ctrl+p  exec grimshot save window

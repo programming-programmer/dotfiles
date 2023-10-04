@@ -53,6 +53,8 @@ org.setup({
     org_startup_folded = 'content',
     org_agenda_skip_scheduled_if_done = true,
     org_agenda_skip_deadline_if_done = true,
+    org_agenda_start_day = '+1d',
+    -- org_agenda_span = 'day',
     org_tags_column = 0,
     org_use_tag_inheritance = true,
     org_tags_exclude_from_inheritance = {},

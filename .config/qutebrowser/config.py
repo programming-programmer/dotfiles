@@ -13,18 +13,15 @@ c.url.searchengines = {
 c.url.default_page = "about:blank"
 c.url.start_pages = "about:blank"
 
-# Theme
+# Theme and Dark Mode
 config.source("nord-qutebrowser.py")
 c.colors.webpage.preferred_color_scheme = 'dark'
 c.colors.webpage.darkmode.enabled = True
 c.colors.webpage.darkmode.algorithm = "lightness-cielab"
-c.colors.webpage.darkmode.threshold.text = 150
-c.colors.webpage.darkmode.threshold.background = 100
 c.colors.webpage.darkmode.policy.images = 'always'
-c.colors.webpage.darkmode.grayscale.images = 0.35
 
 c.input.insert_mode.auto_leave = True
-c.input.insert_mode.auto_load = True
+c.input.insert_mode.auto_load = False
 c.input.insert_mode.leave_on_load = True
 c.hints.chars = "dhtns"
 c.hints.uppercase = True
@@ -36,7 +33,9 @@ c.bindings.key_mappings = {"<Ctrl-c>": "<Escape>"}
 c.content.autoplay = False
 c.window.transparent = True
 c.statusbar.widgets = ['keypress', 'history', 'tabs']
-c.statusbar.show = "in-mode"
+c.statusbar.show = "always"
+c.statusbar.padding = {'bottom': 0, 'left': 0, 'right': 0, 'top': 0}
+c.spellcheck.languages = ['en-US']
 c.content.tls.certificate_errors = "load-insecurely"
 c.scrolling.bar = "never"
 c.completion.quick = True
@@ -54,12 +53,12 @@ config.bind(",S", "spawn -v --detach streamlink --player mpv '{url}' 720p")
 config.bind("C", "clear-messages")
 config.bind(",F", "hint links spawn -v firefox {hint-url}")
 config.bind(",a", "adblock-update")
+config.bind("<Ctrl+h>", "back --tab")
+config.bind("<Ctrl+l>", "forward --tab")
 
 config.bind("f", "hint all")
-config.bind("tb", "config-cycle statusbar.show always never")
-config.bind("tt", "config-cycle tabs.show always never")
 config.bind("gD", "set-cmd-text -s :tab-give")
-config.bind("M", "set-cmd-text -s :bookmark-add {url}")
+config.bind("M", "set-cmd-text -s :bookmark-add {url} """)
 config.bind(";f", "hint --rapid all current")
 config.unbind("+")
 config.unbind("-")
