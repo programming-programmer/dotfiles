@@ -7,7 +7,6 @@ titlebar_padding 1
 titlebar_border_thickness 1
 exec_always wl-paste -t text --watch clipman store
 exec_always swaynag-battery
-exec_always autotiling
 exec_always swaymsg input "1267:196:Elan_Touchpad" events disabled
 exec_always gammastep -P -O 4500K
 
@@ -167,7 +166,7 @@ mode "- music" {
     bindsym Escape mode "default"
     bindsym Control+c mode "default"
 }
-bindsym $mod+a mode "- music"
+bindsym $mod+Shift+t mode "- music"
 
 # Brightness
 bindsym $mod+Shift+z exec brightnessctl set +3%

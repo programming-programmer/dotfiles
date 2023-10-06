@@ -18,7 +18,6 @@ config.source("nord-qutebrowser.py")
 c.colors.webpage.preferred_color_scheme = 'dark'
 c.colors.webpage.darkmode.enabled = True
 c.colors.webpage.darkmode.algorithm = "lightness-cielab"
-c.colors.webpage.darkmode.policy.images = 'always'
 
 c.input.insert_mode.auto_leave = True
 c.input.insert_mode.auto_load = False
@@ -141,7 +140,7 @@ config.bind("n", "prompt-accept no", mode="yesno")
 config.bind("y", "prompt-accept yes", mode="yesno")
 
 config.bind("<Escape>", "mode-leave", mode="hint")
-config.bind('<Ctrl-g>', 'leave-mode', mode='passthrough')
+config.bind('<Ctrl-g>', 'mode-leave', mode='passthrough')
 
 # Load Autoconfig
 config.load_autoconfig(True)
