@@ -6,12 +6,20 @@
 
 config_version: 2
 settings:
+  colors.webpage.darkmode.algorithm:
+    global: lightness-hsl
+  content.canvas_reading:
+    global: true
   content.notifications.enabled:
     https://www.pinterest.com: false
     https://www.youtube.com: false
   content.register_protocol_handler:
     https://mail.google.com?extsrc=mailto&url=%25s: false
     https://outlook.office365.com?mailtouri=%25s: false
+  hints.hide_unmatched_rapid_hints:
+    global: false
+  scrolling.bar:
+    global: when-searching
   spellcheck.languages:
     global:
     - en-US

@@ -44,19 +44,19 @@ org.setup({
         wm = {
             description = 'Movie',
             template = '** TODO %?\n ',
-            target = '~/Notes/watchlist.org',
+            target = '~/Notes/Personal/watchlist.org',
             headline = 'Movies'
         },
         wb = {
             description = 'Book',
             template = '** TODO %?\n ',
-            target = '~/Notes/watchlist.org',
+            target = '~/Notes/Personal/watchlist.org',
             headline = 'Books'
         },
         ws = {
             description = 'Show / Anime',
             template = '** TODO %?\n ',
-            target = '~/Notes/watchlist.org',
+            target = '~/Notes/Personal/watchlist.org',
             headline = 'Shows / Anime'
         },
     },

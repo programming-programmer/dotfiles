@@ -17,7 +17,6 @@ c.url.start_pages = "about:blank"
 config.source("nord-qutebrowser.py")
 c.colors.webpage.preferred_color_scheme = 'dark'
 c.colors.webpage.darkmode.enabled = True
-c.colors.webpage.darkmode.algorithm = "lightness-cielab"
 
 c.input.insert_mode.auto_leave = True
 c.input.insert_mode.auto_load = False
@@ -52,13 +51,11 @@ config.bind(",S", "spawn -v --detach streamlink --player mpv '{url}' 720p")
 config.bind("C", "clear-messages")
 config.bind(",F", "hint links spawn -v firefox {hint-url}")
 config.bind(",a", "adblock-update")
-config.bind("<Ctrl+h>", "back --tab")
-config.bind("<Ctrl+l>", "forward --tab")
 
 config.bind("f", "hint all")
 config.bind("gD", "set-cmd-text -s :tab-give")
 config.bind("M", "set-cmd-text -s :bookmark-add {url} """)
-config.bind(";f", "hint --rapid all current")
+config.bind(";f", "hint --rapid")
 config.unbind("+")
 config.unbind("-")
 config.unbind("=")

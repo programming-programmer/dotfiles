@@ -79,7 +79,7 @@ bindsym $mod+c exec clipboard
 bindsym $mod+Shift+d exec window_switch
 bindsym $mod+Shift+x exec maximize_sway
 bindsym $mod+Shift+e exec charpicker
-bindsym $mod+Shift+r reload
+bindsym $mod+Control+r reload
 
 # Moving around:
 bindsym $mod+$left focus left
