@@ -1,4 +1,4 @@
-gaps inner 8
+gaps inner 6
 gaps outer 4
 focus_follows_mouse no
 default_border pixel 4
@@ -26,7 +26,7 @@ floating_modifier $mod normal
 
 bar {
     height 20
-    position bottom
+    position top
         status_command i3status 
         colors {
             statusline #ffffff
@@ -63,7 +63,7 @@ bindsym $mod+shift+s exec pkill /usr/local/bin/warpd
 # Keyboard
 input type:keyboard {
     xkb_layout us,us
-        xkb_variant dvorak,
+        xkb_variant  dvorak,
         xkb_options ctrl:swap_lwin_lctl
 }
 bindsym $mod+Return input type:keyboard xkb_switch_layout next 
@@ -144,11 +144,12 @@ mode "- resize/layout" {
     bindsym Return mode "default"
     bindsym Escape mode "default"
     bindsym Control+c mode "default"
+    bindsym $mod+r mode "default"
 }
 bindsym $mod+r mode "- resize/layout"
 
 # Audio
-bindsym $mod+Shift+minus exec amixer -D pulse sset Master 0%
+bindsym $mod+Shift+minus exec amixer -D pulse sset Master 5%-
 bindsym $mod+Shift+equal exec amixer -D pulse sset Master 5%+
 
 mode "- music" {
@@ -165,6 +166,7 @@ mode "- music" {
     bindsym Return mode "default"
     bindsym Escape mode "default"
     bindsym Control+c mode "default"
+    bindsym $mod+Shift+t mode "default"
 }
 bindsym $mod+Shift+t mode "- music"
 

@@ -205,7 +205,7 @@ c.colors.statusbar.command.fg = nord['nord5']
 
 ## Background color of the statusbar in private browsing + command mode.
 ## Type: QssColor
-c.colors.statusbar.command.private.bg = nord['nord2']
+c.colors.statusbar.command.private.bg = nord['nord0']
 
 ## Foreground color of the statusbar in private browsing + command mode.
 ## Type: QssColor
@@ -221,7 +221,7 @@ c.colors.statusbar.insert.fg = nord['nord1']
 
 ## Background color of the statusbar.
 ## Type: QssColor
-c.colors.statusbar.normal.bg = nord['nord0']
+c.colors.statusbar.normal.bg = nord['nord2']
 
 ## Foreground color of the statusbar.
 ## Type: QssColor

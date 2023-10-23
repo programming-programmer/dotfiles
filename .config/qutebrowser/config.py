@@ -17,6 +17,15 @@ c.url.start_pages = "about:blank"
 config.source("nord-qutebrowser.py")
 c.colors.webpage.preferred_color_scheme = 'dark'
 c.colors.webpage.darkmode.enabled = True
+# c.colors.webpage.darkmode.algorithm = 'lightness-hsl'
+# c.colors.webpage.darkmode.contrast = 0.0
+# c.colors.webpage.darkmode.enabled = True
+# c.colors.webpage.darkmode.grayscale.all = False
+# c.colors.webpage.darkmode.grayscale.images = 0.0
+# c.colors.webpage.darkmode.policy.images = 'smart'
+# c.colors.webpage.darkmode.policy.page = 'smart'
+# c.colors.webpage.darkmode.threshold.background = 130
+# c.colors.webpage.darkmode.threshold.text = 130
 
 c.input.insert_mode.auto_leave = True
 c.input.insert_mode.auto_load = False
@@ -46,15 +55,15 @@ c.messages.timeout = 1000
 config.bind(";M", "hint --rapid links spawn umpv {hint-url}")
 config.bind(",m", "hint links spawn -v --detach umpv '{hint-url}'") 
 config.bind(",M", "spawn -v --detach umpv '{url}'") 
-config.bind(",s", "hint links spawn -v --detach streamlink --player mpv '{hint-url}' 720p") 
-config.bind(",S", "spawn -v --detach streamlink --player mpv '{url}' 720p") 
 config.bind("C", "clear-messages")
 config.bind(",F", "hint links spawn -v firefox {hint-url}")
 config.bind(",a", "adblock-update")
 
+config.bind("o", "set-cmd-text -s :open -s")
+config.bind("O", "set-cmd-text -s :open -s -t")
+config.bind("wo", "set-cmd-text -s :open -s -w")
 config.bind("f", "hint all")
 config.bind("gD", "set-cmd-text -s :tab-give")
-config.bind("M", "set-cmd-text -s :bookmark-add {url} """)
 config.bind(";f", "hint --rapid")
 config.unbind("+")
 config.unbind("-")
@@ -92,8 +101,7 @@ config.bind("<Alt-d>", "rl-kill-word", mode="command")
 config.bind("<Alt-f>", "rl-forward-word", mode="command")
 config.bind("<Ctrl-a>", "rl-beginning-of-line", mode="command")
 config.bind("<Ctrl-b>", "rl-backward-char", mode="command")
-config.bind("<Ctrl-c>", "completion-item-yank", mode="command")
-config.bind("<Ctrl-d>", "completion-item-del", mode="command")
+config.bind("<Ctrl-d>", "rl-delete-char", mode="command")
 config.bind("<Ctrl-e>", "rl-end-of-line", mode="command")
 config.bind("<Ctrl-f>", "rl-forward-char", mode="command")
 config.bind("<Ctrl-h>", "rl-backward-delete-char", mode="command")
@@ -111,10 +119,7 @@ config.bind("K", "scroll up", mode="caret")
 config.bind("L", "scroll right", mode="caret")
 config.bind("V", "selection-toggle --line", mode="caret")
 config.bind("Y", "yank selection -s", mode="caret")
-config.bind("[", "move-to-start-of-prev-block", mode="caret")
-config.bind("]", "move-to-start-of-next-block", mode="caret")
 config.bind("b", "move-to-prev-word", mode="caret")
-config.bind("c", "mode-enter normal", mode="caret")
 config.bind("e", "move-to-end-of-word", mode="caret")
 config.bind("gg", "move-to-start-of-document", mode="caret")
 config.bind("h", "move-to-prev-char", mode="caret")
@@ -125,8 +130,6 @@ config.bind("o", "selection-reverse", mode="caret")
 config.bind("v", "selection-toggle", mode="caret")
 config.bind("w", "move-to-next-word", mode="caret")
 config.bind("y", "yank selection", mode="caret")
-config.bind("{", "move-to-end-of-prev-block", mode="caret")
-config.bind("}", "move-to-end-of-next-block", mode="caret")
 
 # Bindings for yesno mode
 config.bind("<Escape>", "mode-leave", mode="yesno")
