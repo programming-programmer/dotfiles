@@ -20,8 +20,8 @@ alias em="emacsclient -nw"
 alias sudo="doas"
 alias vim="nvim"
 alias imv="imv-wayland"
-alias tmn="exec tmux new-session -c ~/Notes/ -s notes -n main"
-alias tmc="exec tmux new-session -s hack! -n main"
+alias tmn="exec tmux -u new-session -c ~/Notes/ -s notes -n main"
+alias tmc="exec tmux -u new-session -s hack! -n main"
 
 # enable programmable completion features 
 if ! shopt -oq posix; then
@@ -32,6 +32,10 @@ if ! shopt -oq posix; then
   fi
 fi
 
+export JAVA_HOME="/opt/jdk-21.0.1"
+export PATH=$JAVA_HOME/bin:$PATH
+export PATH="/opt/jdt-language-server-1.9.0/bin":$PATH
+
 # the beautiful bash prompt
 PS1="\[\033[1;37m\]\w $ \[\033[00m\]" # Setting PS1 to show full path
-export PROMPT_DIRTRIM=4 # Trimming path to 4 directories
+export PROMPT_DIRTRIM=3 # Trimming path to 4 directories

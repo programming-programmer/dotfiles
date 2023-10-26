@@ -1,5 +1,5 @@
-gaps inner 6
-gaps outer 4
+gaps inner 0
+gaps outer 0
 focus_follows_mouse no
 default_border pixel 4
 default_floating_border pixel 0
