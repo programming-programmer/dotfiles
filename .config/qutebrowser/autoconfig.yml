@@ -8,5 +8,8 @@ config_version: 2
 settings:
   content.notifications.enabled:
     https://www.youtube.com: false
+  content.plugins:
+    ? https://click.discord.com/ls/click?upn=qDOo8cnwIoKzt0aLL1cBeJWc43CAiLlKYSQGUErhKV7fF2lroxEuEaMS14HcVQRWxGkiXCWLera-2BYjx1FHh8ahkaNYz-2BNMwAx-2FMVmI1pdEH5ryOvWcLRvlwY3ydQa9qBg0yR9EhYg40-2B-2FrMKIVSpB2Gc8kgpAUM-2FuExz-2F390Qko7f22V03HUJP5SRl-2ByitzbK9m0_9VtxJuR5mjyv-2FNfS8D5dNOxpFdrVMhGRARFxO-2Bxi4AJY176vKlpSn83NL-2BSykywmoFckOTWv7mE-2BhkUPi8CDiZhvlCS1hWatZ-2FJ6V0JGwHbZ958rxtBikNVgUpPwzyBUzQgA1cQ49TJZBS61A2e9qIYuePeodIMTgH4quZD1PPssmCq8XWZoyiVfz4CDEJXZCStJM5g8gHTLhZPLYFXsNwXWXmfxDWMTInYK-2FUK3QCI7DVjp3fp6q-2BAhWP6jo748VXksXUhEWewxFphGGJxJRg-3D-3D
+    : true
   content.register_protocol_handler:
     https://mail.google.com?extsrc=mailto&url=%25s: false
