@@ -17,15 +17,6 @@ c.url.start_pages = "about:blank"
 config.source("nord-qutebrowser.py")
 c.colors.webpage.preferred_color_scheme = 'dark'
 c.colors.webpage.darkmode.enabled = True
-# c.colors.webpage.darkmode.algorithm = 'lightness-hsl'
-# c.colors.webpage.darkmode.contrast = 0.0
-# c.colors.webpage.darkmode.enabled = True
-# c.colors.webpage.darkmode.grayscale.all = False
-# c.colors.webpage.darkmode.grayscale.images = 0.0
-# c.colors.webpage.darkmode.policy.images = 'smart'
-# c.colors.webpage.darkmode.policy.page = 'smart'
-# c.colors.webpage.darkmode.threshold.background = 130
-# c.colors.webpage.darkmode.threshold.text = 130
 
 c.input.insert_mode.auto_leave = True
 c.input.insert_mode.auto_load = False
@@ -34,7 +25,7 @@ c.hints.chars = "dhtns"
 c.hints.uppercase = True
 c.tabs.last_close = "startpage"
 c.tabs.mode_on_change = "normal"
-c.tabs.title.format = "{index}: {current_title}{private}"
+c.tabs.title.format = "{audio}{index}: {current_title}{private}"
 c.window.hide_decoration = True
 c.bindings.key_mappings = {"<Ctrl-c>": "<Escape>"}
 c.content.autoplay = False
@@ -46,8 +37,10 @@ c.spellcheck.languages = ['en-US']
 c.content.tls.certificate_errors = "load-insecurely"
 c.scrolling.bar = "never"
 c.completion.quick = True
+c.completion.height = "20%"
 c.content.pdfjs = True
 c.content.mute = True
+c.completion.use_best_match = True
 c.content.notifications.presenter = "messages"
 c.messages.timeout = 1000
 

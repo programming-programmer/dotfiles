@@ -80,6 +80,7 @@ bindsym $mod+Shift+d exec window_switch
 bindsym $mod+Shift+x exec maximize_sway
 bindsym $mod+Shift+e exec charpicker
 bindsym $mod+Control+r reload
+bindsym $mod+Up sticky toggle
 
 # Moving around:
 bindsym $mod+$left focus left
