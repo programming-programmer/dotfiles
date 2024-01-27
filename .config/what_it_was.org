@@ -9,35 +9,12 @@
    overlooked this smh
  * profile has environment variables (stuff to add to $PATH and default editor)
   * This has to be linked as the .profile in the home directory in order for it to actually be sourced
-* Latex
-#+begin_src sh
-cd /tmp # working directory of your choice
-curl https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz 
-zcat < install-tl-unx.tar.gz | tar xf -
-cd install-tl-*
-perl ./install-tl --no-interaction --scheme=small --no-doc-install --no-src-install # as root or with writable destination
-#+end_src
-
- * Finally, prepend /usr/local/texlive/YYYY/bin/PLATFORM to your PATH,
-#+begin_src sh
-e.g., /usr/local/texlive/2023/bin/x86_64-linux
-#+end_src
-
- * Changing defaults:
-   * The default paper size is a4. If you want the default to be letter, add --paper=letter to the install-tl command.
-   * By default, everything is installed (7+GB).
-   * To install a smaller scheme, pass --scheme=scheme to install-tl. For example, --scheme=small corresponds to the BasicTeX variant of MacTeX.
-   * To omit installation of the documentation resp. source files, pass --no-doc-install --no-src-install to install-tl.
-   * To change the main installation directories (rarely needed), add --texdir=/install/dir to the install-tl command. To change the location of the per-user directories (where TEXMFHOME and others will be found), specify --texuserdir=/your/dir.
-   * To change anything and everything else, omit the --no-interaction. Then you
-     are dropped into an interactive installation menu.
 * Neovim
  * Install packer from the website before because it needs it
    #+begin_src sh
 git clone --depth 1 https://github.com/wbthomason/packer.nvim\
  ~/.local/share/nvim/site/pack/packer/start/packer.nvim
    #+end_src
-
  * write and source init.lua first then install packers stuff
  * For pyright and clangd (python and c++ respectively) install npm and node
    (I'm not a fulltime c++ coder so no biggie)
@@ -47,7 +24,6 @@ git clone --depth 1 https://github.com/wbthomason/packer.nvim\
    #+begin_src sh
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
    #+end_src
-
 ** Java
  * Download JDK from reputable source
  * untar/unzip in some direcotry (ex. /usr or /opt)
@@ -94,4 +70,52 @@ sh <(curl -L https://nixos.org/nix/install) --daemon
  * ly
    * Enable cmatrix and big clock
  * languagetool
- * jq
+ * jq (ltrly just for select window)
+
+* A Reckoning
+  * I have reached a conclusion. A very damning conclusion. I must redo. REDO IT ALL! 
+  
+distro - Debian or nixos
+   - don't care rly
+
+** Terminal
+   - kitty (back again rerun..)
+
+brightness and gamma control
+desktop notification control
+ - mako
+bar
+notifications w/ low battery
+switch keeb layout w/ bind
+
+ly
+- keep it up
+Libreoffice
+ - integrate w/ something
+neovim 
+ - neorg
+ - java lsp (builtin hopeful)
+qutebrowser
+ - updated better binds
+ - build from source for new qutebrowser
+firefox
+ - keep doing what you do best
+tmux
+ - rock on
+lf
+ - lf needs previews
+ - change background w/ func
+dwl 
+ - nothing fancy just light
+warpd
+ - still work on dwl pls 
+mpv
+ - maybe the chapter selecter get pretty?
+ - yassify OSD
+keyd
+ - maybe actually work on it
+
+
+* General
+ - keep it light
+ - Black and beige or white theme

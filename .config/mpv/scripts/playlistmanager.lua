@@ -19,7 +19,7 @@ local settings = {
   key_movedown = "DOWN j",
   key_movepageup = "PGUP CTRL+u",
   key_movepagedown = "PGDWN CTRL+d",
-  key_movebegin = "HOME gg",
+  key_movebegin = "HOME g",
   key_moveend = "END G",
   key_selectfile = "RIGHT LEFT y",
   key_unselectfile = "",
@@ -30,7 +30,7 @@ local settings = {
   -- extra functionality keys
   key_sortplaylist = "",
   key_shuffleplaylist = "s",
-  key_reverseplaylist = "r",
+  key_reverseplaylist = "",
   key_loadfiles = "",
   key_saveplaylist = "CTRL+s",
 

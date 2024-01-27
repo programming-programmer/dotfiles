@@ -1,0 +1,8 @@
+[window]
+width=600
+height=460
+is-maximized=true
+is-fullscreen=false
+
+[scanner]
+scan-type=batch

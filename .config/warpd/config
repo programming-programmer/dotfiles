@@ -1,1 +1,2 @@
 exit: C-c
+hint_exit: C-c 

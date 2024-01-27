@@ -26,13 +26,13 @@ floating_modifier $mod normal
 
 bar {
     height 20
-    position top
+        position top
         status_command i3status 
         colors {
             statusline #ffffff
-            background #000000
-            inactive_workspace #000000 #000000 #ffffff
-            binding_mode #000000 #000000 #ffffff
+                background #000000
+                inactive_workspace #000000 #000000 #ffffff
+                binding_mode #000000 #000000 #ffffff
         }
     font pango:Source Code Pro 10
 }
@@ -42,9 +42,9 @@ bindsym $mod+Shift+n bar mode invisible
 # Pop Drop and Locking
 bindswitch --reload --locked lid:on exec mpv_pause
 exec_always swayidle -w \
-      timeout 600 'swaylock -f -i $lockscreenbg' \
-      timeout 570 'swaymsg "output * dpms off"' \
-      resume 'swaymsg "output * dpms on"' \
+  timeout 600 'swaylock -f -i $lockscreenbg' \
+  timeout 570 'swaymsg "output * dpms off"' \
+  resume 'swaymsg "output * dpms on"' \
 
 # Touchpad
 input "1267:196:Elan_Touchpad" {
@@ -64,7 +64,7 @@ bindsym $mod+shift+s exec pkill /usr/local/bin/warpd
 input type:keyboard {
     xkb_layout us,us
         xkb_variant  dvorak,
-        xkb_options ctrl:swap_lwin_lctl
+                     xkb_options ctrl:swap_lwin_lctl
 }
 bindsym $mod+Return input type:keyboard xkb_switch_layout next 
 
@@ -77,7 +77,7 @@ bindsym $mod+Shift+b exec qutebrowser ":open -p"
 bindsym $mod+BackSpace exec powermenu
 bindsym $mod+c exec clipboard
 bindsym $mod+Shift+d exec window_switch
-bindsym $mod+Shift+x exec maximize_sway
+bindsym $mod+x exec maximize_sway
 bindsym $mod+Shift+e exec charpicker
 bindsym $mod+Control+r reload
 bindsym $mod+Up sticky toggle

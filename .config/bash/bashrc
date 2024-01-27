@@ -1,6 +1,7 @@
 # Very much possible tab completion
 bind 'set show-all-if-ambiguous on'
 bind 'TAB:menu-complete'
+bind 'C-y:yes'
 
 shopt -s histappend
 shopt -s checkwinsize
